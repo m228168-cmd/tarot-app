@@ -1,69 +1,104 @@
+import { useMemo, useState } from 'react'
 import './App.css'
 
-const pipeline = [
-  '上傳影片 / 音訊',
-  '抽出音訊與語音辨識',
-  '偵測停頓、空白、贅段',
-  '整理逐字稿與重點',
-  '輸出字幕與剪輯建議',
-]
-
-const outputs = [
-  '逐字稿 transcript',
-  '字幕檔 srt / vtt',
-  '建議保留片段',
-  '建議刪除片段',
-  '重點摘要',
-]
+function formatTime(value) {
+  const total = Math.floor(value || 0)
+  const minutes = String(Math.floor(total / 60)).padStart(2, '0')
+  const seconds = String(total % 60).padStart(2, '0')
+  return `${minutes}:${seconds}`
+}
 
 function App() {
+  const [file, setFile] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [result, setResult] = useState(null)
+
+  const segmentCount = useMemo(() => result?.segments?.length || 0, [result])
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    if (!file) return
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/transcribe', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const json = await response.json()
+      if (!response.ok) throw new Error(json.error || 'failed')
+      setResult(json)
+    } catch (err) {
+      setError('轉錄失敗，請再試一次')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <main className="shell">
       <section className="hero">
         <p className="eyebrow">AI Auto Editor</p>
         <h1>AI 自動剪輯助手</h1>
         <p className="lead">
-          幫你把影片做成更順的版本：自動轉逐字稿、找停頓、抓重點、產生字幕，並提供剪輯建議。
+          第一版先做上傳素材、自動轉文字、顯示逐字稿，讓後面的剪輯與字幕流程有基礎。
         </p>
-
-        <div className="hero-actions">
-          <button className="primary">上傳素材</button>
-          <button className="secondary">查看 MVP 規格</button>
-        </div>
       </section>
 
-      <section className="grid two-up">
-        <article className="card">
-          <h2>第一版會做什麼</h2>
-          <ul>
-            {pipeline.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
+      <section className="card uploader-card">
+        <h2>上傳音訊 / 影片</h2>
+        <form className="upload-form" onSubmit={handleSubmit}>
+          <label className="file-box">
+            <span>選擇檔案</span>
+            <input
+              type="file"
+              accept="audio/*,video/*"
+              onChange={(event) => setFile(event.target.files?.[0] || null)}
+            />
+          </label>
 
-        <article className="card">
-          <h2>預期輸出</h2>
-          <ul>
-            {outputs.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
+          <button className="primary" type="submit" disabled={!file || loading}>
+            {loading ? '轉錄中...' : '開始轉文字'}
+          </button>
+        </form>
+
+        {file ? <p className="hint">已選擇：{file.name}</p> : null}
+        {error ? <p className="error-text">{error}</p> : null}
       </section>
 
-      <section className="grid">
-        <article className="card wide">
-          <h2>MVP 開發優先順序</h2>
-          <ol>
-            <li>上傳影片 / 音訊</li>
-            <li>Whisper 逐字稿</li>
-            <li>silence detect 偵測空白</li>
-            <li>字幕檔輸出</li>
-            <li>剪輯建議清單</li>
-          </ol>
-        </article>
-      </section>
+      {result ? (
+        <section className="grid two-up">
+          <article className="card">
+            <h2>轉錄結果</h2>
+            <p className="meta-line">檔案：{result.filename}</p>
+            <p className="meta-line">語言：{result.language}</p>
+            <p className="meta-line">段落數：{segmentCount}</p>
+            <div className="transcript-box">{result.text}</div>
+          </article>
+
+          <article className="card">
+            <h2>逐段時間軸</h2>
+            <div className="segment-list">
+              {(result.segments || []).map((segment) => (
+                <div key={`${segment.start}-${segment.end}`} className="segment-item">
+                  <strong>
+                    {formatTime(segment.start)} → {formatTime(segment.end)}
+                  </strong>
+                  <p>{segment.text}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      ) : null}
     </main>
   )
 }
