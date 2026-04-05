@@ -35,6 +35,14 @@
   line-height: 1.7;
 }
 
+.mobile-only-meta {
+  display: block;
+}
+
+.desktop-only-meta {
+  display: none;
+}
+
 .search-box {
   margin-top: 18px;
   display: flex;
@@ -321,6 +329,14 @@
 }
 
 @media (min-width: 900px) {
+  .mobile-only-meta {
+    display: none;
+  }
+
+  .desktop-only-meta {
+    display: block;
+  }
+
   .detail-header {
     flex-wrap: nowrap;
   }

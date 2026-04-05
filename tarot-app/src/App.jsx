@@ -235,10 +235,12 @@ function App() {
             <>
               <div className="detail-header">
                 <div>
+                  <p className="eyebrow mobile-only-meta">{selectedCard.arcana}</p>
                   <h2>
-                    {selectedCard.name} <span>{selectedCard.number}</span>
+                    {selectedCard.name}
+                    <span className="desktop-only-meta">{selectedCard.number}</span>
                   </h2>
-                  <p className="english-heading">{selectedCard.englishName}</p>
+                  <p className="english-heading desktop-only-meta">{selectedCard.englishName}</p>
                 </div>
                 <div className="detail-actions">
                   <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
