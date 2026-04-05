@@ -2,6 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { tarotCards } from './data/tarotCards'
 
+function getSubtitle(card) {
+  if (!card) return ''
+  if (card.arcana === '宮廷牌') return card.englishName
+  return `${card.number} ${card.englishName}`.trim()
+}
+
 const DEVICE_ID_KEY = 'tarot-device-id'
 const OVERRIDES_KEY = 'tarot-card-overrides'
 const HISTORY_KEY = 'tarot-card-history'
@@ -237,7 +243,7 @@ function App() {
                 <div className="title-block">
                   <p className="eyebrow mobile-only-meta">{selectedCard.arcana}</p>
                   <h2>{selectedCard.name}</h2>
-                  <p className="english-heading">{selectedCard.number} {selectedCard.englishName}</p>
+                  <p className="english-heading">{getSubtitle(selectedCard)}</p>
                 </div>
                 {selectedCard.image ? (
                   <img
