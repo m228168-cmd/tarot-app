@@ -251,14 +251,6 @@ function App() {
                   </div>
                   <p className="english-heading">{selectedCard.englishName}</p>
                 </div>
-                <div className="detail-actions mobile-hidden">
-                  <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
-                    {isEditing ? '取消編輯' : '編輯牌意'}
-                  </button>
-                  <button className="action-button muted" onClick={handleReset} disabled={!hasOverride}>
-                    回復原始牌意
-                  </button>
-                </div>
               </div>
 
               {isEditing ? (
@@ -313,7 +305,7 @@ function App() {
                     </article>
                   </section>
 
-                  <div className="detail-actions mobile-only-actions">
+                  <div className="detail-actions universal-actions">
                     <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
                       {isEditing ? '取消編輯' : '編輯牌意'}
                     </button>
