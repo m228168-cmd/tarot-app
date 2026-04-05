@@ -234,15 +234,24 @@ function App() {
           {selectedCard ? (
             <>
               <div className="detail-header">
-                <div>
+                <div className="title-block">
                   <p className="eyebrow mobile-only-meta">{selectedCard.arcana}</p>
-                  <h2>
-                    {selectedCard.name}
-                    <span className="desktop-only-meta">{selectedCard.number}</span>
-                  </h2>
+                  <div className="title-row">
+                    <h2>
+                      {selectedCard.name}
+                      <span className="desktop-only-meta">{selectedCard.number}</span>
+                    </h2>
+                    {selectedCard.image ? (
+                      <img
+                        className="mini-card-image mobile-only-meta"
+                        src={selectedCard.image}
+                        alt={`${selectedCard.name} mini`}
+                      />
+                    ) : null}
+                  </div>
                   <p className="english-heading desktop-only-meta">{selectedCard.englishName}</p>
                 </div>
-                <div className="detail-actions">
+                <div className="detail-actions desktop-only-meta">
                   <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
                     {isEditing ? '取消編輯' : '編輯牌意'}
                   </button>
@@ -279,28 +288,39 @@ function App() {
               ) : null}
 
               <section className="detail-layout">
-                <section className="meaning-grid">
-                  <article className="meaning-card upright-card">
-                    <div className="meaning-meta">
-                      <span>正位</span>
-                    </div>
-                    <ul>
-                      {selectedCard.upright.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </article>
+                <section className="meaning-grid-wrap">
+                  <section className="meaning-grid">
+                    <article className="meaning-card upright-card">
+                      <div className="meaning-meta">
+                        <span>正位</span>
+                      </div>
+                      <ul>
+                        {selectedCard.upright.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </article>
 
-                  <article className="meaning-card reversed-card">
-                    <div className="meaning-meta">
-                      <span>逆位</span>
-                    </div>
-                    <ul>
-                      {selectedCard.reversed.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </article>
+                    <article className="meaning-card reversed-card">
+                      <div className="meaning-meta">
+                        <span>逆位</span>
+                      </div>
+                      <ul>
+                        {selectedCard.reversed.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  </section>
+
+                  <div className="detail-actions mobile-only-actions">
+                    <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
+                      {isEditing ? '取消編輯' : '編輯牌意'}
+                    </button>
+                    <button className="action-button muted" onClick={handleReset} disabled={!hasOverride}>
+                      回復原始牌意
+                    </button>
+                  </div>
                 </section>
 
                 <section className="card-visual">
