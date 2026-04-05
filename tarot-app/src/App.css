@@ -318,7 +318,7 @@
   .content-grid {
     display: grid;
     grid-template-columns: 360px 1fr;
-    align-items: start;
+    align-items: stretch;
   }
 
   .detail-panel {
@@ -329,8 +329,14 @@
     order: 1;
   }
 
+  .card-list-panel,
+  .detail-panel {
+    height: 100%;
+  }
+
   .card-list {
-    max-height: 520px;
+    height: calc(100% - 54px);
+    max-height: none;
     overflow: auto;
     padding-right: 6px;
   }
