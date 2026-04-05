@@ -28,11 +28,11 @@ function App() {
         <p className="eyebrow">Rider-Waite Tarot</p>
         <h1>偉特塔羅牌查詢</h1>
         <p className="hero-copy">
-          查到牌之後，畫面直接同時顯示正位與逆位。先把資料與結構做對，之後我再幫你補完整圖片與更多功能。
+          查到牌後，畫面直接同時顯示正位與逆位，方便快速比對牌意。
         </p>
 
         <label className="search-box" htmlFor="search">
-          <span>搜尋牌名、英文名、編號、牌意關鍵字</span>
+          <span>搜尋偉特塔羅牌意關鍵字</span>
           <input
             id="search"
             type="text"
