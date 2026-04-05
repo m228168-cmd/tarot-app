@@ -1,0 +1,30 @@
+:root {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #24192f;
+  background:
+    radial-gradient(circle at top, rgba(204, 175, 255, 0.42), transparent 35%),
+    linear-gradient(180deg, #fbf8ff 0%, #f4edff 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button {
+  font: inherit;
+}
+
+#root {
+  min-height: 100svh;
+}
