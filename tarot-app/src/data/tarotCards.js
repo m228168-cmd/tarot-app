@@ -341,7 +341,7 @@ export const tarotCards = [
   },
   {
     id: 'queen-of-wands',
-    name: '權杖女王',
+    name: '權杖皇后',
     englishName: 'Queen of Wands',
     arcana: '宮廷牌',
     number: 'Queen',
@@ -481,7 +481,7 @@ export const tarotCards = [
   },
   {
     id: 'queen-of-cups',
-    name: '聖杯女王',
+    name: '聖杯皇后',
     englishName: 'Queen of Cups',
     arcana: '宮廷牌',
     number: 'Queen',
@@ -621,7 +621,7 @@ export const tarotCards = [
   },
   {
     id: 'queen-of-swords',
-    name: '寶劍女王',
+    name: '寶劍皇后',
     englishName: 'Queen of Swords',
     arcana: '宮廷牌',
     number: 'Queen',
@@ -761,7 +761,7 @@ export const tarotCards = [
   },
   {
     id: 'queen-of-pentacles',
-    name: '星幣女王',
+    name: '星幣皇后',
     englishName: 'Queen of Pentacles',
     arcana: '宮廷牌',
     number: 'Queen',
