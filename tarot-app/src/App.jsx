@@ -235,7 +235,6 @@ function App() {
             <>
               <div className="detail-header">
                 <div>
-                  <p className="eyebrow">{selectedCard.arcana}</p>
                   <h2>
                     {selectedCard.name} <span>{selectedCard.number}</span>
                   </h2>

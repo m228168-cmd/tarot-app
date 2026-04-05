@@ -170,19 +170,31 @@
   align-self: start;
 }
 
+.detail-header {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
 .detail-header h2 {
   margin: 0;
   font-size: 30px;
 }
 
 .detail-header h2 span {
+  display: block;
+  margin-top: 6px;
   color: #8b70b7;
   font-size: 18px;
 }
 
 .detail-actions {
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.detail-actions .action-button {
+  flex: 1 1 160px;
 }
 
 .action-button {
@@ -309,6 +321,24 @@
 }
 
 @media (min-width: 900px) {
+  .detail-header {
+    flex-wrap: nowrap;
+  }
+
+  .detail-header h2 span {
+    display: inline;
+    margin-top: 0;
+  }
+
+  .detail-actions {
+    justify-content: flex-end;
+    width: auto;
+  }
+
+  .detail-actions .action-button {
+    flex: 0 0 auto;
+  }
+
   .app-shell {
     max-width: 1200px;
     margin: 0 auto;
