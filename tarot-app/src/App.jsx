@@ -237,10 +237,7 @@ function App() {
                 <div className="title-block">
                   <p className="eyebrow mobile-only-meta">{selectedCard.arcana}</p>
                   <div className="title-row">
-                    <h2>
-                      {selectedCard.name}
-                      <span className="desktop-only-meta">{selectedCard.number}</span>
-                    </h2>
+                    <h2>{selectedCard.name}</h2>
                     {selectedCard.image ? (
                       <img
                         className="mini-card-image mobile-only-meta"
@@ -249,7 +246,7 @@ function App() {
                       />
                     ) : null}
                   </div>
-                  <p className="english-heading">{selectedCard.englishName}</p>
+                  <p className="english-heading">{selectedCard.number} {selectedCard.englishName}</p>
                 </div>
               </div>
 
