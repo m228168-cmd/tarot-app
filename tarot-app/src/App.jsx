@@ -282,44 +282,46 @@ function App() {
                 </section>
               ) : null}
 
-              <section className="meaning-grid">
-                <article className="meaning-card upright-card">
-                  <div className="meaning-meta">
-                    <span>正位</span>
-                  </div>
-                  <ul>
-                    {selectedCard.upright.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </article>
+              <section className="detail-layout">
+                <section className="meaning-grid">
+                  <article className="meaning-card upright-card">
+                    <div className="meaning-meta">
+                      <span>正位</span>
+                    </div>
+                    <ul>
+                      {selectedCard.upright.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
 
-                <article className="meaning-card reversed-card">
-                  <div className="meaning-meta">
-                    <span>逆位</span>
-                  </div>
-                  <ul>
-                    {selectedCard.reversed.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </article>
-              </section>
+                  <article className="meaning-card reversed-card">
+                    <div className="meaning-meta">
+                      <span>逆位</span>
+                    </div>
+                    <ul>
+                      {selectedCard.reversed.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                </section>
 
-              <section className="card-visual">
-                {selectedCard.image ? (
-                  <img
-                    className="card-image"
-                    src={selectedCard.image}
-                    alt={`${selectedCard.name} ${selectedCard.englishName}`}
-                  />
-                ) : (
-                  <div className="image-placeholder">
-                    <span>偉特牌圖位置</span>
-                    <strong>{selectedCard.name}</strong>
-                    <small>{selectedCard.englishName}</small>
-                  </div>
-                )}
+                <section className="card-visual">
+                  {selectedCard.image ? (
+                    <img
+                      className="card-image"
+                      src={selectedCard.image}
+                      alt={`${selectedCard.name} ${selectedCard.englishName}`}
+                    />
+                  ) : (
+                    <div className="image-placeholder">
+                      <span>偉特牌圖位置</span>
+                      <strong>{selectedCard.name}</strong>
+                      <small>{selectedCard.englishName}</small>
+                    </div>
+                  )}
+                </section>
               </section>
             </>
           ) : (
