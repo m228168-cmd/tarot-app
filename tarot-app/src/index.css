@@ -1,0 +1,51 @@
+:root {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #24192f;
+  background:
+    radial-gradient(circle at top, rgba(204, 175, 255, 0.55), transparent 35%),
+    linear-gradient(180deg, #fbf7ff 0%, #f3ebff 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button,
+input {
+  outline: none;
+}
+
+button:focus-visible,
+input:focus-visible {
+  box-shadow: 0 0 0 3px rgba(163, 126, 232, 0.28);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3 {
+  color: #24192f;
+}
