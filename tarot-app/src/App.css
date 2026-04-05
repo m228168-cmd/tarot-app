@@ -82,6 +82,23 @@
   gap: 10px;
 }
 
+.card-list.grouped {
+  gap: 18px;
+}
+
+.card-group {
+  display: grid;
+  gap: 10px;
+}
+
+.group-title {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8d73b4;
+  padding: 4px 2px;
+}
+
 .card-item {
   border: 1px solid #eadffb;
   background: #fff;

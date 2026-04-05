@@ -19,6 +19,16 @@ function App() {
     })
   }, [query])
 
+  const groupedCards = useMemo(() => {
+    const groups = {
+      '大阿爾克那': filteredCards.filter((card) => card.arcana === '大阿爾克那'),
+      '小阿爾克那': filteredCards.filter((card) => card.arcana === '小阿爾克那'),
+      宮廷牌: filteredCards.filter((card) => card.arcana === '宮廷牌'),
+    }
+
+    return Object.entries(groups).filter(([, cards]) => cards.length > 0)
+  }, [filteredCards])
+
   const selectedCard =
     filteredCards.find((card) => card.id === selectedId) ?? filteredCards[0] ?? tarotCards[0]
 
@@ -46,23 +56,28 @@ function App() {
       <section className="content-grid">
         <aside className="card-list-panel">
           <div className="panel-head">
-            <h2>大阿爾克那</h2>
+            <h2>牌卡列表</h2>
             <span>{filteredCards.length} 張</span>
           </div>
 
-          <div className="card-list">
-            {filteredCards.map((card) => (
-              <button
-                key={card.id}
-                className={selectedCard?.id === card.id ? 'card-item active' : 'card-item'}
-                onClick={() => setSelectedId(card.id)}
-              >
-                <div>
-                  <p className="card-number">{card.number}</p>
-                  <strong>{card.name}</strong>
-                  <small className="english-name">{card.englishName}</small>
-                </div>
-              </button>
+          <div className="card-list grouped">
+            {groupedCards.map(([groupName, cards]) => (
+              <section key={groupName} className="card-group">
+                <div className="group-title">{groupName}</div>
+                {cards.map((card) => (
+                  <button
+                    key={card.id}
+                    className={selectedCard?.id === card.id ? 'card-item active' : 'card-item'}
+                    onClick={() => setSelectedId(card.id)}
+                  >
+                    <div>
+                      <p className="card-number">{card.number}</p>
+                      <strong>{card.name}</strong>
+                      <small className="english-name">{card.englishName}</small>
+                    </div>
+                  </button>
+                ))}
+              </section>
             ))}
           </div>
         </aside>
