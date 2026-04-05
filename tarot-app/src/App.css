@@ -79,7 +79,6 @@
 .panel-head,
 .detail-header,
 .meaning-meta,
-.status-row,
 .editor-actions,
 .detail-actions {
   display: flex;
@@ -93,7 +92,6 @@
 }
 
 .panel-head span,
-.status-row,
 .meaning-meta {
   color: #886cb4;
   font-size: 14px;
@@ -198,11 +196,6 @@
 
 .action-button:disabled {
   opacity: 0.45;
-}
-
-.status-row {
-  margin-top: 12px;
-  flex-wrap: wrap;
 }
 
 .detail-layout {
@@ -337,31 +330,39 @@
   }
 
   .card-list {
-    max-height: 70vh;
+    max-height: 520px;
     overflow: auto;
+    padding-right: 6px;
+  }
+
+  .card-item {
+    padding: 10px 12px;
+    border-radius: 14px;
   }
 
   .detail-layout {
     display: grid;
-    grid-template-columns: 340px minmax(0, 1fr);
-    gap: 24px;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 28px;
     align-items: start;
   }
 
   .card-visual {
     order: 1;
+    position: sticky;
+    top: 24px;
   }
 
   .meaning-grid {
     order: 2;
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 16px;
   }
 
   .card-image,
   .image-placeholder {
-    max-width: 320px;
-    min-height: 280px;
+    max-width: 280px;
+    min-height: 0;
     border-radius: 24px;
     margin-left: 0;
   }

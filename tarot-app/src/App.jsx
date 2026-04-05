@@ -251,11 +251,6 @@ function App() {
                 </div>
               </div>
 
-              <div className="status-row">
-                <span>{hasOverride ? '這張牌已被這台裝置修改' : '這張牌目前是原始版本'}</span>
-                <span>本機紀錄 {historyCount} 筆</span>
-              </div>
-
               {isEditing ? (
                 <section className="editor-panel">
                   <div className="editor-grid">
