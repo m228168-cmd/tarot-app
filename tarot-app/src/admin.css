@@ -1,0 +1,102 @@
+:root {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f7f3ff;
+}
+
+.admin-shell {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  margin-bottom: 18px;
+}
+
+.admin-header p,
+.admin-header span {
+  margin: 0;
+  color: #7c62a7;
+}
+
+.admin-header h1 {
+  margin: 8px 0;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  border: 1px solid #e9defa;
+}
+
+.device-group + .device-group {
+  margin-top: 18px;
+}
+
+.device-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.entry-list {
+  display: grid;
+  gap: 8px;
+}
+
+.entry-item {
+  text-align: left;
+  border: 1px solid #eadffb;
+  background: #faf7ff;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.entry-item strong,
+.entry-item small {
+  display: block;
+}
+
+.entry-item small {
+  color: #79619f;
+  margin-top: 4px;
+}
+
+.meta-block {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.meta-block div {
+  display: grid;
+  gap: 4px;
+}
+
+.content-blocks {
+  display: grid;
+  gap: 14px;
+}
+
+.content-blocks article {
+  border: 1px solid #eadffb;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+@media (min-width: 900px) {
+  .admin-grid {
+    grid-template-columns: 420px 1fr;
+  }
+}
