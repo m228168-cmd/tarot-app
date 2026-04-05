@@ -22,7 +22,7 @@
 }
 
 .eyebrow {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -32,7 +32,8 @@
 .english-heading {
   margin: 0;
   color: #625777;
-  line-height: 1.7;
+  line-height: 1.4;
+  font-size: 15px;
 }
 
 .mobile-only-meta {
@@ -196,11 +197,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 4px;
 }
 
 .detail-header h2 {
   margin: 0;
   font-size: 30px;
+  line-height: 1.15;
 }
 
 .detail-header h2 span {
