@@ -32,7 +32,7 @@
 .english-heading {
   margin: 0;
   color: #625777;
-  line-height: 1.4;
+  line-height: 1.2;
   font-size: 15px;
 }
 
@@ -190,20 +190,24 @@
 
 .title-block {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 64px;
 }
 
 .title-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .detail-header h2 {
   margin: 0;
   font-size: 30px;
-  line-height: 1.15;
+  line-height: 1.05;
 }
 
 .detail-header h2 span {
@@ -229,6 +233,7 @@
   border-radius: 8px;
   border: 1px solid #e7daf9;
   box-shadow: 0 8px 18px rgba(65, 39, 101, 0.12);
+  align-self: flex-start;
 }
 
 .action-button {
@@ -366,6 +371,10 @@
 
   .desktop-only-meta {
     display: block;
+  }
+
+  .title-block {
+    min-height: auto;
   }
 
   .detail-header {
