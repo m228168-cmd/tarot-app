@@ -81,11 +81,19 @@ function App() {
               </div>
 
               <section className="card-visual">
-                <div className="image-placeholder">
-                  <span>偉特牌圖位置</span>
-                  <strong>{selectedCard.name}</strong>
-                  <small>{selectedCard.englishName}</small>
-                </div>
+                {selectedCard.image ? (
+                  <img
+                    className="card-image"
+                    src={selectedCard.image}
+                    alt={`${selectedCard.name} ${selectedCard.englishName}`}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    <span>偉特牌圖位置</span>
+                    <strong>{selectedCard.name}</strong>
+                    <small>{selectedCard.englishName}</small>
+                  </div>
+                )}
               </section>
 
               <section className="meaning-grid">
