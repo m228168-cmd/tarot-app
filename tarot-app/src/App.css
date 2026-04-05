@@ -9,7 +9,7 @@
 .hero-panel,
 .card-list-panel,
 .detail-panel {
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(148, 113, 202, 0.18);
   border-radius: 24px;
   box-shadow: 0 18px 50px rgba(68, 33, 110, 0.1);
@@ -28,7 +28,8 @@
   color: #8e67cb;
 }
 
-.hero-copy {
+.hero-copy,
+.english-heading {
   margin: 0;
   color: #625777;
   line-height: 1.7;
@@ -52,28 +53,6 @@
   border-radius: 16px;
   padding: 15px 16px;
   font-size: 16px;
-}
-
-.chip-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-}
-
-.chip {
-  border: 1px solid #d8c8f2;
-  background: rgba(247, 241, 255, 0.86);
-  color: #5b447f;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-}
-
-.chip.active {
-  background: linear-gradient(135deg, #8e67cb, #bb8fff);
-  color: white;
-  border-color: transparent;
 }
 
 .content-grid {
@@ -120,14 +99,19 @@
   font-size: 16px;
 }
 
-.card-item small,
-.card-number {
+.card-number,
+.english-name {
   color: #8d73b4;
 }
 
 .card-number {
   margin: 0 0 4px;
   font-size: 12px;
+}
+
+.english-name {
+  display: block;
+  margin-top: 4px;
 }
 
 .card-item.active {
@@ -145,27 +129,54 @@
   font-size: 18px;
 }
 
-.keyword-row {
+.card-visual {
+  margin: 18px 0;
+}
+
+.image-placeholder {
+  min-height: 280px;
+  border-radius: 24px;
+  border: 1px solid #e7daf9;
+  background: linear-gradient(180deg, rgba(255, 248, 235, 0.96), rgba(248, 238, 255, 0.96));
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 16px 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: #5f497d;
+  padding: 20px;
 }
 
-.keyword-pill {
-  background: #f4edff;
-  color: #6d56a0;
-  padding: 8px 12px;
-  border-radius: 999px;
+.image-placeholder span {
   font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9d79cf;
 }
 
-.meaning-card,
-.mini-block {
+.image-placeholder strong {
+  font-size: 28px;
+}
+
+.meaning-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.meaning-card {
   border: 1px solid #ebdffc;
   background: rgba(255, 255, 255, 0.96);
   border-radius: 20px;
   padding: 18px;
+}
+
+.upright-card {
+  box-shadow: inset 0 0 0 1px rgba(110, 187, 150, 0.18);
+}
+
+.reversed-card {
+  box-shadow: inset 0 0 0 1px rgba(200, 113, 132, 0.18);
 }
 
 .meaning-meta {
@@ -176,24 +187,17 @@
   margin-bottom: 12px;
 }
 
-.meaning-card p,
-.mini-block p,
+.meaning-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #2f2242;
+  line-height: 1.9;
+}
+
 .empty-state {
   margin: 0;
   line-height: 1.8;
   color: #2f2242;
-}
-
-.stacked-preview {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.mini-block h3 {
-  margin: 0 0 10px;
-  font-size: 15px;
-  color: #5a4380;
 }
 
 @media (min-width: 900px) {
@@ -211,5 +215,9 @@
   .card-list {
     max-height: 70vh;
     overflow: auto;
+  }
+
+  .meaning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

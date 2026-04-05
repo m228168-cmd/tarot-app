@@ -2,17 +2,9 @@ import { useMemo, useState } from 'react'
 import './App.css'
 import { tarotCards } from './data/tarotCards'
 
-const detailOptions = [
-  { id: 'short', label: '短版' },
-  { id: 'medium', label: '中版' },
-  { id: 'full', label: '完整版' },
-]
-
 function App() {
   const [query, setQuery] = useState('')
   const [selectedId, setSelectedId] = useState(tarotCards[0]?.id ?? '')
-  const [meaningType, setMeaningType] = useState('upright')
-  const [detailLevel, setDetailLevel] = useState('short')
 
   const filteredCards = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -20,12 +12,8 @@ function App() {
     if (!normalized) return tarotCards
 
     return tarotCards.filter((card) => {
-      const haystacks = [
-        card.name,
-        card.arcana,
-        card.number,
-        ...card.keywords,
-      ].map((value) => value.toLowerCase())
+      const haystacks = [card.name, card.englishName, card.arcana, card.number, ...card.upright, ...card.reversed]
+        .map((value) => value.toLowerCase())
 
       return haystacks.some((value) => value.includes(normalized))
     })
@@ -34,61 +22,31 @@ function App() {
   const selectedCard =
     filteredCards.find((card) => card.id === selectedId) ?? filteredCards[0] ?? tarotCards[0]
 
-  const currentText =
-    selectedCard?.[detailLevel]?.[meaningType] ?? '目前沒有內容。'
-
   return (
     <main className="app-shell">
       <section className="hero-panel">
-        <p className="eyebrow">Tarot Finder</p>
-        <h1>塔羅牌查詢小工具</h1>
+        <p className="eyebrow">Rider-Waite Tarot</p>
+        <h1>偉特塔羅牌查詢</h1>
         <p className="hero-copy">
-          手機上快速查牌義。先查牌名，再切換正位 / 逆位，最後用短版、中版、完整版控制文字長度。
+          查到牌之後，畫面直接同時顯示正位與逆位。先把資料與結構做對，之後我再幫你補完整圖片與更多功能。
         </p>
 
         <label className="search-box" htmlFor="search">
-          <span>搜尋牌名、編號、關鍵字</span>
+          <span>搜尋牌名、英文名、編號、牌意關鍵字</span>
           <input
             id="search"
             type="text"
-            placeholder="例如：愚者、戀人、開始、轉機"
+            placeholder="例如：愚者、The Fool、轉機、重生"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </label>
-
-        <div className="chip-row">
-          <button
-            className={meaningType === 'upright' ? 'chip active' : 'chip'}
-            onClick={() => setMeaningType('upright')}
-          >
-            正位
-          </button>
-          <button
-            className={meaningType === 'reversed' ? 'chip active' : 'chip'}
-            onClick={() => setMeaningType('reversed')}
-          >
-            逆位
-          </button>
-        </div>
-
-        <div className="chip-row secondary">
-          {detailOptions.map((option) => (
-            <button
-              key={option.id}
-              className={detailLevel === option.id ? 'chip active' : 'chip'}
-              onClick={() => setDetailLevel(option.id)}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
       </section>
 
       <section className="content-grid">
         <aside className="card-list-panel">
           <div className="panel-head">
-            <h2>牌卡列表</h2>
+            <h2>大阿爾克那</h2>
             <span>{filteredCards.length} 張</span>
           </div>
 
@@ -102,8 +60,8 @@ function App() {
                 <div>
                   <p className="card-number">{card.number}</p>
                   <strong>{card.name}</strong>
+                  <small className="english-name">{card.englishName}</small>
                 </div>
-                <small>{card.arcana}</small>
               </button>
             ))}
           </div>
@@ -118,34 +76,40 @@ function App() {
                   <h2>
                     {selectedCard.name} <span>{selectedCard.number}</span>
                   </h2>
+                  <p className="english-heading">{selectedCard.englishName}</p>
                 </div>
               </div>
 
-              <div className="keyword-row">
-                {selectedCard.keywords.map((keyword) => (
-                  <span key={keyword} className="keyword-pill">
-                    {keyword}
-                  </span>
-                ))}
-              </div>
+              <section className="card-visual">
+                <div className="image-placeholder">
+                  <span>偉特牌圖位置</span>
+                  <strong>{selectedCard.name}</strong>
+                  <small>{selectedCard.englishName}</small>
+                </div>
+              </section>
 
-              <article className="meaning-card">
-                <div className="meaning-meta">
-                  <span>{meaningType === 'upright' ? '正位' : '逆位'}</span>
-                  <span>{detailOptions.find((item) => item.id === detailLevel)?.label}</span>
-                </div>
-                <p>{currentText}</p>
-              </article>
+              <section className="meaning-grid">
+                <article className="meaning-card upright-card">
+                  <div className="meaning-meta">
+                    <span>正位</span>
+                  </div>
+                  <ul>
+                    {selectedCard.upright.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
 
-              <section className="stacked-preview">
-                <div className="mini-block">
-                  <h3>短版摘要</h3>
-                  <p>{selectedCard.short[meaningType]}</p>
-                </div>
-                <div className="mini-block">
-                  <h3>中版說明</h3>
-                  <p>{selectedCard.medium[meaningType]}</p>
-                </div>
+                <article className="meaning-card reversed-card">
+                  <div className="meaning-meta">
+                    <span>逆位</span>
+                  </div>
+                  <ul>
+                    {selectedCard.reversed.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
               </section>
             </>
           ) : (

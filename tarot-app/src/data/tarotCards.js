@@ -2,185 +2,221 @@ export const tarotCards = [
   {
     id: 'the-fool',
     name: '愚者',
+    englishName: 'The Fool',
     arcana: '大阿爾克那',
     number: '0',
-    keywords: ['開始', '自由', '冒險', '相信直覺'],
-    short: {
-      upright: '新的開始、勇敢往前、帶著好奇心出發。',
-      reversed: '衝動、沒準備好、方向感混亂。',
-    },
-    medium: {
-      upright:
-        '你正站在新旅程起點，適合嘗試新方向。別被過去綁住，但也要帶著基本準備。',
-      reversed:
-        '現在可能太急著往前，或還沒看清風險。先停一下，確認自己不是憑情緒亂衝。',
-    },
-    full: {
-      upright:
-        '愚者象徵不受框架限制的新開始。這張牌提醒你：有時候人生需要一點信任與勇氣，先走出去，路才會出現。感情上代表新的互動機會；工作上代表新專案、新方向；日常上則是保持彈性與開放心態。',
-      reversed:
-        '逆位愚者常出現在衝動決策、逃避現實或對後果估計不足的時候。感情上可能過於理想化；工作上可能沒有評估成本就想跳進去；生活上則提醒你別只想自由而忽略責任。',
-    },
+    image: null,
+    upright: ['新的開始', '沒體驗過的事物', '勇於冒險', '無知無畏', '隨遇而安', '純真'],
+    reversed: ['躁動', '盲目', '缺乏計劃', '輕率', '愚昧'],
   },
   {
     id: 'the-magician',
     name: '魔術師',
+    englishName: 'The Magician',
     arcana: '大阿爾克那',
     number: 'I',
-    keywords: ['行動力', '創造', '資源整合', '實現'],
-    short: {
-      upright: '資源到位、適合出手、把想法變成現實。',
-      reversed: '空轉、操控、方向偏掉、能力沒有用對。',
-    },
-    medium: {
-      upright:
-        '你其實已經具備開始的條件，關鍵不是再等，而是把手邊資源整合起來。',
-      reversed:
-        '你可能有能力，但用在錯的地方；也可能過度包裝，看起來很厲害卻沒有真正落地。',
-    },
-    full: {
-      upright:
-        '魔術師代表把靈感落地的能力。它不是空想，而是明確知道自己手上有什麼工具，並主動創造結果。感情上可解讀為主動表達、創造互動；工作上表示提案、執行力、整合能力強；生活上則鼓勵你相信自己的影響力。',
-      reversed:
-        '逆位魔術師提醒你注意話術、表面功夫、或自我懷疑。你可能其實有實力，卻沒有真正使用；也可能是把技巧用來掩飾不安。這張牌要你回到誠實和實做本身。',
-    },
+    image: null,
+    upright: ['萬事俱備', '能力俱足', '創造', '行動', '創意靈感', '可能性'],
+    reversed: ['假成功', '吹牛', '欺詐', '笨拙', '能力不夠', '喪失熱忱'],
   },
   {
     id: 'the-high-priestess',
     name: '女祭司',
+    englishName: 'The High Priestess',
     arcana: '大阿爾克那',
     number: 'II',
-    keywords: ['直覺', '內在智慧', '觀察', '保留'],
-    short: {
-      upright: '先觀察、相信直覺、不要急著表態。',
-      reversed: '壓抑感受、誤判訊號、內在混亂。',
-    },
-    medium: {
-      upright:
-        '有些答案不適合硬想出來，反而要透過安靜、觀察與感受慢慢浮現。',
-      reversed:
-        '你可能忽略自己真實感受，或外界資訊太多，讓你反而聽不到內心的聲音。',
-    },
-    full: {
-      upright:
-        '女祭司是內在世界的守門人。她代表沉著、敏感、洞察與不急著公開一切。感情上表示需要時間觀察關係深度；工作上代表先收集資訊、低調布局；生活上提醒你：不是每件事都要立刻做決定。',
-      reversed:
-        '逆位女祭司常指向壓抑直覺、過度理性化、或被模糊資訊困住。感情上可能是不願面對真實感受；工作上則可能是判斷失真、訊息不透明。這張牌提醒你回到自己真正知道的事。',
-    },
+    image: null,
+    upright: ['冷靜智慧', '理性思考', '獨自寧靜'],
+    reversed: ['鑽牛角尖', '情緒化', '冷漠'],
   },
   {
     id: 'the-empress',
-    name: '女皇',
+    name: '皇后',
+    englishName: 'The Empress',
     arcana: '大阿爾克那',
     number: 'III',
-    keywords: ['豐盛', '照顧', '吸引力', '成長'],
-    short: {
-      upright: '滋養、豐盛、關係和資源開始成長。',
-      reversed: '過度付出、依賴、缺乏自我照顧。',
-    },
-    medium: {
-      upright:
-        '這是一張很適合培養、照顧、讓事情慢慢長大的牌，重點是穩穩地養成。',
-      reversed:
-        '你可能對別人太好，卻忘了照顧自己；或太想抓住安全感而變得黏著。',
-    },
-    full: {
-      upright:
-        '女皇代表豐盛、魅力與溫柔的創造力。她不是急衝型，而是用穩定、滋養、照顧來讓一切成熟。感情上表示關係升溫與照顧彼此；工作上適合品牌、美感、內容經營；生活上則提醒你善待自己，讓資源流動起來。',
-      reversed:
-        '逆位女皇可能表示情緒匱乏、過度照顧別人、或把自我價值綁在被需要上。感情上可能過度依附；工作上可能為了討好而失去界線；生活上則要你重新建立自我滋養。',
-    },
+    image: null,
+    upright: ['豐盛享受', '富裕', '孕育', '滋養', '愛'],
+    reversed: ['懶惰', '溺愛', '虛榮', '享樂主義', '放縱'],
   },
   {
     id: 'the-emperor',
     name: '皇帝',
+    englishName: 'The Emperor',
     arcana: '大阿爾克那',
     number: 'IV',
-    keywords: ['秩序', '界線', '主導', '穩定'],
-    short: {
-      upright: '建立秩序、掌握節奏、穩穩做主。',
-      reversed: '控制欲、僵化、壓力過大。',
-    },
-    medium: {
-      upright:
-        '現在需要的不是更多感覺，而是更清楚的規則、節奏與執行架構。',
-      reversed:
-        '你可能太想掌控，或反過來是完全沒有邊界，導致事情亂掉。',
-    },
-    full: {
-      upright:
-        '皇帝象徵穩定的結構、清楚的責任與可以依靠的秩序。感情上代表成熟穩定、願意承擔；工作上表示管理、制度、策略、長期規劃；生活上則提醒你用紀律把目標落地。',
-      reversed:
-        '逆位皇帝可能是控制慾過強、拒絕彈性，或是該站出來時卻逃避責任。這張牌提醒你：真正的穩定不是壓制，而是有邊界又能調整。',
-    },
+    image: null,
+    upright: ['權威支配', '嚴肅', '理性穩重'],
+    reversed: ['專制', '暴君', '頑固', '控制欲', '僵化'],
+  },
+  {
+    id: 'the-hierophant',
+    name: '教皇',
+    englishName: 'The Hierophant',
+    arcana: '大阿爾克那',
+    number: 'V',
+    image: null,
+    upright: ['傳遞價值觀', '信仰', '傳統保守'],
+    reversed: ['說教', '僵化', '盲從', '墨守成規', '教條主義'],
   },
   {
     id: 'the-lovers',
     name: '戀人',
+    englishName: 'The Lovers',
     arcana: '大阿爾克那',
     number: 'VI',
-    keywords: ['關係', '選擇', '價值一致', '連結'],
-    short: {
-      upright: '彼此吸引、關係加深、做出真心選擇。',
-      reversed: '關係失衡、猶豫、價值衝突。',
-    },
-    medium: {
-      upright:
-        '這張牌不只是愛情，也是在問：你正在選擇什麼？那是不是你真正想要的？',
-      reversed:
-        '表面上像是選擇困難，核心其實常常是內在不一致，或不敢誠實面對自己。',
-    },
-    full: {
-      upright:
-        '戀人牌代表連結、吸引、價值一致與真心選擇。感情上當然很強，也常表示關係升溫；但工作與人生層面，它更像是在問你是否願意選擇真正對齊內心的路。',
-      reversed:
-        '逆位戀人通常不是沒有愛，而是關係裡缺少誠實、平衡或一致。也可能表示你面對重要選擇時搖擺不定。這張牌提醒你先釐清自己的核心價值。',
-    },
+    image: null,
+    upright: ['關係好', '選擇', '契合吸引', '連結愛情'],
+    reversed: ['關係分離', '誘惑', '失衡', '猶豫', '不一致'],
+  },
+  {
+    id: 'the-chariot',
+    name: '戰車',
+    englishName: 'The Chariot',
+    arcana: '大阿爾克那',
+    number: 'VII',
+    image: null,
+    upright: ['穩定掌控', '競爭勝利', '意志力', '前進', '行動'],
+    reversed: ['亂衝亂撞', '失控衝動', '受阻', '停滯', '方向錯誤'],
+  },
+  {
+    id: 'strength',
+    name: '力量',
+    englishName: 'Strength',
+    arcana: '大阿爾克那',
+    number: 'VIII',
+    image: null,
+    upright: ['能力', '勇氣', '女性力量', '溫柔', '信心', '以柔克剛'],
+    reversed: ['失去信心', '暴躁', '壓抑', '無力', '退縮'],
   },
   {
     id: 'the-hermit',
     name: '隱者',
+    englishName: 'The Hermit',
     arcana: '大阿爾克那',
     number: 'IX',
-    keywords: ['沉澱', '獨處', '尋找答案', '內省'],
-    short: {
-      upright: '先慢下來，答案在內部。',
-      reversed: '太封閉、逃避互動、卡在孤立裡。',
-    },
-    medium: {
-      upright:
-        '與其追著外界跑，不如先回頭整理自己。這不是退縮，而是必要的沉澱。',
-      reversed:
-        '你可能需要休息，但也可能已經躲太久，變成不願面對現實或拒絕連結。',
-    },
-    full: {
-      upright:
-        '隱者牌象徵內在探索、智慧累積與有意識的獨處。感情上表示先釐清自己想要什麼；工作上適合研究、整理、深度思考；生活上則提醒你暫時不需要太多雜音。',
-      reversed:
-        '逆位隱者常出現在封閉、孤立、過度退縮的狀態。你可能本來只是想安靜一下，卻不知不覺把自己關起來。這張牌提醒你：獨處可以，但不要失去連結。',
-    },
+    image: null,
+    upright: ['教育', '內省', '尋找', '智慧', '獨處', '沉思'],
+    reversed: ['孤立', '封閉', '逃避', '迷失', '停滯'],
   },
   {
     id: 'wheel-of-fortune',
     name: '命運之輪',
+    englishName: 'Wheel of Fortune',
     arcana: '大阿爾克那',
     number: 'X',
-    keywords: ['轉機', '循環', '變化', '機會'],
-    short: {
-      upright: '局勢轉動、機會來了、事情開始變。',
-      reversed: '卡關、時機不對、反覆重演。',
-    },
-    medium: {
-      upright:
-        '有些事終於要動了，你不用硬推，重點是跟上時機，別錯過轉折點。',
-      reversed:
-        '你可能覺得一直在原地打轉，這時要回頭看：是不是有功課還沒真正學會。',
-    },
-    full: {
-      upright:
-        '命運之輪代表循環與轉機。它提醒你：不是所有事都靠硬撐，有些關鍵在於時機成熟。感情上可能出現關係變化；工作上可能遇到新機會或轉向；生活上則意味著新的節奏即將展開。',
-      reversed:
-        '逆位命運之輪常讓人覺得不順、時機不對、事情重複發生。這張牌不一定是壞事，而是提醒你看清模式，避免再被同一種課題拖著走。',
-    },
+    image: null,
+    upright: ['轉變', '轉機', '命運', '循環', '機會'],
+    reversed: ['時機未到', '停滯', '不順', '延誤', '倒楣', '失控'],
+  },
+  {
+    id: 'justice',
+    name: '正義',
+    englishName: 'Justice',
+    arcana: '大阿爾克那',
+    number: 'XI',
+    image: null,
+    upright: ['平衡紀律', '榮譽', '責任', '剛正不阿', '對得起良心'],
+    reversed: ['冷酷無情', '批判性', '嚴厲', '僵化', '斤斤計較'],
+  },
+  {
+    id: 'the-hanged-man',
+    name: '吊人',
+    englishName: 'The Hanged Man',
+    arcana: '大阿爾克那',
+    number: 'XII',
+    image: null,
+    upright: ['犧牲的智慧', '等待', '停滯', '忍耐', '換位思考'],
+    reversed: ['拖延', '抗拒', '脫離限制', '卡住', '不願放手'],
+  },
+  {
+    id: 'death',
+    name: '死神',
+    englishName: 'Death',
+    arcana: '大阿爾克那',
+    number: 'XIII',
+    image: null,
+    upright: ['結束', '失去', '斷捨離', '重生', '蛻變'],
+    reversed: ['暫時無法結束', '抗拒改變', '停滯', '執著拖延', '放不下'],
+  },
+  {
+    id: 'temperance',
+    name: '節制',
+    englishName: 'Temperance',
+    arcana: '大阿爾克那',
+    number: 'XIV',
+    image: null,
+    upright: ['生活平衡', '節制', '調和', '整合', '流動'],
+    reversed: ['生活失衡', '極端', '混亂', '不協調', '過度'],
+  },
+  {
+    id: 'the-devil',
+    name: '惡魔',
+    englishName: 'The Devil',
+    arcana: '大阿爾克那',
+    number: 'XV',
+    image: null,
+    upright: ['物質束縛', '慾望', '沉迷', '依附', '控制'],
+    reversed: ['解放', '覺察', '擺脫物質關係', '鬆綁', '逃離'],
+  },
+  {
+    id: 'the-tower',
+    name: '高塔',
+    englishName: 'The Tower',
+    arcana: '大阿爾克那',
+    number: 'XVI',
+    image: null,
+    upright: ['重建價值觀', '劇變', '毀滅', '衝擊', '真相揭露'],
+    reversed: ['意料之外的變化', '內在動盪', '隱性危機'],
+  },
+  {
+    id: 'the-star',
+    name: '星星',
+    englishName: 'The Star',
+    arcana: '大阿爾克那',
+    number: 'XVII',
+    image: null,
+    upright: ['人脈機會', '希望', '療癒', '指引', '信念'],
+    reversed: ['爛機會', '失望', '迷茫', '失去信心', '失去方向'],
+  },
+  {
+    id: 'the-moon',
+    name: '月亮',
+    englishName: 'The Moon',
+    arcana: '大阿爾克那',
+    number: 'XVIII',
+    image: null,
+    upright: ['對未來不安', '迷惘', '幻象', '直覺', '潛意識'],
+    reversed: ['對未來恐懼', '混亂', '揭露', '清醒', '不安'],
+  },
+  {
+    id: 'the-sun',
+    name: '太陽',
+    englishName: 'The Sun',
+    arcana: '大阿爾克那',
+    number: 'XIX',
+    image: null,
+    upright: ['赤子之心', '喜悅光明', '活力', '成就'],
+    reversed: ['夕陽西下的餘溫', '疲憊', '過度樂觀', '失去熱情'],
+  },
+  {
+    id: 'judgement',
+    name: '審判',
+    englishName: 'Judgement',
+    arcana: '大阿爾克那',
+    number: 'XX',
+    image: null,
+    upright: ['自我覺醒', '重生', '呼喚', '反省決定'],
+    reversed: ['自我懷疑', '逃避', '停滯', '否認', '不願改變'],
+  },
+  {
+    id: 'the-world',
+    name: '世界',
+    englishName: 'The World',
+    arcana: '大阿爾克那',
+    number: 'XXI',
+    image: null,
+    upright: ['完成', '圓滿', '整合', '成功', '達成'],
+    reversed: ['未完成', '好但差一點點', '缺乏整合', '循環未結束'],
   },
 ]
