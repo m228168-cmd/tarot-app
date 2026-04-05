@@ -249,9 +249,9 @@ function App() {
                       />
                     ) : null}
                   </div>
-                  <p className="english-heading desktop-only-meta">{selectedCard.englishName}</p>
+                  <p className="english-heading">{selectedCard.englishName}</p>
                 </div>
-                <div className="detail-actions desktop-only-meta">
+                <div className="detail-actions mobile-hidden">
                   <button className="action-button" onClick={() => setIsEditing((value) => !value)}>
                     {isEditing ? '取消編輯' : '編輯牌意'}
                   </button>

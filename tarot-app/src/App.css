@@ -47,6 +47,10 @@
   display: flex;
 }
 
+.mobile-hidden {
+  display: none;
+}
+
 .search-box {
   margin-top: 18px;
   display: flex;
@@ -363,6 +367,10 @@
 
   .mobile-only-actions {
     display: none;
+  }
+
+  .mobile-hidden {
+    display: flex;
   }
 
   .desktop-only-meta {
