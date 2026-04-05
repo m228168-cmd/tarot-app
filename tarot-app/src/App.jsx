@@ -119,7 +119,7 @@ function App() {
     localStorage.setItem(HISTORY_KEY, JSON.stringify(nextHistory))
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedCard || !originalCard) return
 
     const upright = editor.upright
@@ -132,16 +132,18 @@ function App() {
       .map((item) => item.trim())
       .filter(Boolean)
 
+    const updatedAt = new Date().toISOString()
+
     const nextOverrides = {
       ...overrides,
-      [selectedCard.id]: { upright, reversed, updatedAt: new Date().toISOString() },
+      [selectedCard.id]: { upright, reversed, updatedAt },
     }
 
     const nextHistory = {
       ...historyMap,
       [selectedCard.id]: [
         {
-          changedAt: new Date().toISOString(),
+          changedAt: updatedAt,
           deviceId,
           upright,
           reversed,
@@ -156,6 +158,25 @@ function App() {
 
     persistOverrides(nextOverrides)
     persistHistory(nextHistory)
+
+    try {
+      await fetch('/api/save-override', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          deviceId,
+          cardId: selectedCard.id,
+          upright,
+          reversed,
+          updatedAt,
+        }),
+      })
+    } catch (error) {
+      console.error('cloud backup failed', error)
+    }
+
     setIsEditing(false)
   }
 
