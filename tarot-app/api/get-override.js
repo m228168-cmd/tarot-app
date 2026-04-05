@@ -1,4 +1,4 @@
-import { list, head, get } from '@vercel/blob'
+import { get } from '@vercel/blob'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -14,9 +14,14 @@ export default async function handler(req, res) {
     }
 
     const pathname = `overrides/${deviceId}/${cardId}.json`
-    const blob = await head(pathname)
-    const file = await get(blob.url)
-    const text = await file.text()
+    const result = await get(pathname, { access: 'private' })
+
+    if (!result || result.statusCode !== 200) {
+      res.status(404).json({ error: 'Not found' })
+      return
+    }
+
+    const text = await new Response(result.stream).text()
     res.status(200).json(JSON.parse(text))
   } catch (error) {
     console.error('get-override failed', error)
