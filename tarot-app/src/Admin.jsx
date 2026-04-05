@@ -1,19 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import './admin.css'
 
-function parsePathname(pathname) {
-  const parts = pathname.split('/').filter(Boolean)
-  const deviceId = parts[1] || 'unknown-device'
-  const fileName = parts[2] || ''
-  const cardId = fileName.replace(/\.json$/, '')
-  return { deviceId, cardId }
-}
-
 function Admin() {
-  const [items, setItems] = useState([])
+  const [devices, setDevices] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [selected, setSelected] = useState(null)
+  const [selectedDeviceId, setSelectedDeviceId] = useState('')
+  const [selectedItem, setSelectedItem] = useState(null)
   const [selectedData, setSelectedData] = useState(null)
 
   useEffect(() => {
@@ -22,7 +15,9 @@ function Admin() {
         const response = await fetch('/api/list-overrides')
         const json = await response.json()
         if (!response.ok) throw new Error(json.error || 'failed')
-        setItems(json.items || [])
+        setDevices(json.devices || {})
+        const firstDeviceId = Object.keys(json.devices || {})[0]
+        if (firstDeviceId) setSelectedDeviceId(firstDeviceId)
       } catch (err) {
         setError('讀取備份清單失敗')
       } finally {
@@ -33,34 +28,18 @@ function Admin() {
     load()
   }, [])
 
-  const grouped = useMemo(() => {
-    const map = new Map()
+  const deviceGroups = useMemo(() => Object.entries(devices), [devices])
+  const currentEntries = selectedDeviceId ? devices[selectedDeviceId] || [] : []
 
-    for (const item of items) {
-      const { deviceId, cardId } = parsePathname(item.pathname)
-      const entry = {
-        ...item,
-        deviceId,
-        cardId,
-      }
-
-      if (!map.has(deviceId)) map.set(deviceId, [])
-      map.get(deviceId).push(entry)
-    }
-
-    return Array.from(map.entries()).map(([deviceId, entries]) => ({
-      deviceId,
-      entries: entries.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)),
-    }))
-  }, [items])
-
-  async function openItem(item) {
-    setSelected(item)
+  async function openItem(deviceId, item) {
+    setSelectedDeviceId(deviceId)
+    setSelectedItem(item)
     setSelectedData(null)
 
     try {
-      const response = await fetch(item.url)
+      const response = await fetch(`/api/get-override?deviceId=${encodeURIComponent(deviceId)}&cardId=${encodeURIComponent(item.cardId)}`)
       const json = await response.json()
+      if (!response.ok) throw new Error(json.error || 'failed')
       setSelectedData(json)
     } catch (err) {
       setSelectedData({ error: '讀取內容失敗' })
@@ -81,39 +60,51 @@ function Admin() {
       <section className="admin-grid">
         <aside className="admin-card list-card">
           <h2>裝置列表</h2>
-          {grouped.map((group) => (
-            <section key={group.deviceId} className="device-group">
-              <div className="device-head">
-                <strong>{group.deviceId}</strong>
-                <span>{group.entries.length} 筆</span>
-              </div>
+          <div className="device-tabs">
+            {deviceGroups.map(([deviceId, entries]) => (
+              <button
+                key={deviceId}
+                className={selectedDeviceId === deviceId ? 'device-tab active' : 'device-tab'}
+                onClick={() => {
+                  setSelectedDeviceId(deviceId)
+                  setSelectedItem(null)
+                  setSelectedData(null)
+                }}
+              >
+                <strong>{deviceId}</strong>
+                <small>{entries.length} 筆</small>
+              </button>
+            ))}
+          </div>
 
-              <div className="entry-list">
-                {group.entries.map((item) => (
-                  <button key={item.pathname} className="entry-item" onClick={() => openItem(item)}>
-                    <strong>{item.cardId}</strong>
-                    <small>{new Date(item.uploadedAt).toLocaleString()}</small>
-                  </button>
-                ))}
-              </div>
-            </section>
-          ))}
+          <div className="entry-list">
+            {currentEntries.map((item) => (
+              <button
+                key={item.pathname}
+                className={selectedItem?.pathname === item.pathname ? 'entry-item active' : 'entry-item'}
+                onClick={() => openItem(selectedDeviceId, item)}
+              >
+                <strong>{item.cardId}</strong>
+                <small>{new Date(item.uploadedAt).toLocaleString()}</small>
+              </button>
+            ))}
+          </div>
         </aside>
 
         <section className="admin-card detail-card">
           <h2>修改內容</h2>
-          {!selected ? <p>點左邊一筆紀錄查看內容。</p> : null}
-          {selected ? (
+          {!selectedItem ? <p>先選擇裝置，再點一筆紀錄查看內容。</p> : null}
+          {selectedItem ? (
             <>
               <div className="meta-block">
-                <div><strong>裝置</strong><span>{selected.deviceId}</span></div>
-                <div><strong>牌卡</strong><span>{selected.cardId}</span></div>
-                <div><strong>時間</strong><span>{new Date(selected.uploadedAt).toLocaleString()}</span></div>
+                <div><strong>裝置</strong><span>{selectedDeviceId}</span></div>
+                <div><strong>牌卡</strong><span>{selectedItem.cardId}</span></div>
+                <div><strong>時間</strong><span>{new Date(selectedItem.uploadedAt).toLocaleString()}</span></div>
               </div>
 
               {selectedData?.error ? <p>{selectedData.error}</p> : null}
 
-              {selectedData ? (
+              {selectedData && !selectedData.error ? (
                 <div className="content-blocks">
                   <article>
                     <h3>正位</h3>
