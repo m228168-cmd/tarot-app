@@ -187,9 +187,6 @@ function App() {
       <section className="hero-panel">
         <p className="eyebrow">Rider-Waite Tarot</p>
         <h1>偉特塔羅牌查詢</h1>
-        <p className="hero-copy">
-          搜尋偉特塔羅牌意關鍵字
-        </p>
 
         <label className="search-box" htmlFor="search">
           <span>搜尋偉特塔羅牌意關鍵字</span>
@@ -201,12 +198,6 @@ function App() {
             onChange={(event) => setQuery(event.target.value)}
           />
         </label>
-
-        <div className="device-banner">
-          <strong>裝置 ID</strong>
-          <span>{deviceId || '建立中...'}</span>
-          <small>編輯內容只存在這台裝置上</small>
-        </div>
       </section>
 
       <section className="content-grid">
@@ -265,22 +256,6 @@ function App() {
                 <span>本機紀錄 {historyCount} 筆</span>
               </div>
 
-              <section className="card-visual">
-                {selectedCard.image ? (
-                  <img
-                    className="card-image"
-                    src={selectedCard.image}
-                    alt={`${selectedCard.name} ${selectedCard.englishName}`}
-                  />
-                ) : (
-                  <div className="image-placeholder">
-                    <span>偉特牌圖位置</span>
-                    <strong>{selectedCard.name}</strong>
-                    <small>{selectedCard.englishName}</small>
-                  </div>
-                )}
-              </section>
-
               {isEditing ? (
                 <section className="editor-panel">
                   <div className="editor-grid">
@@ -329,6 +304,22 @@ function App() {
                     ))}
                   </ul>
                 </article>
+              </section>
+
+              <section className="card-visual">
+                {selectedCard.image ? (
+                  <img
+                    className="card-image"
+                    src={selectedCard.image}
+                    alt={`${selectedCard.name} ${selectedCard.englishName}`}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    <span>偉特牌圖位置</span>
+                    <strong>{selectedCard.name}</strong>
+                    <small>{selectedCard.englishName}</small>
+                  </div>
+                )}
               </section>
             </>
           ) : (
