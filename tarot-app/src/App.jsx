@@ -188,7 +188,7 @@ function App() {
         <p className="eyebrow">Rider-Waite Tarot</p>
         <h1>偉特塔羅牌查詢</h1>
         <p className="hero-copy">
-          查到牌後，畫面直接同時顯示正位與逆位，方便快速比對牌意。
+          搜尋偉特塔羅牌意關鍵字
         </p>
 
         <label className="search-box" htmlFor="search">
@@ -205,7 +205,7 @@ function App() {
         <div className="device-banner">
           <strong>裝置 ID</strong>
           <span>{deviceId || '建立中...'}</span>
-          <small>這台裝置的編輯內容只會存在這台裝置上。</small>
+          <small>編輯內容只存在這台裝置上</small>
         </div>
       </section>
 

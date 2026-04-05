@@ -81,8 +81,17 @@
 }
 
 .content-grid {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
+}
+
+.detail-panel {
+  order: 1;
+}
+
+.card-list-panel {
+  order: 2;
 }
 
 .card-list-panel,
@@ -330,8 +339,17 @@
   }
 
   .content-grid {
+    display: grid;
     grid-template-columns: 360px 1fr;
     align-items: start;
+  }
+
+  .detail-panel {
+    order: 2;
+  }
+
+  .card-list-panel {
+    order: 1;
   }
 
   .card-list {
