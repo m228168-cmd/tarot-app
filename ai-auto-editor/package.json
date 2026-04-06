@@ -12,10 +12,12 @@
     "drive:scan": "node scripts/pipeline/scan-drive.js",
     "drive:download": "node scripts/drive/download-file.js",
     "pipeline:download-latest": "node scripts/pipeline/download-latest.js",
+    "pipeline:download-latest:task": "node scripts/pipeline/run-task.js download-latest --summary \"下載最新未處理素材\" --note \"透過 task runner 記錄實際下載結果\" -- npm run pipeline:download-latest",
     "task:run": "node scripts/pipeline/run-task.js",
     "task:report": "node scripts/pipeline/task-report.js",
     "task:status": "node scripts/pipeline/task-status.js",
-    "pipeline:transcribe": "node scripts/pipeline/transcribe.js"
+    "pipeline:transcribe": "node scripts/pipeline/transcribe.js",
+    "pipeline:artifacts": "node scripts/pipeline/generate-artifacts.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",

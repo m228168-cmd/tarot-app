@@ -1,3 +1,26 @@
 {
-  "files": []
+  "files": [
+    {
+      "fileId": "1ddAr04Hkp2BE56lWrC0FPiZO0myrQWyI",
+      "name": "寵物溝通 - 2026/04/03 20:55 CST - Recording",
+      "modifiedTime": "2026-04-03T15:54:29.866Z",
+      "downloadedAt": "2026-04-06T17:32:29.080Z",
+      "localPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/raw/1ddAr04Hkp2BE56lWrC0FPiZO0myrQWyI-_-_2026_04_03_20_55_CST_-_Recording",
+      "status": "downloaded"
+    },
+    {
+      "fileId": "1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09",
+      "name": "huv-zmzp-nog (2026-04-01 21:53 GMT+8)",
+      "modifiedTime": "2026-04-01T17:14:12.171Z",
+      "downloadedAt": "2026-04-06T17:34:35.559Z",
+      "localPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/raw/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_",
+      "status": "transcribed",
+      "transcriptPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/transcripts/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.json",
+      "transcribedAt": "2026-04-06T17:52:47.306Z",
+      "transcribeMethod": "whisper-cli:base",
+      "subtitlesPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/artifacts/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.srt",
+      "cutSuggestionsPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/artifacts/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.cut-suggestions.json",
+      "artifactedAt": "2026-04-06T18:28:47.744Z"
+    }
+  ]
 }

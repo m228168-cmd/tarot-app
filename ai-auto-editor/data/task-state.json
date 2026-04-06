@@ -22,6 +22,30 @@
       "exitCode": null,
       "signal": null,
       "failReason": "stale-recovered: token.json missing, OAuth not completed"
+    },
+    {
+      "id": "recovered-download-1ddAr04Hkp2BE56lWrC0FPiZO0myrQWyI",
+      "taskName": "download-latest",
+      "command": "npm run pipeline:download-latest",
+      "summary": "從 processed log 回補最近一次成功下載任務",
+      "note": "寵物溝通 - 2026/04/03 20:55 CST - Recording",
+      "status": "done",
+      "startedAt": "2026-04-06T17:32:29.080Z",
+      "finishedAt": "2026-04-06T17:32:29.080Z",
+      "exitCode": 0,
+      "signal": null
+    },
+    {
+      "id": "b512bc8a-e218-4fad-8beb-e11d3275f2ae",
+      "taskName": "download-latest",
+      "command": "npm run pipeline:download-latest",
+      "summary": "下載最新未處理素材",
+      "note": "透過 task runner 記錄實際下載結果",
+      "status": "done",
+      "startedAt": "2026-04-06T17:34:15.678Z",
+      "finishedAt": "2026-04-06T17:34:35.572Z",
+      "exitCode": 0,
+      "signal": null
     }
   ]
 }

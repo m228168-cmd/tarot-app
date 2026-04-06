@@ -21,13 +21,18 @@ const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '../..')
 const TRANSCRIPT_DIR = path.join(ROOT_DIR, 'downloads', 'transcripts')
 
+const WHISPER_BIN = process.env.WHISPER_BIN || '/Users/m2281682/Library/Python/3.9/bin/whisper'
+const WHISPER_MODEL = process.env.WHISPER_MODEL || 'base'
+
 async function transcribeWithWhisperCLI(localPath, outputDir) {
   // whisper writes <name>.txt / .json / .srt into outputDir
-  const { stdout, stderr } = await execFileAsync('whisper', [
+  const { stdout, stderr } = await execFileAsync(WHISPER_BIN, [
     localPath,
+    '--model', WHISPER_MODEL,
     '--output_dir', outputDir,
     '--output_format', 'json',
-    '--language', 'zh',  // change to 'en' or remove for auto-detect
+    '--language', 'zh',
+    '--fp16', 'False',
   ], { timeout: 30 * 60 * 1000 }) // 30 min max
   return { stdout, stderr }
 }
@@ -72,11 +77,10 @@ let method
 
 // Try whisper CLI first, fall back to OpenAI API
 try {
-  await execFileAsync('whisper', ['--version'], { timeout: 5000 })
-  console.error('[transcribe] Using local Whisper CLI')
+  console.error(`[transcribe] Using local Whisper CLI: ${WHISPER_BIN} (model=${WHISPER_MODEL})`)
   await transcribeWithWhisperCLI(candidate.localPath, TRANSCRIPT_DIR)
   transcriptPath = path.join(TRANSCRIPT_DIR, `${baseName}.json`)
-  method = 'whisper-cli'
+  method = `whisper-cli:${WHISPER_MODEL}`
 } catch (cliErr) {
   if (cliErr.code === 'ENOENT' || cliErr.message.includes('not found')) {
     console.error('[transcribe] whisper CLI not found, trying OpenAI API')
