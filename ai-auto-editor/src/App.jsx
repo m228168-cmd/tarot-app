@@ -15,13 +15,14 @@ function App() {
   const [result, setResult] = useState(null)
   const [driveItems, setDriveItems] = useState([])
   const [driveLoading, setDriveLoading] = useState(true)
+  const [driveMode, setDriveMode] = useState('oauth')
 
   const segmentCount = useMemo(() => result?.segments?.length || 0, [result])
 
   useEffect(() => {
     async function loadDriveItems() {
       try {
-        const response = await fetch('/api/list-drive-folder')
+        const response = await fetch(driveMode === 'oauth' ? '/api/list-drive-files' : '/api/list-drive-folder')
         const json = await response.json()
         if (response.ok) setDriveItems(json.items || [])
       } catch (error) {
@@ -32,7 +33,7 @@ function App() {
     }
 
     loadDriveItems()
-  }, [])
+  }, [driveMode])
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -74,13 +75,31 @@ function App() {
       <section className="grid two-up">
         <article className="card">
           <h2>Google Drive 素材來源</h2>
-          <p className="hint">目前先讀公開資料夾清單，下一步再接下載與轉錄。</p>
+          <p className="hint">現在優先走 Google Drive API。第一次讀取時可能會需要你本機授權。</p>
+          <div className="mode-switch">
+            <button
+              type="button"
+              className={driveMode === 'oauth' ? 'secondary active' : 'secondary'}
+              onClick={() => setDriveMode('oauth')}
+            >
+              Drive API
+            </button>
+            <button
+              type="button"
+              className={driveMode === 'public' ? 'secondary active' : 'secondary'}
+              onClick={() => setDriveMode('public')}
+            >
+              公開資料夾備援
+            </button>
+          </div>
           <div className="segment-list">
             {driveLoading ? <p>讀取素材中...</p> : null}
+            {!driveLoading && driveMode === 'oauth' && driveItems.length === 0 ? <p>如果是第一次，請看本機跳出的 Google 授權視窗。</p> : null}
             {!driveLoading && driveItems.length === 0 ? <p>目前抓不到素材清單。</p> : null}
             {driveItems.map((item) => (
               <div key={item.name} className="segment-item">
                 <strong>{item.name}</strong>
+                {item.modifiedTime ? <p>{new Date(item.modifiedTime).toLocaleString()}</p> : null}
               </div>
             ))}
           </div>
