@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "id": "8fc4fd0c-9048-401a-91e4-99b06a73c870",
+      "taskName": "smoke-test",
+      "command": "node -e \"console.log('hello-task')\"",
+      "status": "done",
+      "startedAt": "2026-04-06T02:48:16.152Z",
+      "finishedAt": "2026-04-06T02:48:16.195Z",
+      "exitCode": 0,
+      "signal": null
+    }
+  ]
+}

@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "drive:list": "node scripts/drive/list-files.js",
+    "drive:scan": "node scripts/pipeline/scan-drive.js",
+    "drive:download": "node scripts/drive/download-file.js",
+    "task:run": "node scripts/pipeline/run-task.js",
+    "task:report": "node scripts/pipeline/task-report.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
