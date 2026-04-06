@@ -9,6 +9,19 @@
       "finishedAt": "2026-04-06T02:48:16.195Z",
       "exitCode": 0,
       "signal": null
+    },
+    {
+      "id": "7fdcd2ab-17e5-4966-ac1f-7b95abb3e155",
+      "taskName": "download-latest",
+      "command": "npm run pipeline:download-latest",
+      "summary": "下載最新未處理 podcast 素材",
+      "note": "驗證 task runner 與 pipeline 整合",
+      "status": "failed",
+      "startedAt": "2026-04-06T02:51:48.372Z",
+      "finishedAt": "2026-04-07T00:00:00.000Z",
+      "exitCode": null,
+      "signal": null,
+      "failReason": "stale-recovered: token.json missing, OAuth not completed"
     }
   ]
 }

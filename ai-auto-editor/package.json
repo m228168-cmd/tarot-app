@@ -11,8 +11,11 @@
     "drive:list": "node scripts/drive/list-files.js",
     "drive:scan": "node scripts/pipeline/scan-drive.js",
     "drive:download": "node scripts/drive/download-file.js",
+    "pipeline:download-latest": "node scripts/pipeline/download-latest.js",
     "task:run": "node scripts/pipeline/run-task.js",
-    "task:report": "node scripts/pipeline/task-report.js"
+    "task:report": "node scripts/pipeline/task-report.js",
+    "task:status": "node scripts/pipeline/task-status.js",
+    "pipeline:transcribe": "node scripts/pipeline/transcribe.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",

@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+
+# Google OAuth token (never commit)
+token.json
+
+# Downloaded media files
+downloads/
