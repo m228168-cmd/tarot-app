@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
 function formatTime(value) {
@@ -13,8 +13,26 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [result, setResult] = useState(null)
+  const [driveItems, setDriveItems] = useState([])
+  const [driveLoading, setDriveLoading] = useState(true)
 
   const segmentCount = useMemo(() => result?.segments?.length || 0, [result])
+
+  useEffect(() => {
+    async function loadDriveItems() {
+      try {
+        const response = await fetch('/api/list-drive-folder')
+        const json = await response.json()
+        if (response.ok) setDriveItems(json.items || [])
+      } catch (error) {
+        console.error('failed to load drive items', error)
+      } finally {
+        setDriveLoading(false)
+      }
+    }
+
+    loadDriveItems()
+  }, [])
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -53,7 +71,22 @@ function App() {
         </p>
       </section>
 
-      <section className="card uploader-card">
+      <section className="grid two-up">
+        <article className="card">
+          <h2>Google Drive 素材來源</h2>
+          <p className="hint">目前先讀公開資料夾清單，下一步再接下載與轉錄。</p>
+          <div className="segment-list">
+            {driveLoading ? <p>讀取素材中...</p> : null}
+            {!driveLoading && driveItems.length === 0 ? <p>目前抓不到素材清單。</p> : null}
+            {driveItems.map((item) => (
+              <div key={item.name} className="segment-item">
+                <strong>{item.name}</strong>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <section className="card uploader-card">
         <h2>上傳音訊 / 影片</h2>
         <form className="upload-form" onSubmit={handleSubmit}>
           <label className="file-box">
@@ -72,6 +105,7 @@ function App() {
 
         {file ? <p className="hint">已選擇：{file.name}</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
+        </section>
       </section>
 
       {result ? (
