@@ -31,23 +31,28 @@
       "roughCutUploadedAt": "2026-04-07T07:10:25.169Z",
       "roughCutKeepRangeCount": 14,
       "roughCutHardsubPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.hardsub.mp4",
-      "shortHighlightPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.short-highlight.B-gpt.mp4",
-      "shortHighlightUploadedFileId": "1UMfYmt_yUWmP-HMnOOSaVvYXsmI_z_cF",
-      "shortHighlightUploadedAt": "2026-04-07T07:54:32.825Z",
-      "shortHighlightDuration": 59,
+      "shortHighlightPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/huv-zmzp-nog_(2026-04-01_21-53_GMT+8)/成品/短影音-精華.mp4",
+      "shortHighlightUploadedFileId": "1422C4TLRD6lYxivye8GBOG4QpzWg5lMY",
+      "shortHighlightUploadedAt": "2026-04-07T08:33:42.194Z",
+      "shortHighlightDuration": 89,
       "shortHighlightRanges": [
         {
           "start": 520,
           "end": 549,
-          "reason": "這段話提到達成成就後的無聊感，並且有一個意外的轉折，讓人覺得錢太好賺反而無聊，這是一個有趣且容易引起共鳴的觀點。"
+          "reason": "這段描述了一個人達成成就後感到無聊，並且以幽默的方式表達工作太順利反而無趣，這種反轉和幽默感能引起觀眾的共鳴和笑聲。"
         },
         {
-          "start": 1560,
-          "end": 1590,
-          "reason": "這段話描述了人際關係中的衝突，尤其是感情中的寄刑，這是一個讓人驚訝且有情緒張力的概念。"
+          "start": 880,
+          "end": 910,
+          "reason": "這段對於反覆無常的情況進行了有趣的描述，並且提到了一些讓人好奇的概念，如“門在那邊就真的沒辦法學習”，這種神秘感能吸引觀眾的注意。"
+        },
+        {
+          "start": 5780,
+          "end": 5810,
+          "reason": "這段講述了一個人如何在學習中不斷測試和突破，並且提到了一個有趣的比喻“A加B會通電”，這種創新的學習方式和幽默的表達能激發觀眾的好奇心。"
         }
       ],
-      "shortHighlightHook": "當成就感變成無聊感，錢太好賺反而無趣？"
+      "shortHighlightHook": "成就後的無聊與幽默反轉"
     }
   ]
 }

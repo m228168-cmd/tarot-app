@@ -45,10 +45,10 @@ const SUBTITLE_SPEC = {
   maxCharsPerLine: 7,    // 每行最多 7 個中文字，字大才夠醒目
   maxLines: 2,           // 最多 2 行
   minDuration: 0.8,      // 最短顯示時間（秒）
-  fontSize: 95,          // 大字幕，佔畫面寬度約 60-70%
+  fontSize: 120,         // 大字幕，再大兩級
   fontName: 'PingFang TC',  // 繁體中文，比 STHeiti 更粗更清晰
-  marginV: 220,          // 距底部像素（避開最底邊）
-  outline: 6,            // 粗黑邊
+  marginV: 480,          // 畫面分 10 段，從底部算第 2.5 段（1920/10 × 2.5 = 480）
+  outline: 7,            // 粗黑邊（配合字體加大）
   shadow: 2,
 }
 
@@ -87,10 +87,16 @@ function buildKeepRanges(segments, highlightStart, highlightEnd) {
   return ranges.filter(r => r.end - r.start >= 0.5)
 }
 
-// ─── 字幕重排（max 13 字/行，max 2 行）───────────────────────
+// ─── 字幕重排 ─────────────────────────────────────────────────
+// 回傳 { lines: string (含 \\N 換行), shrink: boolean (是否需要縮小字體) }
 function breakChineseText(text, maxChars) {
   text = text.trim()
-  if (text.length <= maxChars) return [text]
+  if (text.length <= maxChars) return { lines: text, shrink: false }
+
+  // 斷行後第二行只剩 1-2 字 → 不換行，整句縮小字體塞一行
+  if (text.length <= maxChars + 2) {
+    return { lines: text, shrink: true }
+  }
 
   // 優先在標點符號後斷行
   const punctBreak = /[，。！？、；：]/
@@ -101,8 +107,14 @@ function breakChineseText(text, maxChars) {
   if (breakAt === -1) breakAt = maxChars
 
   const line1 = text.slice(0, breakAt).trim()
-  const line2 = text.slice(breakAt).trim()
-  return line2 ? [line1, line2.slice(0, maxChars)] : [line1]
+  const line2 = text.slice(breakAt, breakAt + maxChars).trim()
+
+  // 第二行只剩 1-2 字 → 整句縮小塞一行
+  if (line2.length <= 2) {
+    return { lines: text.slice(0, maxChars + 2), shrink: true }
+  }
+
+  return { lines: line2 ? `${line1}\\N${line2}` : line1, shrink: false }
 }
 
 function remapAndResegment(segments, highlightRangesWithOffsets) {
@@ -123,12 +135,14 @@ function remapAndResegment(segments, highlightRangesWithOffsets) {
         const text = (seg.text || '').trim()
         if (!text) continue
 
-        const lines = breakChineseText(text, maxCharsPerLine)
-        const displayLines = lines.slice(0, maxLines).join('\\N')
+        const { lines, shrink } = breakChineseText(text, maxCharsPerLine)
+        // shrink=true → 用 ASS override 縮小該句字體，避免第二行只有 1-2 字
+        const shrinkSize = Math.round(SUBTITLE_SPEC.fontSize * 0.8)
+        const displayText = shrink ? `{\\fs${shrinkSize}}${lines}` : lines
         result.push({
           start: newStart,
           end: Math.max(newStart + minDuration, newEnd),
-          text: displayLines,
+          text: displayText,
         })
       }
       cumOffset += dur
@@ -150,10 +164,11 @@ function toAssTime(sec) {
 function buildAss(segs, hook = null, totalDuration = 0) {
   const { fontSize, fontName, outline, shadow, marginV } = SUBTITLE_SPEC
 
-  // 標題樣式：更大字、黃色、畫面上方（Alignment=8 上置中）
-  // 最多 8 字一行，超過自動斷行，顯示前 4 秒
-  const titleFontSize = Math.round(fontSize * 1.15)  // 比字幕再大一點
-  const titleMarginV = 160  // 距頂部 160px
+  // 標題樣式：大字黃色、畫面上方（Alignment=8 上置中）
+  // 第一行大字，第二行縮小兩級（× 0.75），確保放得進去
+  const titleFontSize = Math.round(fontSize * 1.15)
+  const titleSmallSize = Math.round(titleFontSize * 0.75)
+  const titleMarginV = 160
 
   const header = [
     '[Script Info]',
@@ -176,12 +191,36 @@ function buildAss(segs, hook = null, totalDuration = 0) {
   const titleEnd = Math.min(4, totalDuration * 0.5)
   let titleEvent = ''
   if (hook && hook.trim()) {
-    // 超過 8 字自動插入換行
     const hookText = hook.trim()
-    const line1 = hookText.slice(0, 8)
-    const line2 = hookText.slice(8, 16)
-    const displayText = line2 ? `${line1}\\N${line2}` : line1
-    titleEvent = `Dialogue: 0,${toAssTime(0)},${toAssTime(titleEnd)},Title,,0,0,0,,${displayText}\n`
+    if (hookText.length <= 7) {
+      // 短標題：一行大字搞定
+      titleEvent = `Dialogue: 0,${toAssTime(0)},${toAssTime(titleEnd)},Title,,0,0,0,,${hookText}\n`
+    } else {
+      // 找語意斷點：在標點符號或「的、與、和、是、了」後面斷行
+      const breakChars = /[，。！？、的與和是了]/
+      let breakIdx = -1
+      // 從中間往前找最近的斷點
+      const half = Math.ceil(hookText.length / 2)
+      for (let i = half; i >= 3; i--) {
+        if (breakChars.test(hookText[i - 1])) { breakIdx = i; break }
+      }
+      // 找不到就從中間往後找
+      if (breakIdx === -1) {
+        for (let i = half; i < hookText.length - 2; i++) {
+          if (breakChars.test(hookText[i])) { breakIdx = i + 1; break }
+        }
+      }
+      // 都找不到就對半切
+      if (breakIdx === -1) breakIdx = half
+
+      const line1 = hookText.slice(0, breakIdx)
+      const line2 = hookText.slice(breakIdx)
+      if (line2) {
+        titleEvent = `Dialogue: 0,${toAssTime(0)},${toAssTime(titleEnd)},Title,,0,0,0,,${line1}\\N{\\fs${titleSmallSize}}${line2}\n`
+      } else {
+        titleEvent = `Dialogue: 0,${toAssTime(0)},${toAssTime(titleEnd)},Title,,0,0,0,,${line1}\n`
+      }
+    }
   }
 
   const subtitleEvents = segs
@@ -207,7 +246,16 @@ const transcript = JSON.parse(await fs.readFile(candidate.transcriptPath, 'utf8'
 const allSegments = transcript.segments || []
 const baseName = path.basename(candidate.localPath)
 
-await fs.mkdir(EXPORT_DIR, { recursive: true })
+// 資料夾分類：exports/{來源名}/成品 和 半成品
+// 從原始檔名取可讀的資料夾名（去掉 fileId 前綴，保留日期和名稱）
+const folderName = (candidate.name || baseName)
+  .replace(/[/:]/g, '-')
+  .replace(/\s+/g, '_')
+  .slice(0, 60)
+const FINAL_DIR = path.join(EXPORT_DIR, folderName, '成品')
+const WIP_DIR = path.join(EXPORT_DIR, folderName, '半成品')
+await fs.mkdir(FINAL_DIR, { recursive: true })
+await fs.mkdir(WIP_DIR, { recursive: true })
 
 // AI 選段 或 手動指定
 let highlightRanges
@@ -242,7 +290,7 @@ let clipIdx = 0
 for (const { origRange, keepRanges } of rangesWithOffsets) {
   for (const range of keepRanges) {
     clipIdx++
-    const clipPath = path.join(EXPORT_DIR, `${baseName}.sh-clip-${String(clipIdx).padStart(4, '0')}.mp4`)
+    const clipPath = path.join(WIP_DIR, `sh-clip-${String(clipIdx).padStart(4, '0')}.mp4`)
     await execFileAsync('ffmpeg', [
       '-y',
       '-ss', String(range.start),
@@ -258,9 +306,9 @@ for (const { origRange, keepRanges } of rangesWithOffsets) {
 }
 
 // Concat
-const concatListPath = path.join(EXPORT_DIR, 'sh-concat.txt')
+const concatListPath = path.join(WIP_DIR, 'sh-concat.txt')
 await fs.writeFile(concatListPath, allClipPaths.map(p => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'))
-const mergedPath = path.join(EXPORT_DIR, `${baseName}.short-highlight.raw.mp4`)
+const mergedPath = path.join(WIP_DIR, 'short-highlight.raw.mp4')
 await execFileAsync('ffmpeg', [
   '-y', '-f', 'concat', '-safe', '0',
   '-i', concatListPath,
@@ -269,7 +317,7 @@ await execFileAsync('ffmpeg', [
 ], { timeout: 60 * 60 * 1000 })
 
 // 裁切 9:16
-const croppedPath = path.join(EXPORT_DIR, `${baseName}.short-highlight.916.mp4`)
+const croppedPath = path.join(WIP_DIR, 'short-highlight.916.mp4')
 await execFileAsync('ffmpeg', [
   '-y', '-i', mergedPath,
   '-vf', CROP_FILTER,
@@ -283,16 +331,20 @@ const PINGFANG_DIR = '/System/Library/AssetsV2/com_apple_MobileAsset_Font8/86ba2
 
 // Whisper 原始字幕（實測比 GPT 重寫版更自然，為預設方案）
 const remappedSegs = remapAndResegment(allSegments, rangesWithOffsets)
-const assPath = path.join(EXPORT_DIR, `${baseName}.short-highlight.ass`)
+const assPath = path.join(WIP_DIR, 'short-highlight.ass')
 await fs.writeFile(assPath, buildAss(remappedSegs, aiHook, totalDuration), 'utf8')
 console.error(`[short-highlight] ${remappedSegs.length} 條字幕 → ${path.basename(assPath)}`)
 
-const finalPath = path.join(EXPORT_DIR, `${baseName}.short-highlight.hardsub.mp4`)
+const finalPath = path.join(FINAL_DIR, '短影音-精華.mp4')
+// dynaudnorm：動態拉平不同說話者的音量差異
+// loudnorm：整體正規化到 -14 LUFS（YouTube Shorts / TikTok 標準）
 await execFileAsync('ffmpeg', [
   '-y', '-i', croppedPath,
   '-vf', `ass=${assPath}:fontsdir=${PINGFANG_DIR}`,
+  '-af', 'dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-14:TP=-1:LRA=11',
   '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
-  '-c:a', 'copy', '-movflags', '+faststart',
+  '-c:a', 'aac', '-b:a', '192k',
+  '-movflags', '+faststart',
   finalPath,
 ], { timeout: 60 * 60 * 1000 })
 
