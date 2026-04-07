@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '../..')
 const CREDENTIALS_PATH = path.join(ROOT_DIR, 'credentials.json')
 const TOKEN_PATH = path.join(ROOT_DIR, 'token.json')
-const SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+const SCOPES = ['https://www.googleapis.com/auth/drive']
 
 async function loadSavedCredentialsIfExist() {
   try {

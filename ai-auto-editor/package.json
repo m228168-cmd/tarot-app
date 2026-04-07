@@ -17,7 +17,9 @@
     "task:report": "node scripts/pipeline/task-report.js",
     "task:status": "node scripts/pipeline/task-status.js",
     "pipeline:transcribe": "node scripts/pipeline/transcribe.js",
-    "pipeline:artifacts": "node scripts/pipeline/generate-artifacts.js"
+    "pipeline:artifacts": "node scripts/pipeline/generate-artifacts.js",
+    "pipeline:export-highlight": "node scripts/pipeline/export-highlight.js",
+    "pipeline:export-rough-cut": "node scripts/pipeline/export-rough-cut.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",

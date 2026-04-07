@@ -20,7 +20,16 @@
       "transcribeMethod": "whisper-cli:base",
       "subtitlesPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/artifacts/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.srt",
       "cutSuggestionsPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/artifacts/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.cut-suggestions.json",
-      "artifactedAt": "2026-04-06T18:28:47.744Z"
+      "artifactedAt": "2026-04-06T18:28:47.744Z",
+      "outputFolderId": "1lGzqZ9AnMO7PaiXdWwQWui7yBRD0t8dw",
+      "latestExportPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.highlight-01.mp4",
+      "latestExportUploadedFileId": "1jSBt0p1TXRN6xUm0rZIT33vgb2jRpr8w",
+      "latestExportUploadedAt": "2026-04-07T03:29:50.063Z",
+      "roughCutPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.mp4",
+      "roughCutSubtitledPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.softsub.mp4",
+      "roughCutUploadedFileId": "1lN-eNrsjDCCf--DEUjZ7QTl9HSTjC_TT",
+      "roughCutUploadedAt": "2026-04-07T03:57:04.884Z",
+      "roughCutKeepRangeCount": 14
     }
   ]
 }
