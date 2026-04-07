@@ -19,11 +19,14 @@
     "pipeline:transcribe": "node scripts/pipeline/transcribe.js",
     "pipeline:artifacts": "node scripts/pipeline/generate-artifacts.js",
     "pipeline:export-highlight": "node scripts/pipeline/export-highlight.js",
-    "pipeline:export-rough-cut": "node scripts/pipeline/export-rough-cut.js"
+    "pipeline:export-rough-cut": "node scripts/pipeline/export-rough-cut.js",
+    "pipeline:export-short": "node scripts/pipeline/export-short-highlight.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
+    "dotenv": "^17.4.1",
     "googleapis": "^171.4.0",
+    "openai": "^6.33.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

@@ -72,6 +72,58 @@ async function writeConcatList(clips) {
   return concatPath
 }
 
+// 重新對齊字幕時間軸：原始 transcript 時間是針對未剪輯影片，
+// 剪掉靜音後累積偏移量不同，需依 keepRanges 重新計算每句的時間點
+function remapSegments(segments, keepRanges) {
+  const remapped = []
+  let cumOffset = 0
+  for (const range of keepRanges) {
+    const dur = range.end - range.start
+    for (const seg of segments) {
+      if (seg.end <= range.start || seg.start >= range.end) continue
+      const newStart = Math.max(0, seg.start - range.start) + cumOffset
+      const newEnd = Math.min(dur, seg.end - range.start) + cumOffset
+      if (newEnd - newStart >= 0.1) {
+        remapped.push({ start: newStart, end: newEnd, text: (seg.text || '').trim() })
+      }
+    }
+    cumOffset += dur
+  }
+  return remapped
+}
+
+function toAssTime(sec) {
+  const h = Math.floor(sec / 3600)
+  const m = Math.floor((sec % 3600) / 60)
+  const s = Math.floor(sec % 60)
+  const cs = Math.round((sec % 1) * 100)
+  return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}.${String(cs).padStart(2, '0')}`
+}
+
+// 產生 ASS 字幕檔（繁體字型、白字黑邊燒進畫面用）
+function buildAss(remappedSegs) {
+  const header = [
+    '[Script Info]',
+    'ScriptType: v4.00+',
+    'PlayResX: 1280',
+    'PlayResY: 720',
+    '',
+    '[V4+ Styles]',
+    'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
+    'Style: Default,STHeiti Medium,22,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,3,1,2,10,10,30,1',
+    '',
+    '[Events]',
+    'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
+  ].join('\n')
+
+  const events = remappedSegs
+    .filter((s) => s.text)
+    .map((s) => `Dialogue: 0,${toAssTime(s.start)},${toAssTime(s.end)},Default,,0,0,0,,${s.text}`)
+    .join('\n')
+
+  return header + '\n' + events + '\n'
+}
+
 const log = await readProcessedLog()
 const candidate = [...log.files]
   .filter((f) => f.status === 'transcribed' && f.localPath && f.transcriptPath && f.subtitlesPath)
@@ -125,17 +177,22 @@ try {
   ], { timeout: 60 * 60 * 1000 })
 }
 
-const subtitledPath = path.join(EXPORT_DIR, `${baseName}.rough-cut.smart.softsub.mp4`)
+// 重新對齊字幕時間軸，產生 ASS 字幕檔後燒進畫面
+const remappedSegs = remapSegments(segments, keepRanges)
+const assPath = path.join(EXPORT_DIR, `${baseName}.remapped.ass`)
+await fs.writeFile(assPath, buildAss(remappedSegs), 'utf8')
+console.error(`[rough-cut] Remapped ${remappedSegs.length} subtitle segments → ${assPath}`)
+
+const subtitledPath = path.join(EXPORT_DIR, `${baseName}.rough-cut.smart.hardsub.mp4`)
+// ass filter：字幕直接燒進畫面，STHeiti Medium 繁體字型，白字黑邊
 await execFileAsync('ffmpeg', [
   '-y',
   '-i', mergedPath,
-  '-i', candidate.subtitlesPath,
-  '-map', '0:v',
-  '-map', '0:a',
-  '-map', '1:0',
-  '-c:v', 'copy',
+  '-vf', `ass=${assPath}`,
+  '-c:v', 'libx264',
+  '-preset', 'veryfast',
+  '-crf', '23',
   '-c:a', 'copy',
-  '-c:s', 'mov_text',
   '-movflags', '+faststart',
   subtitledPath,
 ], { timeout: 60 * 60 * 1000 })
@@ -146,7 +203,7 @@ const uploaded = await uploadFileToDrive(subtitledPath, outputFolder.id, 'video/
 await upsertProcessedFile({
   fileId: candidate.fileId,
   roughCutPath: mergedPath,
-  roughCutSubtitledPath: subtitledPath,
+  roughCutHardsubPath: subtitledPath,
   outputFolderId: outputFolder.id,
   roughCutUploadedFileId: uploaded.id,
   roughCutUploadedAt: new Date().toISOString(),
@@ -159,6 +216,6 @@ console.log(JSON.stringify({
   keepRangeCount: keepRanges.length,
   mergedPath,
   subtitledPath,
-  subtitleMode: 'softsub-mp4',
+  subtitleMode: 'hardsub-burned-in',
   uploaded,
 }, null, 2))

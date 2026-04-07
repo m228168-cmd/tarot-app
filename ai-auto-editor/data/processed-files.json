@@ -27,9 +27,27 @@
       "latestExportUploadedAt": "2026-04-07T03:29:50.063Z",
       "roughCutPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.mp4",
       "roughCutSubtitledPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.softsub.mp4",
-      "roughCutUploadedFileId": "1lN-eNrsjDCCf--DEUjZ7QTl9HSTjC_TT",
-      "roughCutUploadedAt": "2026-04-07T03:57:04.884Z",
-      "roughCutKeepRangeCount": 14
+      "roughCutUploadedFileId": "1yqMTuBMgxC7c6zOgJS0l-9EyY_1kdR1w",
+      "roughCutUploadedAt": "2026-04-07T07:10:25.169Z",
+      "roughCutKeepRangeCount": 14,
+      "roughCutHardsubPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.rough-cut.smart.hardsub.mp4",
+      "shortHighlightPath": "/Users/m2281682/.openclaw/workspace/ai-auto-editor/downloads/exports/1GJhgieFJBCKdiABAPFWMkqNd3lyeyI09-huv-zmzp-nog_2026-04-01_21_53_GMT_8_.short-highlight.B-gpt.mp4",
+      "shortHighlightUploadedFileId": "1UMfYmt_yUWmP-HMnOOSaVvYXsmI_z_cF",
+      "shortHighlightUploadedAt": "2026-04-07T07:54:32.825Z",
+      "shortHighlightDuration": 59,
+      "shortHighlightRanges": [
+        {
+          "start": 520,
+          "end": 549,
+          "reason": "這段話提到達成成就後的無聊感，並且有一個意外的轉折，讓人覺得錢太好賺反而無聊，這是一個有趣且容易引起共鳴的觀點。"
+        },
+        {
+          "start": 1560,
+          "end": 1590,
+          "reason": "這段話描述了人際關係中的衝突，尤其是感情中的寄刑，這是一個讓人驚訝且有情緒張力的概念。"
+        }
+      ],
+      "shortHighlightHook": "當成就感變成無聊感，錢太好賺反而無趣？"
     }
   ]
 }
