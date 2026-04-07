@@ -348,9 +348,10 @@ await execFileAsync('ffmpeg', [
   finalPath,
 ], { timeout: 60 * 60 * 1000 })
 
-// 上傳 Drive
+// 上傳 Drive（output/{來源名}/ 資料夾結構，跟本機一致）
 const outputFolder = await ensureDriveFolder('output', SOURCE_FOLDER_ID)
-const uploaded = await uploadFileToDrive(finalPath, outputFolder.id, 'video/mp4')
+const sourceFolder = await ensureDriveFolder(folderName, outputFolder.id)
+const uploaded = await uploadFileToDrive(finalPath, sourceFolder.id, 'video/mp4')
 
 await upsertProcessedFile({
   fileId: candidate.fileId,
