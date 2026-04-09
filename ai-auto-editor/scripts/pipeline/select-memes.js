@@ -19,6 +19,13 @@ function scoreMemeForText(meme, text) {
   for (const tag of meme.tags || []) {
     if (normalized.includes(normalize(tag))) score += 1
   }
+
+  // 通用情緒 fallback，讓 safe 庫在普通口語字幕也較容易命中
+  if (meme.id === 'this-is-fine' && /沒事|正常|還好|崩潰|爆炸|災難|問題/.test(text)) score += 2
+  if (meme.id === 'smile-emoji' && /開心|好笑|哈哈|喜歡|不錯|可以|輕鬆/.test(text)) score += 2
+  if (meme.id === 'wikipedia-meme' && /查|結果|原來|知識|學到|越看越多|停不下來/.test(text)) score += 2
+  if (meme.id === 'krazy-kat-panel' && /荒謬|太扯|奇怪|怪|離譜|像漫畫/.test(text)) score += 2
+
   return score
 }
 
@@ -30,7 +37,7 @@ export async function loadSafeMemes() {
 export async function autoSelectMemesForSegments(segments, opts = {}) {
   const safeMemes = await loadSafeMemes()
   const maxSelections = opts.maxSelections || 3
-  const minScore = opts.minScore || 3
+  const minScore = opts.minScore || 2
 
   const candidates = []
   for (const seg of segments || []) {
@@ -57,6 +64,18 @@ export async function autoSelectMemesForSegments(segments, opts = {}) {
     chosenSegs.add(c.segId)
     chosenMemes.add(c.memeId)
     if (Object.keys(selections).length >= maxSelections) break
+  }
+
+  if (!Object.keys(selections).length && (segments || []).length) {
+    const fallbackTargets = [
+      safeMemes.find(m => m.id === 'this-is-fine'),
+      safeMemes.find(m => m.id === 'smile-emoji'),
+    ].filter(Boolean)
+
+    for (let i = 0; i < Math.min(fallbackTargets.length, segments.length); i++) {
+      const seg = segments[i]
+      selections[String(seg.id)] = fallbackTargets[i].id
+    }
   }
 
   return selections

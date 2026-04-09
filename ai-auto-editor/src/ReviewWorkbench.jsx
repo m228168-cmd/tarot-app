@@ -42,6 +42,12 @@ export default function ReviewWorkbench() {
   const [memePickerOpen, setMemePickerOpen] = useState(null) // segId or null
   const audioRef = useRef(null)
 
+  const sortedMemes = [...memes].sort((a, b) => {
+    const aSafe = (a.safetyTier || 'legacy') === 'safe' ? 0 : 1
+    const bSafe = (b.safetyTier || 'legacy') === 'safe' ? 0 : 1
+    return aSafe - bSafe || a.label.localeCompare(b.label, 'zh-Hant')
+  })
+
   // ── 載入檔案清單 & 梗圖庫 ────────────────────────────────
   useEffect(() => {
     fetch('/api/review/list').then(r => r.json()).then(d => setReviewFiles(d.files || []))
@@ -284,7 +290,7 @@ export default function ReviewWorkbench() {
                       >
                         ❌ 不使用
                       </button>
-                      {memes.map(m => (
+                      {sortedMemes.map(m => (
                         <button
                           key={m.id}
                           type="button"
@@ -294,6 +300,9 @@ export default function ReviewWorkbench() {
                           <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
                           <span className="wb-meme-label">{m.label}</span>
                           <span className="wb-meme-tier">{(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}</span>
+                          {memeSelections[seg.id] === m.id && review?.memeSelections?.[seg.id] === m.id && (
+                            <span className="wb-meme-tier wb-meme-tier-auto">自動</span>
+                          )}
                         </button>
                       ))}
                     </div>
