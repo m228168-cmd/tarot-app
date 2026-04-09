@@ -186,6 +186,8 @@ export default function reviewApiPlugin() {
             return json(res, {
               ok: true,
               message: rerunStarted ? '已送出並觸發重新渲染' : '已儲存審稿結果',
+              output: review.output || null,
+              reviewPath: path.relative(ROOT, abs),
             })
           }
         } catch (err) {

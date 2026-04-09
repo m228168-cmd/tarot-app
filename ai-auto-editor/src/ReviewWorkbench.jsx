@@ -42,7 +42,9 @@ export default function ReviewWorkbench() {
   const [memePickerOpen, setMemePickerOpen] = useState(null) // segId or null
   const [showOnlyMemeSegments, setShowOnlyMemeSegments] = useState(false)
   const [safeOnly, setSafeOnly] = useState(true)
+  const [previewVideoPath, setPreviewVideoPath] = useState('')
   const audioRef = useRef(null)
+  const previewRef = useRef(null)
 
   const sortedMemes = [...memes].sort((a, b) => {
     const aSafe = (a.safetyTier || 'legacy') === 'safe' ? 0 : 1
@@ -67,6 +69,7 @@ export default function ReviewWorkbench() {
         setTitle(data.title || '')
         setSegments(data.segments?.map(s => ({ ...s })) || [])
         setMemeSelections(data.memeSelections || {})
+        setPreviewVideoPath(data?.output?.videoPath || '')
         setTypoCandidates([])
       })
   }, [selectedPath])
@@ -221,6 +224,10 @@ export default function ReviewWorkbench() {
         }),
       })
       const result = await resp.json()
+      if (result.output?.videoPath) {
+        setPreviewVideoPath(result.output.videoPath)
+        setTimeout(() => previewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+      }
       setToast(result.message || '送出成功')
       setTimeout(() => setToast(''), 3000)
     } catch (err) {
@@ -281,6 +288,19 @@ export default function ReviewWorkbench() {
               placeholder="輸入標題…"
             />
           </section>
+
+          {previewVideoPath && (
+            <section className="wb-card" ref={previewRef}>
+              <label className="wb-label">成品預覽</label>
+              <video
+                className="wb-video"
+                controls
+                playsInline
+                src={`/media/${previewVideoPath}`}
+              />
+              <div className="wb-preview-path">{previewVideoPath}</div>
+            </section>
+          )}
 
           {/* 字幕段落 */}
           <section className="wb-card">

@@ -83,11 +83,19 @@
   font-size: 14px;
 }
 
-/* ── Audio ─────────────────────────────────────────────── */
+/* ── Audio / Video ─────────────────────────────────────── */
 
-.wb-audio {
+.wb-audio,
+.wb-video {
   width: 100%;
   border-radius: 12px;
+}
+
+.wb-preview-path {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9a8bb3;
+  word-break: break-all;
 }
 
 /* ── Segments ──────────────────────────────────────────── */
