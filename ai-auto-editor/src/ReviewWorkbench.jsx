@@ -495,8 +495,9 @@ export default function ReviewWorkbench() {
           </section>
 
           {/* 手動錯別字提交 */}
-          <section className="wb-card">
+          <section className="wb-card wb-typo-card">
             <label className="wb-label">手動錯別字提交</label>
+            <div className="wb-typo-inline-hint">舊字 → 新字</div>
             <div className="wb-typo-add">
               <input
                 className="wb-input wb-input-sm"
