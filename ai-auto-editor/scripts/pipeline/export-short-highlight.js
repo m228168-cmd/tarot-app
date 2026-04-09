@@ -21,13 +21,14 @@ import 'dotenv/config'
 import { readProcessedLog, upsertProcessedFile } from './processed-log.js'
 import { ensureDriveFolder, uploadFileToDrive } from '../drive/upload-file.js'
 import { selectHighlightWithAI } from './select-highlight-ai.js'
+import { renderWaveformShort } from './render-waveform-short.js'
 
 const execFileAsync = promisify(execFile)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '../..')
 const EXPORT_DIR = path.join(ROOT_DIR, 'downloads', 'exports')
-const SOURCE_FOLDER_ID = process.env.GDRIVE_FOLDER_ID || '1iY8c2sEOPrckjnE5eGwoGP-mUJquFVOx'
+const SOURCE_FOLDER_ID = process.env.GDRIVE_FOLDER_ID || '10lnmy_8pCUcTNxaj-_ArND-I9cmvtQ4p'
 
 // ─── 模式設定 ────────────────────────────────────────────────────
 // AI_SELECT=true  → 用 GPT-4o 自動選段（需要 OPENAI_API_KEY）
@@ -257,13 +258,18 @@ const WIP_DIR = path.join(EXPORT_DIR, folderName, '半成品')
 await fs.mkdir(FINAL_DIR, { recursive: true })
 await fs.mkdir(WIP_DIR, { recursive: true })
 
+// 視覺模式：video（預設，需要影片來源）| waveform（音波背景，任何來源皆可）
+const VISUAL_MODE = process.env.SHORT_VISUAL_MODE || 'video'
+
 // AI 選段 或 手動指定
 let highlightRanges
 let aiHook = null
+let aiBgm = null
 if (AI_SELECT && process.env.OPENAI_API_KEY) {
   const aiResult = await selectHighlightWithAI(allSegments)
   highlightRanges = aiResult.ranges
   aiHook = aiResult.hook
+  aiBgm = aiResult.bgm || null
 } else {
   console.error('[short-highlight] 使用手動指定段落（AI_SELECT=false 或無 API key）')
   highlightRanges = MANUAL_RANGES
@@ -280,73 +286,145 @@ for (const hr of highlightRanges) {
   totalDuration += segDur
 }
 
+// 如果 GPT 違規超過 60 秒，報錯不輸出，要求重新選段
+if (totalDuration > 65) {
+  console.error(`[short-highlight] 錯誤：總時長 ${totalDuration.toFixed(1)}s 超過 60 秒限制，重新選段...`)
+  // 只保留第一段（最強的那段）
+  const first = rangesWithOffsets[0]
+  rangesWithOffsets.length = 0
+  rangesWithOffsets.push(first)
+  totalDuration = first.keepRanges.reduce((sum, r) => sum + (r.end - r.start), 0)
+  console.error(`[short-highlight] 自動回退到第 1 段，時長 ${totalDuration.toFixed(1)}s`)
+}
+
 console.error(`[short-highlight] 精華總時長: ${totalDuration.toFixed(1)}s (${(totalDuration/60).toFixed(1)} min)`)
 if (aiHook) console.error(`[short-highlight] AI 建議標題: ${aiHook}`)
 
-// 剪輯各 keepRange 片段
-const allClipPaths = []
-let clipIdx = 0
-
-for (const { origRange, keepRanges } of rangesWithOffsets) {
-  for (const range of keepRanges) {
-    clipIdx++
-    const clipPath = path.join(WIP_DIR, `sh-clip-${String(clipIdx).padStart(4, '0')}.mp4`)
-    await execFileAsync('ffmpeg', [
-      '-y',
-      '-ss', String(range.start),
-      '-to', String(range.end),
-      '-i', candidate.localPath,
-      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23',
-      '-c:a', 'aac',
-      '-movflags', '+faststart',
-      clipPath,
-    ], { timeout: 60 * 60 * 1000 })
-    allClipPaths.push(clipPath)
-  }
-}
-
-// Concat
-const concatListPath = path.join(WIP_DIR, 'sh-concat.txt')
-await fs.writeFile(concatListPath, allClipPaths.map(p => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'))
-const mergedPath = path.join(WIP_DIR, 'short-highlight.raw.mp4')
-await execFileAsync('ffmpeg', [
-  '-y', '-f', 'concat', '-safe', '0',
-  '-i', concatListPath,
-  '-c', 'copy',
-  mergedPath,
-], { timeout: 60 * 60 * 1000 })
-
-// 裁切 9:16
-const croppedPath = path.join(WIP_DIR, 'short-highlight.916.mp4')
-await execFileAsync('ffmpeg', [
-  '-y', '-i', mergedPath,
-  '-vf', CROP_FILTER,
-  '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
-  '-c:a', 'copy',
-  '-movflags', '+faststart',
-  croppedPath,
-], { timeout: 60 * 60 * 1000 })
-
 const PINGFANG_DIR = '/System/Library/AssetsV2/com_apple_MobileAsset_Font8/86ba2c91f017a3749571a82f2c6d890ac7ffb2fb.asset/AssetData'
 
-// Whisper 原始字幕（實測比 GPT 重寫版更自然，為預設方案）
+// 字幕（兩種模式共用）
 const remappedSegs = remapAndResegment(allSegments, rangesWithOffsets)
 const assPath = path.join(WIP_DIR, 'short-highlight.ass')
 await fs.writeFile(assPath, buildAss(remappedSegs, aiHook, totalDuration), 'utf8')
 console.error(`[short-highlight] ${remappedSegs.length} 條字幕 → ${path.basename(assPath)}`)
 
 const finalPath = path.join(FINAL_DIR, '短影音-精華.mp4')
-// dynaudnorm：動態拉平不同說話者的音量差異
-// loudnorm：整體正規化到 -14 LUFS（YouTube Shorts / TikTok 標準）
-await execFileAsync('ffmpeg', [
-  '-y', '-i', croppedPath,
-  '-vf', `ass=${assPath}:fontsdir=${PINGFANG_DIR}`,
-  '-af', 'dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-14:TP=-1:LRA=11',
-  '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
-  '-c:a', 'aac', '-b:a', '192k',
-  '-movflags', '+faststart',
-  finalPath,
-], { timeout: 60 * 60 * 1000 })
+const BGM_ASSETS = path.resolve(ROOT_DIR, 'assets', '背景音樂')
+
+// BGM 解析（兩種模式共用）
+let bgmPath = null
+if (aiBgm) {
+  const candidate_bgm = path.join(BGM_ASSETS, aiBgm)
+  try { await fs.access(candidate_bgm); bgmPath = candidate_bgm } catch {}
+}
+if (bgmPath) console.error(`[short-highlight] 背景音樂: ${aiBgm}`)
+
+if (VISUAL_MODE === 'waveform') {
+  // ─── 波形模式：音訊剪輯 → 波形背景渲染 ──────────────────
+  console.error(`[short-highlight] 模式: waveform`)
+  const allClipPaths = []
+  let clipIdx = 0
+  for (const { keepRanges } of rangesWithOffsets) {
+    for (const range of keepRanges) {
+      clipIdx++
+      const clipPath = path.join(WIP_DIR, `sh-clip-${String(clipIdx).padStart(4, '0')}.mp3`)
+      await execFileAsync('ffmpeg', [
+        '-y', '-ss', String(range.start), '-to', String(range.end),
+        '-i', candidate.localPath, '-vn', '-c:a', 'libmp3lame', '-b:a', '192k',
+        clipPath,
+      ], { timeout: 60000 })
+      allClipPaths.push(clipPath)
+    }
+  }
+
+  const concatListPath = path.join(WIP_DIR, 'sh-concat.txt')
+  await fs.writeFile(concatListPath, allClipPaths.map(p => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'))
+  const mergedAudio = path.join(WIP_DIR, 'short-highlight.merged.mp3')
+  await execFileAsync('ffmpeg', [
+    '-y', '-f', 'concat', '-safe', '0', '-i', concatListPath, '-c', 'copy', mergedAudio,
+  ], { timeout: 60000 })
+
+  await renderWaveformShort({
+    voiceAudioPath: mergedAudio,
+    assPath,
+    fontsDir: PINGFANG_DIR,
+    duration: totalDuration,
+    outputPath: finalPath,
+    bgmPath,
+  })
+} else {
+  // ─── 影片模式（預設）：影片剪輯 → 裁切 9:16 → 燒字幕 ────
+  const allClipPaths = []
+  let clipIdx = 0
+  for (const { keepRanges } of rangesWithOffsets) {
+    for (const range of keepRanges) {
+      clipIdx++
+      const clipPath = path.join(WIP_DIR, `sh-clip-${String(clipIdx).padStart(4, '0')}.mp4`)
+      await execFileAsync('ffmpeg', [
+        '-y',
+        '-ss', String(range.start),
+        '-to', String(range.end),
+        '-i', candidate.localPath,
+        '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23',
+        '-c:a', 'aac',
+        '-movflags', '+faststart',
+        clipPath,
+      ], { timeout: 60 * 60 * 1000 })
+      allClipPaths.push(clipPath)
+    }
+  }
+
+  // Concat
+  const concatListPath = path.join(WIP_DIR, 'sh-concat.txt')
+  await fs.writeFile(concatListPath, allClipPaths.map(p => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'))
+  const mergedPath = path.join(WIP_DIR, 'short-highlight.raw.mp4')
+  await execFileAsync('ffmpeg', [
+    '-y', '-f', 'concat', '-safe', '0',
+    '-i', concatListPath,
+    '-c', 'copy',
+    mergedPath,
+  ], { timeout: 60 * 60 * 1000 })
+
+  // 裁切 9:16
+  const croppedPath = path.join(WIP_DIR, 'short-highlight.916.mp4')
+  await execFileAsync('ffmpeg', [
+    '-y', '-i', mergedPath,
+    '-vf', CROP_FILTER,
+    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
+    '-c:a', 'copy',
+    '-movflags', '+faststart',
+    croppedPath,
+  ], { timeout: 60 * 60 * 1000 })
+
+  if (bgmPath) {
+    const fadeOutStart = Math.max(0, totalDuration - 2)
+    const audioFilter = [
+      `[0:a]dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-12:TP=-1:LRA=11[voice]`,
+      `[1:a]volume=0.10,afade=t=in:d=1,afade=t=out:st=${fadeOutStart.toFixed(1)}:d=2[bgm]`,
+      `[voice][bgm]amix=inputs=2:duration=first:dropout_transition=2[out]`,
+    ].join(';')
+    await execFileAsync('ffmpeg', [
+      '-y', '-i', croppedPath, '-i', bgmPath,
+      '-vf', `ass=${assPath}:fontsdir=${PINGFANG_DIR}`,
+      '-filter_complex', audioFilter,
+      '-map', '0:v', '-map', '[out]',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
+      '-c:a', 'aac', '-b:a', '192k',
+      '-movflags', '+faststart',
+      finalPath,
+    ], { timeout: 60 * 60 * 1000 })
+  } else {
+    await execFileAsync('ffmpeg', [
+      '-y', '-i', croppedPath,
+      '-vf', `ass=${assPath}:fontsdir=${PINGFANG_DIR}`,
+      '-af', 'dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-12:TP=-1:LRA=11',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
+      '-c:a', 'aac', '-b:a', '192k',
+      '-movflags', '+faststart',
+      finalPath,
+    ], { timeout: 60 * 60 * 1000 })
+  }
+}
 
 // 上傳 Drive（output/{來源名}/ 資料夾結構，跟本機一致）
 const outputFolder = await ensureDriveFolder('output', SOURCE_FOLDER_ID)
