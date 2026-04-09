@@ -140,12 +140,27 @@
   margin-bottom: 6px;
 }
 
-.wb-live-caption-text {
+.wb-live-caption-editor {
+  width: 100%;
+  margin-top: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font: inherit;
   font-size: 20px;
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: 0.01em;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.24);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.wb-live-caption-editor:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.32);
+  background: rgba(255,255,255,0.12);
 }
 
 .wb-live-tools {
@@ -640,8 +655,32 @@
 
 @media (min-width: 768px) {
   .wb-shell {
-    max-width: 720px;
-    padding: 24px 20px 80px;
+    max-width: 1400px;
+    padding: 20px 24px 80px;
+    display: grid;
+    grid-template-columns: minmax(420px, 520px) minmax(520px, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .wb-header,
+  .wb-shell > .wb-card:first-of-type,
+  .wb-shell > .wb-card:nth-of-type(2),
+  .wb-submit-card {
+    grid-column: 1 / -1;
+  }
+
+  .wb-player-card {
+    grid-column: 1;
+    top: 16px;
+  }
+
+  .wb-editor-card {
+    grid-column: 2;
+  }
+
+  .wb-segments {
+    max-height: calc(100vh - 260px);
   }
 
   .wb-header h1 {

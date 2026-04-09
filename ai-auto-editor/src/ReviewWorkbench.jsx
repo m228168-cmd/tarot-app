@@ -303,7 +303,12 @@ export default function ReviewWorkbench() {
               {activeSegment && (
                 <div className="wb-live-caption">
                   <div className="wb-live-caption-label">目前字幕</div>
-                  <div className="wb-live-caption-text">{activeSegment.text || activeSegment.originalText}</div>
+                  <textarea
+                    className="wb-live-caption-editor"
+                    rows={3}
+                    value={activeSegment.text || activeSegment.originalText || ''}
+                    onChange={e => updateSegmentText(activeSegment.id, e.target.value)}
+                  />
                   <div className="wb-live-tools">
                     <button type="button" className="wb-tool-btn" onClick={() => jumpSegment(-1)}>上一句</button>
                     <button type="button" className="wb-tool-btn" onClick={() => jumpSegment(1)}>下一句</button>
@@ -374,7 +379,7 @@ export default function ReviewWorkbench() {
           )}
 
           {/* 字幕段落 */}
-          <section className="wb-card">
+          <section className="wb-card wb-editor-card">
             <div className="wb-toolbar">
               <label className="wb-label">字幕（{displayedSegments.length}/{segments.length} 段）</label>
               <div className="wb-toolbar-actions">
@@ -425,7 +430,7 @@ export default function ReviewWorkbench() {
                   </div>
                   <textarea
                     className="wb-seg-text"
-                    rows={activeSegmentId === seg.id ? 3 : 2}
+                    rows={activeSegmentId === seg.id ? 4 : 2}
                     value={seg.text}
                     onChange={e => updateSegmentText(seg.id, e.target.value)}
                   />
