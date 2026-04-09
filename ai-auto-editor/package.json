@@ -23,7 +23,8 @@
     "pipeline:export-short": "node scripts/pipeline/export-short-highlight.js",
     "pipeline:batch-shorts": "node scripts/pipeline/batch-shorts.js",
     "pipeline:rerun": "node scripts/pipeline/rerun-from-review.js",
-    "memes:bootstrap": "node scripts/pipeline/bootstrap-memes.js"
+    "memes:bootstrap": "node scripts/pipeline/bootstrap-memes.js",
+    "memes:download": "node scripts/pipeline/download-memes.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",

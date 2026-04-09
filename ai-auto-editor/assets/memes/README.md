@@ -52,6 +52,7 @@ assets/memes/
 目前先採 **可追溯來源 + 本地落地素材** 的策略，不做無白名單亂爬。
 
 - `assets/memes/sources.json`：素材來源與狀態追蹤
+- `npm run memes:download`：下載 `sources.json` 中已具備 URL 的素材
 - `npm run memes:bootstrap`：檢查 index / source / 實體檔是否對齊
 
 建議流程：

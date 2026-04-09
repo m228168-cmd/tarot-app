@@ -12,9 +12,11 @@
     },
     {
       "id": "this-is-fine",
-      "url": "",
-      "status": "candidate-found",
-      "notes": "Wikimedia Commons Category:This_Is_Fine 已確認存在，可後續人工挑單張檔案 URL。"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/2023-06-29_This-is-not-fine_by-David-Revoy.jpg",
+      "status": "ready",
+      "notes": "Wikimedia Commons 檔案頁已驗證，可直接下載原圖。",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:2023-06-29_This-is-not-fine_by-David-Revoy.jpg",
+      "license": "CC BY 4.0"
     },
     {
       "id": "thinking-guy",

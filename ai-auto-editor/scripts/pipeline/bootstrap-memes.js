@@ -1,7 +1,9 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = process.cwd()
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT = path.resolve(__dirname, '../..')
 const MEME_DIR = path.join(ROOT, 'assets', 'memes')
 const INDEX_PATH = path.join(MEME_DIR, 'index.json')
 const SOURCES_PATH = path.join(MEME_DIR, 'sources.json')
