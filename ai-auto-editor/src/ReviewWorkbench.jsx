@@ -126,6 +126,7 @@ export default function ReviewWorkbench() {
   }, [segments, currentTime])
 
   const activeSegmentId = activeSegment?.id ?? null
+  const activeSegmentIndex = activeSegment ? segments.findIndex(seg => seg.id === activeSegment.id) : -1
 
   useEffect(() => {
     if (activeSegRef.current) {
@@ -199,6 +200,46 @@ export default function ReviewWorkbench() {
       player.currentTime = sec
       player.play()
       setCurrentTime(sec)
+    }
+  }
+
+  const jumpSegment = (delta) => {
+    if (activeSegmentIndex < 0) return
+    const next = segments[activeSegmentIndex + delta]
+    if (next) seekTo(next.start)
+  }
+
+  const restoreActiveOriginalText = () => {
+    if (!activeSegment) return
+    updateSegmentText(activeSegment.id, activeSegment.originalText || activeSegment.text || '')
+  }
+
+  const clearActiveMeme = () => {
+    if (!activeSegment) return
+    selectMeme(activeSegment.id, null)
+  }
+
+  const applySuggestedToActive = async () => {
+    if (!activeSegment) return
+    const resp = await fetch('/api/review/recommend-memes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        segments: [{
+          id: activeSegment.id,
+          start: activeSegment.start,
+          end: activeSegment.end,
+          text: activeSegment.text,
+          originalText: activeSegment.originalText,
+        }],
+      }),
+    })
+    const data = await resp.json()
+    const entries = Object.entries(data.memeSelections || {})
+    if (entries.length) {
+      selectMeme(activeSegment.id, entries[0][1])
+      setToast('已套用這一句的推薦迷因')
+      setTimeout(() => setToast(''), 2000)
     }
   }
 
@@ -301,19 +342,33 @@ export default function ReviewWorkbench() {
           {previewVideoPath ? (
             <section className="wb-card wb-player-card" ref={previewRef}>
               <label className="wb-label">成品預覽（邊播邊改字幕）</label>
-              <video
-                ref={videoRef}
-                className="wb-video"
-                controls
-                playsInline
-                src={`/media/${previewVideoPath}`}
-                onTimeUpdate={e => setCurrentTime(e.currentTarget.currentTime)}
-              />
+              <div className="wb-video-wrap">
+                <video
+                  ref={videoRef}
+                  className="wb-video"
+                  controls
+                  playsInline
+                  src={`/media/${previewVideoPath}`}
+                  onTimeUpdate={e => setCurrentTime(e.currentTarget.currentTime)}
+                />
+                {activeSegment && (
+                  <div className="wb-video-caption-overlay">
+                    {activeSegment.text || activeSegment.originalText}
+                  </div>
+                )}
+              </div>
               <div className="wb-playhead">目前播放：{fmt(currentTime)}</div>
               {activeSegment && (
                 <div className="wb-live-caption">
                   <div className="wb-live-caption-label">目前字幕</div>
                   <div className="wb-live-caption-text">{activeSegment.text || activeSegment.originalText}</div>
+                  <div className="wb-live-tools">
+                    <button type="button" className="wb-tool-btn" onClick={() => jumpSegment(-1)}>上一句</button>
+                    <button type="button" className="wb-tool-btn" onClick={() => jumpSegment(1)}>下一句</button>
+                    <button type="button" className="wb-tool-btn" onClick={restoreActiveOriginalText}>回原文</button>
+                    <button type="button" className="wb-tool-btn" onClick={clearActiveMeme}>清空迷因</button>
+                    <button type="button" className="wb-tool-btn primary" onClick={applySuggestedToActive}>套推薦</button>
+                  </div>
                   <button
                     type="button"
                     className={`wb-live-meme-btn ${memeSelections[activeSegment.id] ? 'has-meme' : ''}`}
