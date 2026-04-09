@@ -22,6 +22,7 @@ import { readProcessedLog, upsertProcessedFile } from './processed-log.js'
 import { ensureDriveFolder, uploadFileToDrive } from '../drive/upload-file.js'
 import { selectHighlightWithAI } from './select-highlight-ai.js'
 import { renderWaveformShort } from './render-waveform-short.js'
+import { generateReviewFile } from './review-file.js'
 
 const execFileAsync = promisify(execFile)
 const __filename = fileURLToPath(import.meta.url)
@@ -319,6 +320,8 @@ if (aiBgm) {
 }
 if (bgmPath) console.error(`[short-highlight] 背景音樂: ${aiBgm}`)
 
+let mergedAudioPath = null  // 供 review 檔記錄
+
 if (VISUAL_MODE === 'waveform') {
   // ─── 波形模式：音訊剪輯 → 波形背景渲染 ──────────────────
   console.error(`[short-highlight] 模式: waveform`)
@@ -340,6 +343,7 @@ if (VISUAL_MODE === 'waveform') {
   const concatListPath = path.join(WIP_DIR, 'sh-concat.txt')
   await fs.writeFile(concatListPath, allClipPaths.map(p => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'))
   const mergedAudio = path.join(WIP_DIR, 'short-highlight.merged.mp3')
+  mergedAudioPath = mergedAudio
   await execFileAsync('ffmpeg', [
     '-y', '-f', 'concat', '-safe', '0', '-i', concatListPath, '-c', 'copy', mergedAudio,
   ], { timeout: 60000 })
@@ -426,10 +430,28 @@ if (VISUAL_MODE === 'waveform') {
   }
 }
 
+// 產生審稿檔（review.json + SRT 備份）
+const reviewPath = finalPath.replace(/\.mp4$/, '.review.json')
+await generateReviewFile({
+  reviewPath,
+  title: aiHook,
+  bgm: aiBgm,
+  duration: totalDuration,
+  highlightRanges,
+  remappedSegments: remappedSegs,
+  source: { fileId: candidate.fileId, name: candidate.name, audioPath: candidate.localPath },
+  output: { videoPath: finalPath, mergedAudioPath: mergedAudioPath, assPath },
+})
+console.error(`[short-highlight] 審稿檔 → ${path.basename(reviewPath)}`)
+
 // 上傳 Drive（output/{來源名}/ 資料夾結構，跟本機一致）
 const outputFolder = await ensureDriveFolder('output', SOURCE_FOLDER_ID)
 const sourceFolder = await ensureDriveFolder(folderName, outputFolder.id)
 const uploaded = await uploadFileToDrive(finalPath, sourceFolder.id, 'video/mp4')
+// 上傳審稿檔到 Drive（方便手機編輯）
+await uploadFileToDrive(reviewPath, sourceFolder.id, 'application/json').catch(err =>
+  console.error(`[short-highlight] 審稿檔上傳失敗（非致命）: ${err.message}`)
+)
 
 await upsertProcessedFile({
   fileId: candidate.fileId,

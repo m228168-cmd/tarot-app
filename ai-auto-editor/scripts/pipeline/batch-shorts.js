@@ -22,6 +22,7 @@ import { authorizeDrive } from '../drive/auth.js'
 import { ensureDriveFolder, uploadFileToDrive } from '../drive/upload-file.js'
 import { selectHighlightWithAI } from './select-highlight-ai.js'
 import { renderWaveformShort } from './render-waveform-short.js'
+import { generateReviewFile } from './review-file.js'
 
 const execFileAsync = promisify(execFile)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -253,7 +254,7 @@ async function exportOneShort(audioPath, segments, corrections, highlightRanges,
     bgmPath,
   })
 
-  return { finalPath, totalDuration, hook }
+  return { finalPath, totalDuration, hook, remappedSegments: remapped, mergedAudioPath: mergedAudio, assPath, highlightRanges }
 }
 
 // ─── 主流程 ──────────────────────────────────────────────────
@@ -329,8 +330,24 @@ for (let ei = 0; ei < Math.min(limit, episodes.length); ei++) {
         result.ranges, result.hook, result.bgm,
         epExportDir, outputName
       )
-      // 上傳
+      // 產生審稿檔
+      const reviewPath = out.finalPath.replace(/\.mp4$/, '.review.json')
+      await generateReviewFile({
+        reviewPath,
+        title: result.hook,
+        bgm: result.bgm,
+        duration: out.totalDuration,
+        highlightRanges: result.ranges,
+        remappedSegments: out.remappedSegments,
+        source: { fileId: ep.id, name: ep.name, audioPath },
+        output: { videoPath: out.finalPath, mergedAudioPath: out.mergedAudioPath, assPath: out.assPath },
+      })
+      console.error(`[batch] 審稿檔 → ${path.basename(reviewPath)}`)
+      // 上傳影片 + 審稿檔
       const uploaded = await uploadFileToDrive(out.finalPath, epDriveFolder.id, 'video/mp4')
+      await uploadFileToDrive(reviewPath, epDriveFolder.id, 'application/json').catch(err =>
+        console.error(`[batch] 審稿檔上傳失敗（非致命）: ${err.message}`)
+      )
       console.error(`[batch] ${outputName} 完成 → ${uploaded.webViewLink}`)
       results.push({ episode: epName, short: idx, hook: result.hook, duration: out.totalDuration, uploaded: uploaded.id })
     } catch (err) {
