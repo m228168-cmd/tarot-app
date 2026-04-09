@@ -324,7 +324,11 @@ export default function ReviewWorkbench() {
                       : '+ 幫這句選迷因'}
                   </button>
                   {memePickerOpen === activeSegment.id && (
-                    <div className="wb-meme-picker wb-meme-picker-live">
+                    <div className="wb-sheet-backdrop" onClick={() => setMemePickerOpen(null)}>
+                      <div className="wb-meme-sheet" onClick={e => e.stopPropagation()}>
+                        <div className="wb-meme-sheet-handle" />
+                        <div className="wb-meme-sheet-title">替這句選迷因</div>
+                        <div className="wb-meme-picker wb-meme-picker-live">
                       <button
                         type="button"
                         className="wb-meme-opt"
@@ -332,19 +336,21 @@ export default function ReviewWorkbench() {
                       >
                         ❌ 不使用
                       </button>
-                      {sortedMemes
-                        .filter(m => !safeOnly || (m.safetyTier || 'legacy') === 'safe')
-                        .map(m => (
-                          <button
-                            key={m.id}
-                            type="button"
-                            className={`wb-meme-opt ${memeSelections[activeSegment.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
-                            onClick={() => selectMeme(activeSegment.id, m.id)}
-                          >
-                            <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
-                            <span className="wb-meme-label">{m.label}</span>
-                          </button>
-                        ))}
+                        {sortedMemes
+                          .filter(m => !safeOnly || (m.safetyTier || 'legacy') === 'safe')
+                          .map(m => (
+                            <button
+                              key={m.id}
+                              type="button"
+                              className={`wb-meme-opt ${memeSelections[activeSegment.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
+                              onClick={() => selectMeme(activeSegment.id, m.id)}
+                            >
+                              <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
+                              <span className="wb-meme-label">{m.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
