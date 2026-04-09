@@ -43,8 +43,11 @@ export default function ReviewWorkbench() {
   const [showOnlyMemeSegments, setShowOnlyMemeSegments] = useState(false)
   const [safeOnly, setSafeOnly] = useState(true)
   const [previewVideoPath, setPreviewVideoPath] = useState('')
+  const [currentTime, setCurrentTime] = useState(0)
   const audioRef = useRef(null)
+  const videoRef = useRef(null)
   const previewRef = useRef(null)
+  const activeSegRef = useRef(null)
 
   const sortedMemes = [...memes].sort((a, b) => {
     const aSafe = (a.safetyTier || 'legacy') === 'safe' ? 0 : 1
@@ -118,6 +121,17 @@ export default function ReviewWorkbench() {
     return segments.filter(seg => Boolean(memeSelections[seg.id]))
   }, [segments, memeSelections, showOnlyMemeSegments])
 
+  const activeSegmentId = useMemo(() => {
+    const hit = segments.find(seg => currentTime >= seg.start && currentTime <= seg.end)
+    return hit?.id ?? null
+  }, [segments, currentTime])
+
+  useEffect(() => {
+    if (activeSegRef.current) {
+      activeSegRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    }
+  }, [activeSegmentId])
+
   const recommendMemes = useCallback(async () => {
     const payloadSegments = segments.map(seg => ({
       id: seg.id,
@@ -179,9 +193,11 @@ export default function ReviewWorkbench() {
 
   // ── 跳到音訊位置 ────────────────────────────────────────
   const seekTo = (sec) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = sec
-      audioRef.current.play()
+    const player = videoRef.current || audioRef.current
+    if (player) {
+      player.currentTime = sec
+      player.play()
+      setCurrentTime(sec)
     }
   }
 
@@ -270,14 +286,6 @@ export default function ReviewWorkbench() {
 
       {review && (
         <>
-          {/* 音訊播放 */}
-          {audioSrc && (
-            <section className="wb-card">
-              <label className="wb-label">播放音訊</label>
-              <audio ref={audioRef} controls src={audioSrc} className="wb-audio" />
-            </section>
-          )}
-
           {/* 標題 */}
           <section className="wb-card">
             <label className="wb-label">標題</label>
@@ -289,16 +297,31 @@ export default function ReviewWorkbench() {
             />
           </section>
 
-          {previewVideoPath && (
-            <section className="wb-card" ref={previewRef}>
-              <label className="wb-label">成品預覽</label>
+          {previewVideoPath ? (
+            <section className="wb-card wb-player-card" ref={previewRef}>
+              <label className="wb-label">成品預覽（邊播邊改字幕）</label>
               <video
+                ref={videoRef}
                 className="wb-video"
                 controls
                 playsInline
                 src={`/media/${previewVideoPath}`}
+                onTimeUpdate={e => setCurrentTime(e.currentTarget.currentTime)}
               />
+              <div className="wb-playhead">目前播放：{fmt(currentTime)}</div>
               <div className="wb-preview-path">{previewVideoPath}</div>
+            </section>
+          ) : audioSrc && (
+            <section className="wb-card wb-player-card">
+              <label className="wb-label">播放音訊</label>
+              <audio
+                ref={audioRef}
+                controls
+                src={audioSrc}
+                className="wb-audio"
+                onTimeUpdate={e => setCurrentTime(e.currentTarget.currentTime)}
+              />
+              <div className="wb-playhead">目前播放：{fmt(currentTime)}</div>
             </section>
           )}
 
@@ -326,7 +349,11 @@ export default function ReviewWorkbench() {
             </div>
             <div className="wb-segments">
               {displayedSegments.map((seg) => (
-                <div key={seg.id} className="wb-seg">
+                <div
+                  key={seg.id}
+                  ref={activeSegmentId === seg.id ? activeSegRef : null}
+                  className={`wb-seg ${activeSegmentId === seg.id ? 'active' : ''}`}
+                >
                   <div className="wb-seg-head">
                     <button
                       type="button"
