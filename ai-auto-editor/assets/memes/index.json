@@ -5,6 +5,42 @@
   "updated": "2026-04-09",
   "memes": [
     {
+      "id": "smile-emoji",
+      "file": "smile-emoji.svg",
+      "label": "微笑表情",
+      "tags": ["反應", "表情", "微笑", "emoji"],
+      "moods": ["happy", "friendly", "light"],
+      "triggers": ["開心", "微笑", "好笑", "輕鬆", "舒服", "可愛"],
+      "aspectRatio": "1:1",
+      "source": "Google / Wikimedia Commons Emoji_u263a.svg",
+      "license": "apache-2.0",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "wikipedia-meme",
+      "file": "wikipedia-meme.svg",
+      "label": "Wikipedia 梗圖",
+      "tags": ["梗圖", "知識", "網路", "吐槽"],
+      "moods": ["irony", "nerdy", "meta"],
+      "triggers": ["查一下", "結果", "越看越多", "知識", "百科", "停不下來"],
+      "aspectRatio": "1:1",
+      "source": "theinstantmatrix / Wikimedia Commons",
+      "license": "cc-by-sa-4.0",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "krazy-kat-panel",
+      "file": "krazy-kat-panel.png",
+      "label": "Krazy Kat 漫畫格",
+      "tags": ["反應", "漫畫", "復古", "荒謬"],
+      "moods": ["absurd", "comic", "vintage"],
+      "triggers": ["荒謬", "怪", "太扯", "漫畫感", "好笑", "經典"],
+      "aspectRatio": "4:3",
+      "source": "George Herriman / Wikimedia Commons",
+      "license": "public-domain",
+      "safetyTier": "safe"
+    },
+    {
       "id": "surprised-pikachu",
       "file": "surprised-pikachu.png",
       "label": "驚訝皮卡丘",

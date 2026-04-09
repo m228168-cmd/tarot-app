@@ -5,6 +5,30 @@
   "notes": "明確可追溯的素材來源清單。先填可確認 URL；找不到穩定來源的先留空，待人工補。",
   "sources": [
     {
+      "id": "smile-emoji",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Emoji_u263a.svg",
+      "status": "ready",
+      "notes": "Wikimedia Commons SVG，適合做輕量 reaction overlay。",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Emoji_u263a.svg",
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "wikipedia-meme",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Wikipedia_meme_vector_version.svg",
+      "status": "ready",
+      "notes": "Wikimedia Commons 自製 meme vector，可安全下載。",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Wikipedia_meme_vector_version.svg",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "krazy-kat-panel",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Krazy_Kat_1918-09-07.png",
+      "status": "ready",
+      "notes": "1918 年漫畫格，公共領域，可作荒謬/復古反應圖。",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Krazy_Kat_1918-09-07.png",
+      "license": "public-domain"
+    },
+    {
       "id": "surprised-pikachu",
       "url": "",
       "status": "missing",

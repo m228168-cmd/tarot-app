@@ -35,11 +35,15 @@ async function main() {
     const bytes = Buffer.from(arrayBuffer)
     await fs.writeFile(target, bytes)
 
-    // 清理同 id 的常見舊副檔名殘留，避免 index/file 已改但舊檔還在
-    for (const ext of ['.png', '.jpg', '.jpeg', '.webp']) {
-      const candidate = path.join(MEME_DIR, `${meme.id}${ext}`)
-      if (candidate === target) continue
-      await fs.rm(candidate, { force: true })
+    // 清理舊檔只針對「同一 id 但檔名曾與 id 同名」的 legacy case；
+    // 若目前 target 本身不是 <id>.<ext> 型式，避免把剛下載的新檔誤刪。
+    const legacyLikeNames = new Set(['.png', '.jpg', '.jpeg', '.webp'].map(ext => `${meme.id}${ext}`))
+    if (legacyLikeNames.has(path.basename(target))) {
+      for (const ext of ['.png', '.jpg', '.jpeg', '.webp']) {
+        const candidate = path.join(MEME_DIR, `${meme.id}${ext}`)
+        if (candidate === target) continue
+        await fs.rm(candidate, { force: true })
+      }
     }
 
     result.push({ id: meme.id, status: 'downloaded', bytes: bytes.length, file: meme.file })
