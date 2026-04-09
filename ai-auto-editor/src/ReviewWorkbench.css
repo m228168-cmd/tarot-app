@@ -1,0 +1,399 @@
+/* ── 審稿工作台 — Mobile-first ────────────────────────── */
+
+.wb-shell {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 12px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100svh;
+}
+
+.wb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.wb-header h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #21162f;
+}
+
+.wb-back {
+  font-size: 14px;
+  color: #8e67cb;
+  text-decoration: none;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+
+.wb-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e8def8;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(74, 39, 117, 0.06);
+}
+
+.wb-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5f457e;
+  margin-bottom: 8px;
+}
+
+.wb-hint {
+  font-weight: 400;
+  font-size: 12px;
+  color: #9a8bb3;
+  margin-left: 6px;
+}
+
+/* ── Form elements ────────────────────────────────────── */
+
+.wb-select,
+.wb-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e3d6f7;
+  border-radius: 12px;
+  background: #faf7ff;
+  font: inherit;
+  font-size: 15px;
+  color: #21162f;
+  box-sizing: border-box;
+}
+
+.wb-select:focus,
+.wb-input:focus {
+  outline: none;
+  border-color: #8e67cb;
+  box-shadow: 0 0 0 3px rgba(142, 103, 203, 0.15);
+}
+
+.wb-input-sm {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+/* ── Audio ─────────────────────────────────────────────── */
+
+.wb-audio {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* ── Segments ──────────────────────────────────────────── */
+
+.wb-segments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 60vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wb-seg {
+  border: 1px solid #efe7fd;
+  border-radius: 12px;
+  padding: 10px;
+  background: #fcfaff;
+}
+
+.wb-seg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.wb-seg-time {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8e67cb;
+  cursor: pointer;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.wb-seg-time:active {
+  background: #efe7fd;
+}
+
+.wb-meme-btn {
+  background: #f3eeff;
+  border: 1px solid #e3d6f7;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12px;
+  color: #7c5bb0;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wb-meme-btn.has-meme {
+  background: #e8def8;
+  border-color: #c4a9e8;
+  color: #4a2775;
+}
+
+.wb-seg-text {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e3d6f7;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  color: #21162f;
+  resize: vertical;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.wb-seg-text:focus {
+  outline: none;
+  border-color: #8e67cb;
+}
+
+.wb-seg-orig {
+  font-size: 12px;
+  color: #b0a0c8;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+/* ── Meme picker ──────────────────────────────────────── */
+
+.wb-meme-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px;
+  background: #f8f4ff;
+  border-radius: 10px;
+  border: 1px solid #e8def8;
+}
+
+.wb-meme-opt {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 1px solid #e3d6f7;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  color: #5f457e;
+}
+
+.wb-meme-opt:active,
+.wb-meme-opt.selected {
+  background: #8e67cb;
+  color: #fff;
+  border-color: #8e67cb;
+}
+
+.wb-meme-emoji {
+  font-size: 16px;
+}
+
+/* ── Typo candidates ──────────────────────────────────── */
+
+.wb-typo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.wb-typo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #fcfaff;
+  border: 1px solid #efe7fd;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.wb-typo-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #8e67cb;
+  flex-shrink: 0;
+}
+
+.wb-typo-wrong {
+  color: #b42318;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.wb-typo-arrow {
+  color: #b0a0c8;
+  flex-shrink: 0;
+}
+
+.wb-typo-right {
+  color: #1a7f37;
+  font-weight: 500;
+}
+
+.wb-typo-source {
+  margin-left: auto;
+  font-size: 11px;
+  color: #b0a0c8;
+  background: #f3eeff;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.wb-typo-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wb-empty {
+  color: #b0a0c8;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+
+.wb-btn-sm {
+  padding: 8px 14px;
+  background: #8e67cb;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.wb-submit-card {
+  position: sticky;
+  bottom: 12px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+}
+
+.wb-rerun-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #5f457e;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.wb-rerun-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #8e67cb;
+}
+
+.wb-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.wb-btn-secondary {
+  flex: 1;
+  padding: 12px;
+  background: #f3eeff;
+  color: #7c5bb0;
+  border: 1px solid #e3d6f7;
+  border-radius: 14px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wb-btn-primary {
+  flex: 2;
+  padding: 12px;
+  background: #8e67cb;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wb-btn-primary:disabled,
+.wb-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wb-btn-primary:active:not(:disabled) {
+  background: #7550b0;
+}
+
+/* ── Toast ─────────────────────────────────────────────── */
+
+.wb-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #21162f;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: wb-toast-in 0.25s ease-out;
+}
+
+@keyframes wb-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+
+@media (min-width: 768px) {
+  .wb-shell {
+    max-width: 720px;
+    padding: 24px 20px 80px;
+  }
+
+  .wb-header h1 {
+    font-size: 28px;
+  }
+}

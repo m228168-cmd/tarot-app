@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import ReviewWorkbench from './ReviewWorkbench'
 import './App.css'
 
 function formatTime(value) {
@@ -8,7 +9,17 @@ function formatTime(value) {
   return `${minutes}:${seconds}`
 }
 
-function App() {
+function useHashRoute() {
+  const [hash, setHash] = useState(window.location.hash)
+  useEffect(() => {
+    const handler = () => setHash(window.location.hash)
+    window.addEventListener('hashchange', handler)
+    return () => window.removeEventListener('hashchange', handler)
+  }, [])
+  return hash
+}
+
+function HomePage() {
   const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -70,6 +81,9 @@ function App() {
         <p className="lead">
           第一版先做上傳素材、自動轉文字、顯示逐字稿，讓後面的剪輯與字幕流程有基礎。
         </p>
+        <a href="#/review" style={{ display: 'inline-block', marginTop: 12, color: '#8e67cb', fontWeight: 600 }}>
+          → 前往審稿工作台
+        </a>
       </section>
 
       <section className="grid two-up">
@@ -154,6 +168,13 @@ function App() {
       ) : null}
     </main>
   )
+}
+
+function App() {
+  const hash = useHashRoute()
+
+  if (hash === '#/review') return <ReviewWorkbench />
+  return <HomePage />
 }
 
 export default App
