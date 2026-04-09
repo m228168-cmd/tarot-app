@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "review:open": "zsh ./scripts/open-review-workbench.command",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
