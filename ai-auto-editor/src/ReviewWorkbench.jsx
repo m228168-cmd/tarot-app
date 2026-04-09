@@ -19,6 +19,9 @@ const MEME_EMOJI = {
   'distracted-bf': '👀',
   'thumbs-up-cat': '😺',
   'sad-cat': '😿',
+  'smile-emoji': '🙂',
+  'wikipedia-meme': '📚',
+  'krazy-kat-panel': '🗯️',
 }
 
 export default function ReviewWorkbench() {
@@ -285,11 +288,12 @@ export default function ReviewWorkbench() {
                         <button
                           key={m.id}
                           type="button"
-                          className={`wb-meme-opt ${memeSelections[seg.id] === m.id ? 'selected' : ''}`}
+                          className={`wb-meme-opt ${memeSelections[seg.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
                           onClick={() => selectMeme(seg.id, m.id)}
                         >
                           <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
                           <span className="wb-meme-label">{m.label}</span>
+                          <span className="wb-meme-tier">{(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}</span>
                         </button>
                       ))}
                     </div>

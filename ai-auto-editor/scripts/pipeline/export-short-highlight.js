@@ -23,6 +23,7 @@ import { ensureDriveFolder, uploadFileToDrive } from '../drive/upload-file.js'
 import { selectHighlightWithAI } from './select-highlight-ai.js'
 import { renderWaveformShort } from './render-waveform-short.js'
 import { generateReviewFile } from './review-file.js'
+import { autoSelectMemesForSegments } from './select-memes.js'
 
 const execFileAsync = promisify(execFile)
 const __filename = fileURLToPath(import.meta.url)
@@ -305,9 +306,15 @@ const PINGFANG_DIR = '/System/Library/AssetsV2/com_apple_MobileAsset_Font8/86ba2
 
 // 字幕（兩種模式共用）
 const remappedSegs = remapAndResegment(allSegments, rangesWithOffsets)
+const autoMemeSelections = await autoSelectMemesForSegments(
+  remappedSegs.map((seg, i) => ({ id: i, start: seg.start, end: seg.end, text: (seg.text || '').replace(/\{\\[^}]+\}/g, '').replace(/\\N/g, '') }))
+)
 const assPath = path.join(WIP_DIR, 'short-highlight.ass')
 await fs.writeFile(assPath, buildAss(remappedSegs, aiHook, totalDuration), 'utf8')
 console.error(`[short-highlight] ${remappedSegs.length} 條字幕 → ${path.basename(assPath)}`)
+if (Object.keys(autoMemeSelections).length) {
+  console.error(`[short-highlight] 自動梗圖: ${JSON.stringify(autoMemeSelections)}`)
+}
 
 const finalPath = path.join(FINAL_DIR, '短影音-精華.mp4')
 const BGM_ASSETS = path.resolve(ROOT_DIR, 'assets', '背景音樂')
@@ -441,6 +448,7 @@ await generateReviewFile({
   remappedSegments: remappedSegs,
   source: { fileId: candidate.fileId, name: candidate.name, audioPath: candidate.localPath },
   output: { videoPath: finalPath, mergedAudioPath: mergedAudioPath, assPath },
+  memeSelections: autoMemeSelections,
 })
 console.error(`[short-highlight] 審稿檔 → ${path.basename(reviewPath)}`)
 

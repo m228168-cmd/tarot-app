@@ -196,7 +196,7 @@
 .wb-meme-opt {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   padding: 6px 10px;
   border: 1px solid #e3d6f7;
   border-radius: 8px;
@@ -216,6 +216,25 @@
 
 .wb-meme-emoji {
   font-size: 16px;
+}
+
+.wb-meme-tier {
+  margin-left: auto;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #efe7fd;
+  color: #7c5bb0;
+}
+
+.wb-meme-opt.safe .wb-meme-tier {
+  background: #e7f8ee;
+  color: #1a7f37;
+}
+
+.wb-meme-opt.legacy .wb-meme-tier {
+  background: #fff1f3;
+  color: #b42318;
 }
 
 /* ── Typo candidates ──────────────────────────────────── */
