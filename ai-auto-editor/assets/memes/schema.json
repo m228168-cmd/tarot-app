@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MemeLibrary",
+  "description": "梗圖素材庫索引格式",
+  "type": "object",
+  "required": ["version", "memes"],
+  "properties": {
+    "version": { "type": "string" },
+    "description": { "type": "string" },
+    "updated": { "type": "string", "format": "date" },
+    "memes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "file", "label", "tags", "moods", "triggers", "aspectRatio"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "唯一識別碼，kebab-case"
+          },
+          "file": {
+            "type": "string",
+            "description": "檔案名稱（相對於 assets/memes/）"
+          },
+          "label": {
+            "type": "string",
+            "description": "中文顯示名稱"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "分類標籤（如：反應、比較、動物、經典）"
+          },
+          "moods": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "情緒標籤（英文，供 AI 匹配用）"
+          },
+          "triggers": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "觸發關鍵字（中文，從 transcript 比對）"
+          },
+          "aspectRatio": {
+            "type": "string",
+            "enum": ["1:1", "4:3", "16:9", "9:16"],
+            "description": "素材比例，預設優先 1:1"
+          },
+          "source": {
+            "type": "string",
+            "description": "來源說明"
+          },
+          "license": {
+            "type": "string",
+            "enum": ["cc0", "cc-by-4.0", "cc-by-nc-4.0", "cc-by-sa-4.0", "fair-use-meme", "original", "unknown"],
+            "description": "授權類型"
+          }
+        }
+      }
+    }
+  }
+}

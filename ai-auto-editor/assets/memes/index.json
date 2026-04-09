@@ -1,0 +1,118 @@
+{
+  "$schema": "./schema.json",
+  "version": "1.0.0",
+  "description": "梗圖素材庫 — 供自動剪片依對話內容挑圖使用",
+  "updated": "2026-04-09",
+  "memes": [
+    {
+      "id": "surprised-pikachu",
+      "file": "surprised-pikachu.png",
+      "label": "驚訝皮卡丘",
+      "tags": ["反應", "驚訝", "經典", "動畫"],
+      "moods": ["shock", "disbelief", "irony"],
+      "triggers": ["沒想到", "竟然", "怎麼可能", "不會吧", "震驚", "意外"],
+      "aspectRatio": "1:1",
+      "source": "Pokémon / Nintendo — 廣泛流傳 meme template",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "this-is-fine",
+      "file": "this-is-fine.png",
+      "label": "這很正常（火場狗）",
+      "tags": ["反應", "崩潰", "假裝沒事", "經典"],
+      "moods": ["denial", "chaos", "calm-in-crisis"],
+      "triggers": ["沒事", "正常", "還好", "習慣了", "崩潰", "爆炸", "災難"],
+      "aspectRatio": "1:1",
+      "source": "KC Green — Gunshow comic #648 (CC BY-NC 4.0 原作)",
+      "license": "cc-by-nc-4.0"
+    },
+    {
+      "id": "thinking-guy",
+      "file": "thinking-guy.png",
+      "label": "思考黑人問號",
+      "tags": ["反應", "疑惑", "思考", "經典"],
+      "moods": ["confused", "questioning", "skeptical"],
+      "triggers": ["為什麼", "怎麼會", "不懂", "問號", "想不通", "奇怪"],
+      "aspectRatio": "1:1",
+      "source": "Roll Safe / Kayode Ewumi — BBC Three 廣泛流傳 meme",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "mind-blown",
+      "file": "mind-blown.png",
+      "label": "腦袋爆炸",
+      "tags": ["反應", "震撼", "頓悟"],
+      "moods": ["amazed", "epiphany", "mind-blown"],
+      "triggers": ["原來如此", "天啊", "太扯了", "厲害", "神", "頓悟", "恍然大悟"],
+      "aspectRatio": "1:1",
+      "source": "Tim & Eric — Adult Swim (廣泛流傳 reaction gif/image)",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "drake-approve",
+      "file": "drake-approve.png",
+      "label": "Drake 比較圖（讚）",
+      "tags": ["比較", "偏好", "贊同", "經典"],
+      "moods": ["approval", "preference", "satisfied"],
+      "triggers": ["比較好", "更好", "喜歡", "推薦", "選這個", "讚"],
+      "aspectRatio": "1:1",
+      "source": "Drake — Hotline Bling MV 截圖，廣泛流傳 meme template",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "facepalm",
+      "file": "facepalm.png",
+      "label": "捂臉 / Facepalm",
+      "tags": ["反應", "無奈", "傻眼"],
+      "moods": ["frustration", "embarrassment", "disappointment"],
+      "triggers": ["傻眼", "無言", "天哪", "搞什麼", "無奈", "失望", "尷尬"],
+      "aspectRatio": "1:1",
+      "source": "Star Trek TNG / Patrick Stewart — 廣泛流傳 meme",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "stonks",
+      "file": "stonks.png",
+      "label": "Stonks 理財哥",
+      "tags": ["反應", "賺錢", "諷刺", "商業"],
+      "moods": ["success", "ironic-success", "money"],
+      "triggers": ["賺錢", "投資", "漲", "商業", "利潤", "成功", "理財"],
+      "aspectRatio": "1:1",
+      "source": "Meme Man / Special Meme Fresh — 網路原創 meme",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "distracted-bf",
+      "file": "distracted-bf.png",
+      "label": "分心男友",
+      "tags": ["反應", "誘惑", "比較", "經典"],
+      "moods": ["temptation", "distraction", "betrayal"],
+      "triggers": ["誘惑", "分心", "背叛", "新的", "跑去", "偷看"],
+      "aspectRatio": "1:1",
+      "source": "Antonio Guillem / iStock — 廣泛流傳 meme（原圖有版權，meme 用途 fair use）",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "thumbs-up-cat",
+      "file": "thumbs-up-cat.png",
+      "label": "比讚貓",
+      "tags": ["反應", "贊同", "可愛", "動物"],
+      "moods": ["approval", "wholesome", "supportive"],
+      "triggers": ["不錯", "可以", "好的", "讚", "支持", "認同", "OK"],
+      "aspectRatio": "1:1",
+      "source": "網路流傳貓咪 meme — 來源不明",
+      "license": "fair-use-meme"
+    },
+    {
+      "id": "sad-cat",
+      "file": "sad-cat.png",
+      "label": "哭哭貓",
+      "tags": ["反應", "難過", "可愛", "動物"],
+      "moods": ["sad", "disappointed", "sympathy"],
+      "triggers": ["難過", "可惜", "傷心", "哭", "QQ", "嗚嗚", "心疼"],
+      "aspectRatio": "1:1",
+      "source": "Crying Cat meme — 網路廣泛流傳",
+      "license": "fair-use-meme"
+    }
+  ]
+}

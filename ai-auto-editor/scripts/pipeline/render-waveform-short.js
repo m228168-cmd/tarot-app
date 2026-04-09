@@ -42,14 +42,14 @@ export async function renderWaveformShort(opts) {
   // ─── 波形視覺參數 ───────────────────────────────────────
   const waveW = 960, waveH = 240
   const waveOffsetY = 100 // 波形中心在畫面正中偏下 100px
-  const bgColor = '0x0d0d1a' // 深藍黑背景
+  const bgColor = '0x1a1a2e' // 深色背景（微帶藍調）
 
   // showwaves: cline（對稱波形線）、sqrt scale（安靜段也可見）
   const showwaves = [
     `showwaves=s=${waveW}x${waveH}`,
     'mode=cline',
     'rate=24',
-    'colors=0x818cf8|0xa78bfa',
+    'colors=0xf0f0f0|0xd4d4d8',
     'scale=sqrt',
   ].join(':')
 
