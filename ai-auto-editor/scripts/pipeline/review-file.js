@@ -18,6 +18,7 @@
  *     duration,            // 影片總秒數
  *     highlightRanges,     // AI 選段原始範圍
  *     segments: [{ id, start, end, originalText, text }],
+ *     memeSelections: { [segmentId]: memeId },
  *     output: { videoPath, mergedAudioPath, assPath }
  *   }
  */
@@ -37,13 +38,14 @@ import path from 'node:path'
  * @param {Array} opts.remappedSegments   重排後的字幕段（含 start, end, text）
  * @param {object} opts.source            來源資訊 { fileId, name, audioPath }
  * @param {object} opts.output            輸出路徑 { videoPath, mergedAudioPath, assPath }
+ * @param {object} [opts.memeSelections]  梗圖選擇 { [segmentId]: memeId }
  * @returns {Promise<object>} review data
  */
 export async function generateReviewFile(opts) {
   const {
     reviewPath, title, bgm, duration,
     highlightRanges, remappedSegments,
-    source, output,
+    source, output, memeSelections,
   } = opts
 
   const segments = remappedSegments.map((seg, i) => {
@@ -68,6 +70,7 @@ export async function generateReviewFile(opts) {
     duration: Math.round(duration * 100) / 100,
     highlightRanges,
     segments,
+    memeSelections: memeSelections || {},
     output,
   }
 

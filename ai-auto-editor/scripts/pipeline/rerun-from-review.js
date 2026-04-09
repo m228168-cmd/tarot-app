@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url'
 import 'dotenv/config'
 import { readReviewFile, buildAssFromReview } from './review-file.js'
 import { renderWaveformShort } from './render-waveform-short.js'
+import { resolveMemeOverlays } from './meme-overlay.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = path.resolve(__dirname, '../..')
@@ -84,6 +85,12 @@ if (review.bgm) {
   try { await fs.access(bp); bgmPath = bp } catch {}
 }
 
+// 梗圖 overlays
+const memeOverlays = await resolveMemeOverlays({ rootDir: ROOT_DIR, review })
+if (memeOverlays.length) {
+  console.error(`[rerun] 梗圖 overlays: ${memeOverlays.length} 個`)
+}
+
 // 輸出路徑（覆蓋原本成品）
 const videoPath = review.output?.videoPath
 if (!videoPath) {
@@ -100,6 +107,7 @@ await renderWaveformShort({
   duration: review.duration,
   outputPath: videoPath,
   bgmPath,
+  memeOverlays,
 })
 
 console.error(`[rerun] 渲染完成!`)

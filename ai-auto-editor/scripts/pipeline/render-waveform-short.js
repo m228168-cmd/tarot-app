@@ -12,13 +12,9 @@
 
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
+import { buildMemeOverlayFilter, escFilterPath } from './meme-overlay.js'
 
 const execFileAsync = promisify(execFile)
-
-/** 跳脫 ffmpeg filter_complex 路徑中的特殊字元 */
-function escFilterPath(p) {
-  return p.replace(/([\\:';,])/g, '\\$1')
-}
 
 /**
  * 產生波形背景短影音
@@ -30,14 +26,16 @@ function escFilterPath(p) {
  * @param {number} opts.duration        影片總秒數
  * @param {string} opts.outputPath      輸出 MP4
  * @param {string} [opts.bgmPath]       BGM 檔案路徑（可選）
+ * @param {Array} [opts.memeOverlays]   梗圖 overlay 定義
  * @returns {Promise<{outputPath: string, duration: number}>}
  */
 export async function renderWaveformShort(opts) {
-  const { voiceAudioPath, assPath, fontsDir, duration, outputPath, bgmPath } = opts
+  const { voiceAudioPath, assPath, fontsDir, duration, outputPath, bgmPath, memeOverlays = [] } = opts
 
   const fadeOutStart = Math.max(0, duration - 2)
   const assEsc = escFilterPath(assPath)
   const fontsEsc = escFilterPath(fontsDir)
+  const memeFilter = buildMemeOverlayFilter(memeOverlays, { videoInput: '0:v', startIndex: 2 })
 
   // ─── 波形視覺參數 ───────────────────────────────────────
   const waveW = 960, waveH = 240
@@ -58,13 +56,16 @@ export async function renderWaveformShort(opts) {
 
   if (bgmPath) {
     // 三路輸入：color 背景 (0)、人聲 (1)、BGM (2)
+    const waveformVideoInput = memeFilter.overlayCount ? 'v_meme_out' : '0:v'
+    const waveformVideoRef = waveformVideoInput.startsWith('[') ? waveformVideoInput : `[${waveformVideoInput}]`
     const fc = [
       // 人聲分流：一份給波形、一份給混音
       '[1:a]asplit=2[a_wave][a_voice]',
+      ...((memeFilter.filter ? [memeFilter.filter] : [])),
       // 波形可視化 → 去黑底
       `[a_wave]${showwaves},${keying}[wave]`,
-      // 疊到深色背景 → 燒字幕
-      `[0:v][wave]overlay=(W-w)/2:(H-h)/2+${waveOffsetY}[vbase]`,
+      // 疊到深色背景/梗圖層 → 燒字幕
+      `${waveformVideoRef}[wave]overlay=(W-w)/2:(H-h)/2+${waveOffsetY}[vbase]`,
       `[vbase]ass=${assEsc}:fontsdir=${fontsEsc}[vout]`,
       // 音訊：人聲正規化 + BGM 混音
       '[a_voice]dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-12:TP=-1:LRA=11[voice]',
@@ -76,6 +77,7 @@ export async function renderWaveformShort(opts) {
       '-y',
       '-f', 'lavfi', '-i', `color=c=${bgColor}:s=1080x1920:d=${duration.toFixed(2)}:r=24`,
       '-i', voiceAudioPath,
+      ...memeFilter.inputArgs,
       '-i', bgmPath,
       '-filter_complex', fc,
       '-map', '[vout]', '-map', '[aout]',
@@ -86,10 +88,13 @@ export async function renderWaveformShort(opts) {
     ], { timeout: 5 * 60 * 1000 })
   } else {
     // 兩路輸入：color 背景 (0)、人聲 (1)
+    const waveformVideoInput = memeFilter.overlayCount ? 'v_meme_out' : '0:v'
+    const waveformVideoRef = waveformVideoInput.startsWith('[') ? waveformVideoInput : `[${waveformVideoInput}]`
     const fc = [
       '[1:a]asplit=2[a_wave][a_voice]',
+      ...((memeFilter.filter ? [memeFilter.filter] : [])),
       `[a_wave]${showwaves},${keying}[wave]`,
-      `[0:v][wave]overlay=(W-w)/2:(H-h)/2+${waveOffsetY}[vbase]`,
+      `${waveformVideoRef}[wave]overlay=(W-w)/2:(H-h)/2+${waveOffsetY}[vbase]`,
       `[vbase]ass=${assEsc}:fontsdir=${fontsEsc}[vout]`,
       '[a_voice]dynaudnorm=f=150:g=15:p=0.95,loudnorm=I=-12:TP=-1:LRA=11[aout]',
     ].join(';')
@@ -98,6 +103,7 @@ export async function renderWaveformShort(opts) {
       '-y',
       '-f', 'lavfi', '-i', `color=c=${bgColor}:s=1080x1920:d=${duration.toFixed(2)}:r=24`,
       '-i', voiceAudioPath,
+      ...memeFilter.inputArgs,
       '-filter_complex', fc,
       '-map', '[vout]', '-map', '[aout]',
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22',
