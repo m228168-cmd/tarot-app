@@ -6,6 +6,7 @@
  *   GET  /api/review/list          列出所有 review.json
  *   GET  /api/review/load?path=    讀取單一 review.json
  *   POST /api/review/save          儲存 review（不觸發 rerun）
+ *   POST /api/review/recommend-memes 以 pipeline 同源規則重算梗圖推薦
  *   GET  /api/review/memes         梗圖庫 index
  *   GET  /api/review/corrections   字幕修正清單
  *   POST /api/review/submit        送出：儲存 + 寫入勾選的修正 + 可選 rerun
@@ -16,6 +17,7 @@ import fs from 'node:fs/promises'
 import { createReadStream } from 'node:fs'
 import path from 'node:path'
 import { execFile } from 'node:child_process'
+import { autoSelectMemesForSegments } from './scripts/pipeline/select-memes.js'
 
 const ROOT = process.cwd()
 
@@ -108,6 +110,13 @@ export default function reviewApiPlugin() {
             const abs = path.resolve(ROOT, p)
             const content = JSON.parse(await fs.readFile(abs, 'utf8'))
             return json(res, content)
+          }
+
+          // 梗圖重新推薦（與 pipeline 共用同一套 selector）
+          if (route === 'recommend-memes' && req.method === 'POST') {
+            const body = await readBody(req)
+            const selections = await autoSelectMemesForSegments(body.segments || [])
+            return json(res, { memeSelections: selections })
           }
 
           // 梗圖庫

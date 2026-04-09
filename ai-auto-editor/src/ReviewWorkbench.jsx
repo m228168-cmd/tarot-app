@@ -110,52 +110,41 @@ export default function ReviewWorkbench() {
     setSegments(prev => prev.map(s => s.id === id ? { ...s, text } : s))
   }, [])
 
-  const safeMemeMap = useMemo(() => new Map(
-    sortedMemes
-      .filter(m => (m.safetyTier || 'legacy') === 'safe')
-      .map(m => [m.id, m])
-  ), [sortedMemes])
-
   const displayedSegments = useMemo(() => {
     if (!showOnlyMemeSegments) return segments
     return segments.filter(seg => Boolean(memeSelections[seg.id]))
   }, [segments, memeSelections, showOnlyMemeSegments])
 
-  const recommendMemes = useCallback(() => {
-    const next = {}
-    const usedMemes = new Set()
+  const recommendMemes = useCallback(async () => {
+    const payloadSegments = segments.map(seg => ({
+      id: seg.id,
+      start: seg.start,
+      end: seg.end,
+      text: seg.text,
+      originalText: seg.originalText,
+    }))
 
-    for (const seg of segments) {
-      const text = String(seg.text || seg.originalText || '')
-      if (!text.trim()) continue
+    const resp = await fetch('/api/review/recommend-memes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ segments: payloadSegments }),
+    })
+    const data = await resp.json()
 
-      for (const meme of sortedMemes) {
-        if (safeOnly && (meme.safetyTier || 'legacy') !== 'safe') continue
-        if (usedMemes.has(meme.id)) continue
-
-        const triggers = meme.triggers || []
-        const hit = triggers.some(trigger => text.includes(trigger))
-        if (hit) {
-          next[seg.id] = meme.id
-          usedMemes.add(meme.id)
-          break
-        }
-      }
-
-      if (Object.keys(next).length >= 3) break
-    }
-
-    if (!Object.keys(next).length && safeOnly) {
-      const fallbackIds = ['smile-emoji', 'this-is-fine'].filter(id => safeMemeMap.has(id))
-      for (let i = 0; i < Math.min(fallbackIds.length, segments.length); i++) {
-        next[segments[i].id] = fallbackIds[i]
-      }
+    let next = data.memeSelections || {}
+    if (safeOnly) {
+      next = Object.fromEntries(
+        Object.entries(next).filter(([, memeId]) => {
+          const meme = sortedMemes.find(m => m.id === memeId)
+          return (meme?.safetyTier || 'legacy') === 'safe'
+        })
+      )
     }
 
     setMemeSelections(next)
     setToast(`已重新推薦 ${Object.keys(next).length} 段梗圖`)
     setTimeout(() => setToast(''), 2500)
-  }, [segments, sortedMemes, safeOnly, safeMemeMap])
+  }, [segments, sortedMemes, safeOnly])
 
   // ── 梗圖選擇 ────────────────────────────────────────────
   const selectMeme = useCallback((segId, memeId) => {
