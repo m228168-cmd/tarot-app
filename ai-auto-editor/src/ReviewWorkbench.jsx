@@ -37,6 +37,9 @@ export default function ReviewWorkbench() {
   const [segments, setSegments] = useState([])
   const [memeSelections, setMemeSelections] = useState({}) // segId → memeId
   const [memes, setMemes] = useState([])
+  const [newWrong, setNewWrong] = useState('')
+  const [newRight, setNewRight] = useState('')
+  const [manualCorrections, setManualCorrections] = useState([])
   const [submitting, setSubmitting] = useState(false)
   const [toast, setToast] = useState('')
   const [memePickerOpen, setMemePickerOpen] = useState(null) // segId or null
@@ -72,6 +75,9 @@ export default function ReviewWorkbench() {
         setSegments(data.segments?.map(s => ({ ...s })) || [])
         setMemeSelections(data.memeSelections || {})
         setPreviewVideoPath(data?.output?.videoPath || '')
+        setManualCorrections([])
+        setNewWrong('')
+        setNewRight('')
       })
   }, [selectedPath])
 
@@ -139,6 +145,17 @@ export default function ReviewWorkbench() {
     })
     setMemePickerOpen(null)
   }, [])
+
+  const addManualCorrection = () => {
+    if (!newWrong.trim() || !newRight.trim()) return
+    setManualCorrections(prev => [...prev, { wrong: newWrong.trim(), right: newRight.trim() }])
+    setNewWrong('')
+    setNewRight('')
+  }
+
+  const removeManualCorrection = (idx) => {
+    setManualCorrections(prev => prev.filter((_, i) => i !== idx))
+  }
 
   // ── 跳到音訊位置 ────────────────────────────────────────
   const seekTo = (sec) => {
@@ -220,6 +237,7 @@ export default function ReviewWorkbench() {
           title,
           segments,
           memeSelections,
+          newCorrections: manualCorrections,
           triggerRerun,
         }),
       })
@@ -474,6 +492,41 @@ export default function ReviewWorkbench() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* 手動錯別字提交 */}
+          <section className="wb-card">
+            <label className="wb-label">手動錯別字提交</label>
+            <div className="wb-typo-add">
+              <input
+                className="wb-input wb-input-sm"
+                placeholder="錯誤詞"
+                value={newWrong}
+                onChange={e => setNewWrong(e.target.value)}
+              />
+              <span className="wb-typo-arrow">→</span>
+              <input
+                className="wb-input wb-input-sm"
+                placeholder="正確詞"
+                value={newRight}
+                onChange={e => setNewRight(e.target.value)}
+              />
+              <button type="button" className="wb-btn-sm" onClick={addManualCorrection}>
+                加入
+              </button>
+            </div>
+            {manualCorrections.length > 0 && (
+              <div className="wb-typo-list">
+                {manualCorrections.map((c, i) => (
+                  <div key={`${c.wrong}-${c.right}-${i}`} className="wb-typo-item">
+                    <span className="wb-typo-wrong">{c.wrong}</span>
+                    <span className="wb-typo-arrow">→</span>
+                    <span className="wb-typo-right">{c.right}</span>
+                    <button type="button" className="wb-chip" onClick={() => removeManualCorrection(i)}>移除</button>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           {/* 送出 */}

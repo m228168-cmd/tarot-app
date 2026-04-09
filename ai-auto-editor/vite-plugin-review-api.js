@@ -150,7 +150,20 @@ export default function reviewApiPlugin() {
             review.updatedAt = new Date().toISOString()
             await fs.writeFile(abs, JSON.stringify(review, null, 2), 'utf8')
 
-            // 2) 觸發 rerun（非同步，不等結果）
+            // 2) 寫入使用者手動新增的修正
+            if (body.newCorrections?.length) {
+              const corrPath = path.join(ROOT, 'assets/字幕修正清單.json')
+              const corrData = JSON.parse(await fs.readFile(corrPath, 'utf8'))
+              for (const c of body.newCorrections) {
+                const exists = corrData.corrections.some(
+                  e => e.wrong === c.wrong && e.right === c.right
+                )
+                if (!exists) corrData.corrections.push({ wrong: c.wrong, right: c.right })
+              }
+              await fs.writeFile(corrPath, JSON.stringify(corrData, null, 2), 'utf8')
+            }
+
+            // 3) 觸發 rerun（非同步，不等結果）
             let rerunStarted = false
             if (body.triggerRerun) {
               rerunStarted = true
