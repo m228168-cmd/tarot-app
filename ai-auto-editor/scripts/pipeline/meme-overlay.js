@@ -7,8 +7,9 @@
 
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { ensureRasterMeme } from './rasterize-meme.js'
 
-const VALID_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp'])
+const VALID_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.svg'])
 
 function escFilterPath(p) {
   return p.replace(/([\\:';,])/g, '\\$1')
@@ -42,14 +43,23 @@ export async function resolveMemeOverlays({ rootDir, review }) {
     const meme = memeMap.get(memeId)
     if (!seg || !meme?.file) continue
 
-    const filePath = path.join(memeDir, meme.file)
-    const ext = path.extname(filePath).toLowerCase()
+    const originalPath = path.join(memeDir, meme.file)
+    const ext = path.extname(originalPath).toLowerCase()
     if (!VALID_EXTS.has(ext)) continue
 
     try {
-      await fs.access(filePath)
+      await fs.access(originalPath)
     } catch {
       continue
+    }
+
+    let filePath = originalPath
+    if (ext === '.svg') {
+      try {
+        filePath = await ensureRasterMeme(originalPath)
+      } catch {
+        continue
+      }
     }
 
     const start = Math.max(0, Number(seg.start) || 0)
