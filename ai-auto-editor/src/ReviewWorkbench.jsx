@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './ReviewWorkbench.css'
 
 function fmt(sec) {
@@ -40,6 +40,8 @@ export default function ReviewWorkbench() {
   const [submitting, setSubmitting] = useState(false)
   const [toast, setToast] = useState('')
   const [memePickerOpen, setMemePickerOpen] = useState(null) // segId or null
+  const [showOnlyMemeSegments, setShowOnlyMemeSegments] = useState(false)
+  const [safeOnly, setSafeOnly] = useState(true)
   const audioRef = useRef(null)
 
   const sortedMemes = [...memes].sort((a, b) => {
@@ -107,6 +109,53 @@ export default function ReviewWorkbench() {
   const updateSegmentText = useCallback((id, text) => {
     setSegments(prev => prev.map(s => s.id === id ? { ...s, text } : s))
   }, [])
+
+  const safeMemeMap = useMemo(() => new Map(
+    sortedMemes
+      .filter(m => (m.safetyTier || 'legacy') === 'safe')
+      .map(m => [m.id, m])
+  ), [sortedMemes])
+
+  const displayedSegments = useMemo(() => {
+    if (!showOnlyMemeSegments) return segments
+    return segments.filter(seg => Boolean(memeSelections[seg.id]))
+  }, [segments, memeSelections, showOnlyMemeSegments])
+
+  const recommendMemes = useCallback(() => {
+    const next = {}
+    const usedMemes = new Set()
+
+    for (const seg of segments) {
+      const text = String(seg.text || seg.originalText || '')
+      if (!text.trim()) continue
+
+      for (const meme of sortedMemes) {
+        if (safeOnly && (meme.safetyTier || 'legacy') !== 'safe') continue
+        if (usedMemes.has(meme.id)) continue
+
+        const triggers = meme.triggers || []
+        const hit = triggers.some(trigger => text.includes(trigger))
+        if (hit) {
+          next[seg.id] = meme.id
+          usedMemes.add(meme.id)
+          break
+        }
+      }
+
+      if (Object.keys(next).length >= 3) break
+    }
+
+    if (!Object.keys(next).length && safeOnly) {
+      const fallbackIds = ['smile-emoji', 'this-is-fine'].filter(id => safeMemeMap.has(id))
+      for (let i = 0; i < Math.min(fallbackIds.length, segments.length); i++) {
+        next[segments[i].id] = fallbackIds[i]
+      }
+    }
+
+    setMemeSelections(next)
+    setToast(`已重新推薦 ${Object.keys(next).length} 段梗圖`)
+    setTimeout(() => setToast(''), 2500)
+  }, [segments, sortedMemes, safeOnly, safeMemeMap])
 
   // ── 梗圖選擇 ────────────────────────────────────────────
   const selectMeme = useCallback((segId, memeId) => {
@@ -246,9 +295,28 @@ export default function ReviewWorkbench() {
 
           {/* 字幕段落 */}
           <section className="wb-card">
-            <label className="wb-label">字幕（{segments.length} 段）</label>
+            <div className="wb-toolbar">
+              <label className="wb-label">字幕（{displayedSegments.length}/{segments.length} 段）</label>
+              <div className="wb-toolbar-actions">
+                <button type="button" className="wb-chip" onClick={recommendMemes}>重新自動推薦</button>
+                <button
+                  type="button"
+                  className={`wb-chip ${showOnlyMemeSegments ? 'active' : ''}`}
+                  onClick={() => setShowOnlyMemeSegments(v => !v)}
+                >
+                  只看有梗圖
+                </button>
+                <button
+                  type="button"
+                  className={`wb-chip ${safeOnly ? 'active' : ''}`}
+                  onClick={() => setSafeOnly(v => !v)}
+                >
+                  safe only
+                </button>
+              </div>
+            </div>
             <div className="wb-segments">
-              {segments.map((seg) => (
+              {displayedSegments.map((seg) => (
                 <div key={seg.id} className="wb-seg">
                   <div className="wb-seg-head">
                     <button
@@ -290,7 +358,9 @@ export default function ReviewWorkbench() {
                       >
                         ❌ 不使用
                       </button>
-                      {sortedMemes.map(m => (
+                      {sortedMemes
+                        .filter(m => !safeOnly || (m.safetyTier || 'legacy') === 'safe')
+                        .map(m => (
                         <button
                           key={m.id}
                           type="button"
