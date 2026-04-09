@@ -2,6 +2,813 @@
   "$schema": "./schema.json",
   "version": "1.0.0",
   "description": "梗圖素材庫 — 供自動剪片依對話內容挑圖使用",
-  "updated": "2026-04-10",
-  "memes": []
+  "updated": "2026-04-09",
+  "memes": [
+    {
+      "id": "angry-cat",
+      "file": "Angry Cat - 生氣、不爽、怒視、警告、兇.png",
+      "label": "Angry Cat",
+      "tags": [
+        "user",
+        "custom",
+        "生氣",
+        "不爽"
+      ],
+      "moods": [
+        "angry"
+      ],
+      "triggers": [
+        "生氣",
+        "不爽",
+        "怒視",
+        "警告",
+        "兇"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "blinking-white-guy",
+      "file": "Blinking White Guy - 無言、傻眼、好吧、愣住、那就這樣吧.gif",
+      "label": "Blinking White Guy",
+      "tags": [
+        "user",
+        "custom",
+        "無言",
+        "傻眼"
+      ],
+      "moods": [
+        "speechless"
+      ],
+      "triggers": [
+        "無言",
+        "傻眼",
+        "好吧",
+        "愣住",
+        "那就這樣吧"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "bruh-face",
+      "file": "Bruh Face - 無言、傻眼、低能、荒謬、受不了.gif",
+      "label": "Bruh Face",
+      "tags": [
+        "user",
+        "custom",
+        "無言",
+        "傻眼"
+      ],
+      "moods": [
+        "speechless"
+      ],
+      "triggers": [
+        "無言",
+        "傻眼",
+        "低能",
+        "荒謬",
+        "受不了"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "chad-face",
+      "file": "Chad Face - 自信、強勢、帥哥、優越、從容.gif",
+      "label": "Chad Face",
+      "tags": [
+        "user",
+        "custom",
+        "自信",
+        "強勢"
+      ],
+      "moods": [
+        "confident"
+      ],
+      "triggers": [
+        "自信",
+        "強勢",
+        "帥哥",
+        "優越",
+        "從容"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "coffin-dance",
+      "file": "Coffin Dance - 完蛋、翻車、出事、送走、作死.gif",
+      "label": "Coffin Dance",
+      "tags": [
+        "user",
+        "custom",
+        "完蛋",
+        "翻車"
+      ],
+      "moods": [],
+      "triggers": [
+        "完蛋",
+        "翻車",
+        "出事",
+        "送走",
+        "作死"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "crying-cat",
+      "file": "Crying Cat - 委屈、難過、心酸、破防、想哭.gif",
+      "label": "Crying Cat",
+      "tags": [
+        "user",
+        "custom",
+        "委屈",
+        "難過"
+      ],
+      "moods": [
+        "sad"
+      ],
+      "triggers": [
+        "委屈",
+        "難過",
+        "心酸",
+        "破防",
+        "想哭"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "crying-cat-崩潰-難過",
+      "file": "Crying Cat - 崩潰、難過、委屈、爆哭、破防.webp",
+      "label": "Crying Cat",
+      "tags": [
+        "user",
+        "custom",
+        "崩潰",
+        "難過"
+      ],
+      "moods": [
+        "meltdown",
+        "sad"
+      ],
+      "triggers": [
+        "崩潰",
+        "難過",
+        "委屈",
+        "爆哭",
+        "破防"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "crying-wojak",
+      "file": "Crying Wojak - 崩潰、難過、破防、委屈、心碎.png",
+      "label": "Crying Wojak",
+      "tags": [
+        "user",
+        "custom",
+        "崩潰",
+        "難過"
+      ],
+      "moods": [
+        "meltdown",
+        "sad"
+      ],
+      "triggers": [
+        "崩潰",
+        "難過",
+        "破防",
+        "委屈",
+        "心碎"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "das-war-ein-befehl-cat",
+      "file": "Das War Ein Befehl Cat - 崩潰、激動、失控、吶喊、情緒爆炸.gif",
+      "label": "Das War Ein Befehl Cat",
+      "tags": [
+        "user",
+        "custom",
+        "崩潰",
+        "激動"
+      ],
+      "moods": [
+        "meltdown"
+      ],
+      "triggers": [
+        "崩潰",
+        "激動",
+        "失控",
+        "吶喊",
+        "情緒爆炸"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "doge",
+      "file": "Doge - 疑惑、尷尬、反差、搞笑、微妙.jpg",
+      "label": "Doge",
+      "tags": [
+        "user",
+        "custom",
+        "疑惑",
+        "尷尬"
+      ],
+      "moods": [
+        "awkward"
+      ],
+      "triggers": [
+        "疑惑",
+        "尷尬",
+        "反差",
+        "搞笑",
+        "微妙"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "doomer-girl",
+      "file": "Doomer Girl - 高冷、美女、陷阱妹、疲憊、喪.webp",
+      "label": "Doomer Girl",
+      "tags": [
+        "user",
+        "custom",
+        "高冷",
+        "美女"
+      ],
+      "moods": [],
+      "triggers": [
+        "高冷",
+        "美女",
+        "陷阱妹",
+        "疲憊",
+        "喪"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "drake-hotline-bling",
+      "file": "Drake Hotline Bling - 拒絕、偏好、選擇、不要、取捨.jpg",
+      "label": "Drake Hotline Bling",
+      "tags": [
+        "user",
+        "custom",
+        "拒絕",
+        "偏好"
+      ],
+      "moods": [],
+      "triggers": [
+        "拒絕",
+        "偏好",
+        "選擇",
+        "不要",
+        "取捨"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "jackie-chan-wtf",
+      "file": "Jackie Chan WTF - 傻眼、問號、困惑、荒謬、無法理解.jpg",
+      "label": "Jackie Chan WTF",
+      "tags": [
+        "user",
+        "custom",
+        "傻眼",
+        "問號"
+      ],
+      "moods": [
+        "speechless",
+        "confused"
+      ],
+      "triggers": [
+        "傻眼",
+        "問號",
+        "困惑",
+        "荒謬",
+        "無法理解"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "leonardo-dicaprio-cheers",
+      "file": "Leonardo DiCaprio Cheers - 認同、讚賞、敬你、欣賞、同意.gif",
+      "label": "Leonardo DiCaprio Cheers",
+      "tags": [
+        "user",
+        "custom",
+        "認同",
+        "讚賞"
+      ],
+      "moods": [],
+      "triggers": [
+        "認同",
+        "讚賞",
+        "敬你",
+        "欣賞",
+        "同意"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "leonardo-dicaprio-clapping",
+      "file": "Leonardo DiCaprio Clapping - 鼓掌、認可、讚許、佩服、支持.gif",
+      "label": "Leonardo DiCaprio Clapping",
+      "tags": [
+        "user",
+        "custom",
+        "鼓掌",
+        "認可"
+      ],
+      "moods": [],
+      "triggers": [
+        "鼓掌",
+        "認可",
+        "讚許",
+        "佩服",
+        "支持"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "michael-jackson-popcorn",
+      "file": "Michael Jackson Popcorn - 吃瓜、看戲、圍觀、八卦、觀戰.gif",
+      "label": "Michael Jackson Popcorn",
+      "tags": [
+        "user",
+        "custom",
+        "吃瓜",
+        "看戲"
+      ],
+      "moods": [
+        "popcorn"
+      ],
+      "triggers": [
+        "吃瓜",
+        "看戲",
+        "圍觀",
+        "八卦",
+        "觀戰"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "monkey-looking-away",
+      "file": "Monkey Looking Away - 尷尬、心虛、裝沒事、逃避、不敢看.gif",
+      "label": "Monkey Looking Away",
+      "tags": [
+        "user",
+        "custom",
+        "尷尬",
+        "心虛"
+      ],
+      "moods": [
+        "awkward"
+      ],
+      "triggers": [
+        "尷尬",
+        "心虛",
+        "裝沒事",
+        "逃避",
+        "不敢看"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "npc-wojak",
+      "file": "NPC Wojak - 敷衍、無感、呆滯、附和、沒靈魂.jpg",
+      "label": "NPC Wojak",
+      "tags": [
+        "user",
+        "custom",
+        "敷衍",
+        "無感"
+      ],
+      "moods": [],
+      "triggers": [
+        "敷衍",
+        "無感",
+        "呆滯",
+        "附和",
+        "沒靈魂"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "nick-young-confused",
+      "file": "Nick Young Confused - 問號、困惑、傻眼、聽不懂、荒謬.png",
+      "label": "Nick Young Confused",
+      "tags": [
+        "user",
+        "custom",
+        "問號",
+        "困惑"
+      ],
+      "moods": [
+        "confused",
+        "speechless"
+      ],
+      "triggers": [
+        "問號",
+        "困惑",
+        "傻眼",
+        "聽不懂",
+        "荒謬"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "roll-safe",
+      "file": "Roll Safe - 聰明、自以為、機智、套路、小聰明.gif",
+      "label": "Roll Safe",
+      "tags": [
+        "user",
+        "custom",
+        "聰明",
+        "自以為"
+      ],
+      "moods": [],
+      "triggers": [
+        "聰明",
+        "自以為",
+        "機智",
+        "套路",
+        "小聰明"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "sad-pepe",
+      "file": "Sad Pepe - 低落、心酸、難受、憂鬱、emo.png",
+      "label": "Sad Pepe",
+      "tags": [
+        "user",
+        "custom",
+        "低落",
+        "心酸"
+      ],
+      "moods": [],
+      "triggers": [
+        "低落",
+        "心酸",
+        "難受",
+        "憂鬱",
+        "emo"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "smug-cat",
+      "file": "Smug Cat - 懷疑、鄙視、不屑、狐疑、斜眼.jpg",
+      "label": "Smug Cat",
+      "tags": [
+        "user",
+        "custom",
+        "懷疑",
+        "鄙視"
+      ],
+      "moods": [
+        "skeptical"
+      ],
+      "triggers": [
+        "懷疑",
+        "鄙視",
+        "不屑",
+        "狐疑",
+        "斜眼"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "snoop-dogg-dancing",
+      "file": "Snoop Dogg Dancing - 嗨、開心、搖擺、慶祝、節奏感.gif",
+      "label": "Snoop Dogg Dancing",
+      "tags": [
+        "user",
+        "custom",
+        "嗨",
+        "開心"
+      ],
+      "moods": [
+        "happy"
+      ],
+      "triggers": [
+        "嗨",
+        "開心",
+        "搖擺",
+        "慶祝",
+        "節奏感"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "snoop-dogg-reaction",
+      "file": "Snoop Dogg Reaction - 得意、看戲、爽感、認同、帥氣.gif",
+      "label": "Snoop Dogg Reaction",
+      "tags": [
+        "user",
+        "custom",
+        "得意",
+        "看戲"
+      ],
+      "moods": [
+        "popcorn"
+      ],
+      "triggers": [
+        "得意",
+        "看戲",
+        "爽感",
+        "認同",
+        "帥氣"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "soyjak-soy-wojak",
+      "file": "Soyjak : Soy Wojak - 興奮、激動、宅味、誇張、上頭.jpeg",
+      "label": "Soyjak : Soy Wojak",
+      "tags": [
+        "user",
+        "custom",
+        "興奮",
+        "激動"
+      ],
+      "moods": [],
+      "triggers": [
+        "興奮",
+        "激動",
+        "宅味",
+        "誇張",
+        "上頭"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "spider-man-pointing-at-spider-man",
+      "file": "Spider-Man Pointing at Spider-Man - 互指、甩鍋、一樣、對號入座、彼此彼此.gif",
+      "label": "Spider-Man Pointing at Spider-Man",
+      "tags": [
+        "user",
+        "custom",
+        "互指",
+        "甩鍋"
+      ],
+      "moods": [],
+      "triggers": [
+        "互指",
+        "甩鍋",
+        "一樣",
+        "對號入座",
+        "彼此彼此"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "success-kid",
+      "file": "Success Kid - 成功、逆轉、達成、勝利、好運.gif",
+      "label": "Success Kid",
+      "tags": [
+        "user",
+        "custom",
+        "成功",
+        "逆轉"
+      ],
+      "moods": [
+        "success"
+      ],
+      "triggers": [
+        "成功",
+        "逆轉",
+        "達成",
+        "勝利",
+        "好運"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "surprised-cat",
+      "file": "Surprised Cat - 驚訝、嚇到、錯愕、震驚、愣住.gif",
+      "label": "Surprised Cat",
+      "tags": [
+        "user",
+        "custom",
+        "驚訝",
+        "嚇到"
+      ],
+      "moods": [
+        "surprised",
+        "shock"
+      ],
+      "triggers": [
+        "驚訝",
+        "嚇到",
+        "錯愕",
+        "震驚",
+        "愣住"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "surprised-hamster",
+      "file": "Surprised Hamster - 驚嚇、慌張、震驚、被抓包、措手不及.gif",
+      "label": "Surprised Hamster",
+      "tags": [
+        "user",
+        "custom",
+        "驚嚇",
+        "慌張"
+      ],
+      "moods": [
+        "shock"
+      ],
+      "triggers": [
+        "驚嚇",
+        "慌張",
+        "震驚",
+        "被抓包",
+        "措手不及"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "suspicious-cat",
+      "file": "Suspicious Cat - 懷疑、狐疑、不信、審視、斜眼.jpeg",
+      "label": "Suspicious Cat",
+      "tags": [
+        "user",
+        "custom",
+        "懷疑",
+        "狐疑"
+      ],
+      "moods": [
+        "skeptical"
+      ],
+      "triggers": [
+        "懷疑",
+        "狐疑",
+        "不信",
+        "審視",
+        "斜眼"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "thumbs-up-crying-cat",
+      "file": "Thumbs Up Crying Cat - 強顏歡笑、硬撐、沒事、苦笑、假裝OK.gif",
+      "label": "Thumbs Up Crying Cat",
+      "tags": [
+        "user",
+        "custom",
+        "強顏歡笑",
+        "硬撐"
+      ],
+      "moods": [],
+      "triggers": [
+        "強顏歡笑",
+        "硬撐",
+        "沒事",
+        "苦笑",
+        "假裝OK"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "troll-face",
+      "file": "Troll Face - 嘲諷、惡搞、欠揍、搞事、反派.png",
+      "label": "Troll Face",
+      "tags": [
+        "user",
+        "custom",
+        "嘲諷",
+        "惡搞"
+      ],
+      "moods": [],
+      "triggers": [
+        "嘲諷",
+        "惡搞",
+        "欠揍",
+        "搞事",
+        "反派"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    },
+    {
+      "id": "void-dark-staring-wojak",
+      "file": "Void : Dark Staring Wojak - 空虛、陰沉、麻木、絕望、黑化.jpg",
+      "label": "Void : Dark Staring Wojak",
+      "tags": [
+        "user",
+        "custom",
+        "空虛",
+        "陰沉"
+      ],
+      "moods": [
+        "void"
+      ],
+      "triggers": [
+        "空虛",
+        "陰沉",
+        "麻木",
+        "絕望",
+        "黑化"
+      ],
+      "aspectRatio": "auto",
+      "source": "user-provided",
+      "license": "user-provided",
+      "safetyTier": "safe"
+    }
+  ]
 }

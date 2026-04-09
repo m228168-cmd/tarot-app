@@ -1,7 +1,239 @@
 {
   "$schema": "./schema.json",
   "version": "1.0.0",
-  "updated": "2026-04-10",
-  "notes": "由使用者自行放入迷因素材。此檔保留作來源/授權追蹤，可後續再補。",
-  "sources": []
+  "updated": "2026-04-09",
+  "notes": "由使用者自行放入迷因素材；metadata 依檔名自動產生。",
+  "sources": [
+    {
+      "id": "angry-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "blinking-white-guy",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "bruh-face",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "chad-face",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "coffin-dance",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "crying-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "crying-cat-崩潰-難過",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "crying-wojak",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "das-war-ein-befehl-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "doge",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "doomer-girl",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "drake-hotline-bling",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "jackie-chan-wtf",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "leonardo-dicaprio-cheers",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "leonardo-dicaprio-clapping",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "michael-jackson-popcorn",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "monkey-looking-away",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "npc-wojak",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "nick-young-confused",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "roll-safe",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "sad-pepe",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "smug-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "snoop-dogg-dancing",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "snoop-dogg-reaction",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "soyjak-soy-wojak",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "spider-man-pointing-at-spider-man",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "success-kid",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "surprised-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "surprised-hamster",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "suspicious-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "thumbs-up-crying-cat",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "troll-face",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    },
+    {
+      "id": "void-dark-staring-wojak",
+      "url": "",
+      "status": "user-provided",
+      "notes": "由使用者手動放入 assets/memes",
+      "license": "user-provided"
+    }
+  ]
 }
