@@ -121,10 +121,11 @@ export default function ReviewWorkbench() {
     return segments.filter(seg => Boolean(memeSelections[seg.id]))
   }, [segments, memeSelections, showOnlyMemeSegments])
 
-  const activeSegmentId = useMemo(() => {
-    const hit = segments.find(seg => currentTime >= seg.start && currentTime <= seg.end)
-    return hit?.id ?? null
+  const activeSegment = useMemo(() => {
+    return segments.find(seg => currentTime >= seg.start && currentTime <= seg.end) || null
   }, [segments, currentTime])
+
+  const activeSegmentId = activeSegment?.id ?? null
 
   useEffect(() => {
     if (activeSegRef.current) {
@@ -309,6 +310,45 @@ export default function ReviewWorkbench() {
                 onTimeUpdate={e => setCurrentTime(e.currentTarget.currentTime)}
               />
               <div className="wb-playhead">目前播放：{fmt(currentTime)}</div>
+              {activeSegment && (
+                <div className="wb-live-caption">
+                  <div className="wb-live-caption-label">目前字幕</div>
+                  <div className="wb-live-caption-text">{activeSegment.text || activeSegment.originalText}</div>
+                  <button
+                    type="button"
+                    className={`wb-live-meme-btn ${memeSelections[activeSegment.id] ? 'has-meme' : ''}`}
+                    onClick={() => setMemePickerOpen(memePickerOpen === activeSegment.id ? null : activeSegment.id)}
+                  >
+                    {memeSelections[activeSegment.id]
+                      ? `${MEME_EMOJI[memeSelections[activeSegment.id]] || '🖼'} ${memes.find(m => m.id === memeSelections[activeSegment.id])?.label || '已選迷因'}`
+                      : '+ 幫這句選迷因'}
+                  </button>
+                  {memePickerOpen === activeSegment.id && (
+                    <div className="wb-meme-picker wb-meme-picker-live">
+                      <button
+                        type="button"
+                        className="wb-meme-opt"
+                        onClick={() => selectMeme(activeSegment.id, null)}
+                      >
+                        ❌ 不使用
+                      </button>
+                      {sortedMemes
+                        .filter(m => !safeOnly || (m.safetyTier || 'legacy') === 'safe')
+                        .map(m => (
+                          <button
+                            key={m.id}
+                            type="button"
+                            className={`wb-meme-opt ${memeSelections[activeSegment.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
+                            onClick={() => selectMeme(activeSegment.id, m.id)}
+                          >
+                            <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
+                            <span className="wb-meme-label">{m.label}</span>
+                          </button>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="wb-preview-path">{previewVideoPath}</div>
             </section>
           ) : audioSrc && (
@@ -377,7 +417,7 @@ export default function ReviewWorkbench() {
                   </div>
                   <textarea
                     className="wb-seg-text"
-                    rows={2}
+                    rows={activeSegmentId === seg.id ? 3 : 2}
                     value={seg.text}
                     onChange={e => updateSegmentText(seg.id, e.target.value)}
                   />

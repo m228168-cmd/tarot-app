@@ -104,6 +104,51 @@
   color: #6f52a2;
 }
 
+.wb-live-caption {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(33,22,47,0.88), rgba(33,22,47,0.72));
+  color: #fff;
+}
+
+.wb-live-caption-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+}
+
+.wb-live-caption-text {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.wb-live-meme-btn {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+}
+
+.wb-live-meme-btn.has-meme {
+  background: rgba(142,103,203,0.35);
+  border-color: rgba(196,169,232,0.45);
+}
+
+.wb-meme-picker-live {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.08);
+}
+
 .wb-preview-path {
   margin-top: 8px;
   font-size: 12px;
@@ -166,6 +211,7 @@
   border-color: #8e67cb;
   background: #f6f0ff;
   box-shadow: 0 0 0 3px rgba(142, 103, 203, 0.12);
+  transform: translateY(-1px);
 }
 
 .wb-seg-head {
@@ -216,16 +262,16 @@
 
 .wb-seg-text {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 1px solid #e3d6f7;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   font: inherit;
   font-size: 15px;
   color: #21162f;
   resize: vertical;
   box-sizing: border-box;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .wb-seg-text:focus {
