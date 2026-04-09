@@ -1,0 +1,68 @@
+{
+  "$schema": "./schema.json",
+  "version": "1.0.0",
+  "updated": "2026-04-09",
+  "notes": "明確可追溯的素材來源清單。先填可確認 URL；找不到穩定來源的先留空，待人工補。",
+  "sources": [
+    {
+      "id": "surprised-pikachu",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源；暫不自動抓取搜尋結果頁。"
+    },
+    {
+      "id": "this-is-fine",
+      "url": "",
+      "status": "candidate-found",
+      "notes": "Wikimedia Commons Category:This_Is_Fine 已確認存在，可後續人工挑單張檔案 URL。"
+    },
+    {
+      "id": "thinking-guy",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "mind-blown",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "drake-approve",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "facepalm",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "stonks",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "distracted-bf",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "thumbs-up-cat",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    },
+    {
+      "id": "sad-cat",
+      "url": "",
+      "status": "missing",
+      "notes": "待補穩定來源。"
+    }
+  ]
+}

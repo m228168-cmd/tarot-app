@@ -22,7 +22,8 @@
     "pipeline:export-rough-cut": "node scripts/pipeline/export-rough-cut.js",
     "pipeline:export-short": "node scripts/pipeline/export-short-highlight.js",
     "pipeline:batch-shorts": "node scripts/pipeline/batch-shorts.js",
-    "pipeline:rerun": "node scripts/pipeline/rerun-from-review.js"
+    "pipeline:rerun": "node scripts/pipeline/rerun-from-review.js",
+    "memes:bootstrap": "node scripts/pipeline/bootstrap-memes.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",

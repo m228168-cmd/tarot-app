@@ -42,8 +42,23 @@ assets/memes/
 
 1. 將圖片放入 `assets/memes/`
 2. 在 `index.json` 的 `memes` 陣列中新增一筆
-3. 確保填寫所有 required 欄位
-4. 可用 `schema.json` 驗證格式
+3. 在 `sources.json` 補上對應來源 URL / 狀態
+4. 確保填寫所有 required 欄位
+5. 執行 `npm run memes:bootstrap` 檢查缺檔與來源覆蓋率
+6. 可用 `schema.json` 驗證格式
+
+## Bootstrap / 驗證
+
+目前先採 **可追溯來源 + 本地落地素材** 的策略，不做無白名單亂爬。
+
+- `assets/memes/sources.json`：素材來源與狀態追蹤
+- `npm run memes:bootstrap`：檢查 index / source / 實體檔是否對齊
+
+建議流程：
+1. 先補 `sources.json` 的明確 URL
+2. 下載圖片到 `assets/memes/`
+3. 跑 `npm run memes:bootstrap`
+4. 再做 rerun 驗證
 
 ## 版權注意
 
