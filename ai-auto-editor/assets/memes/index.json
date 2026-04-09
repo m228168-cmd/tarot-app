@@ -13,7 +13,8 @@
       "triggers": ["沒想到", "竟然", "怎麼可能", "不會吧", "震驚", "意外"],
       "aspectRatio": "1:1",
       "source": "Pokémon / Nintendo — 廣泛流傳 meme template",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "this-is-fine",
@@ -23,8 +24,9 @@
       "moods": ["denial", "chaos", "calm-in-crisis"],
       "triggers": ["沒事", "正常", "還好", "習慣了", "崩潰", "爆炸", "災難"],
       "aspectRatio": "1:1",
-      "source": "KC Green — Gunshow comic #648 (CC BY-NC 4.0 原作)",
-      "license": "cc-by-nc-4.0"
+      "source": "David Revoy / Wikimedia Commons",
+      "license": "cc-by-4.0",
+      "safetyTier": "safe"
     },
     {
       "id": "thinking-guy",
@@ -35,7 +37,8 @@
       "triggers": ["為什麼", "怎麼會", "不懂", "問號", "想不通", "奇怪"],
       "aspectRatio": "1:1",
       "source": "Roll Safe / Kayode Ewumi — BBC Three 廣泛流傳 meme",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "mind-blown",
@@ -46,7 +49,8 @@
       "triggers": ["原來如此", "天啊", "太扯了", "厲害", "神", "頓悟", "恍然大悟"],
       "aspectRatio": "1:1",
       "source": "Tim & Eric — Adult Swim (廣泛流傳 reaction gif/image)",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "drake-approve",
@@ -57,7 +61,8 @@
       "triggers": ["比較好", "更好", "喜歡", "推薦", "選這個", "讚"],
       "aspectRatio": "1:1",
       "source": "Drake — Hotline Bling MV 截圖，廣泛流傳 meme template",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "facepalm",
@@ -68,7 +73,8 @@
       "triggers": ["傻眼", "無言", "天哪", "搞什麼", "無奈", "失望", "尷尬"],
       "aspectRatio": "1:1",
       "source": "Star Trek TNG / Patrick Stewart — 廣泛流傳 meme",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "stonks",
@@ -79,7 +85,8 @@
       "triggers": ["賺錢", "投資", "漲", "商業", "利潤", "成功", "理財"],
       "aspectRatio": "1:1",
       "source": "Meme Man / Special Meme Fresh — 網路原創 meme",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "distracted-bf",
@@ -90,7 +97,8 @@
       "triggers": ["誘惑", "分心", "背叛", "新的", "跑去", "偷看"],
       "aspectRatio": "1:1",
       "source": "Antonio Guillem / iStock — 廣泛流傳 meme（原圖有版權，meme 用途 fair use）",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "thumbs-up-cat",
@@ -101,7 +109,8 @@
       "triggers": ["不錯", "可以", "好的", "讚", "支持", "認同", "OK"],
       "aspectRatio": "1:1",
       "source": "網路流傳貓咪 meme — 來源不明",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     },
     {
       "id": "sad-cat",
@@ -112,7 +121,8 @@
       "triggers": ["難過", "可惜", "傷心", "哭", "QQ", "嗚嗚", "心疼"],
       "aspectRatio": "1:1",
       "source": "Crying Cat meme — 網路廣泛流傳",
-      "license": "fair-use-meme"
+      "license": "fair-use-meme",
+      "safetyTier": "legacy"
     }
   ]
 }

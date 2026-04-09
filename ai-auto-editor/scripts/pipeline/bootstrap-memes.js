@@ -22,6 +22,7 @@ async function validateLibrary() {
     rows.push({
       id: meme.id,
       file: meme.file,
+      safetyTier: meme.safetyTier || 'legacy',
       fileExists,
       sourceStatus: source?.status || 'missing-source-entry',
       hasUrl: Boolean(source?.url),
@@ -35,6 +36,8 @@ const rows = await validateLibrary()
 const summary = {
   total: rows.length,
   ready: rows.filter(r => r.fileExists).length,
+  safeReady: rows.filter(r => r.fileExists && r.safetyTier === 'safe').length,
+  safeMissingFiles: rows.filter(r => !r.fileExists && r.safetyTier === 'safe').map(r => r.id),
   missingFiles: rows.filter(r => !r.fileExists).map(r => r.id),
   withSourceUrls: rows.filter(r => r.hasUrl).map(r => r.id),
   rows,

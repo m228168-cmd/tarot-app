@@ -63,8 +63,10 @@ assets/memes/
 
 ## 版權注意
 
-- `fair-use-meme`：網路廣泛流傳的 meme，以 fair use 原則使用
-- `cc-*`：Creative Commons 授權
+- `cc-*`：Creative Commons 授權，可優先列入安全白名單
+- `fair-use-meme`：網路廣泛流傳的 meme，保留為 legacy 類，不列入自動補圖白名單
 - `original`：自製素材
 - 若版權存疑，請標註 `unknown` 並在 `source` 欄位詳述來源
-- 本庫不直接收錄版權明確受限的素材
+- 本庫採兩層：
+  - `safetyTier: "safe"`：可追溯、可自動下載、可穩定重跑
+  - `safetyTier: "legacy"`：可保留 metadata，但不作為自動抓圖目標
