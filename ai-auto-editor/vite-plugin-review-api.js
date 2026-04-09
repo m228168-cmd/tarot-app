@@ -8,8 +8,7 @@
  *   POST /api/review/save          儲存 review（不觸發 rerun）
  *   POST /api/review/recommend-memes 以 pipeline 同源規則重算梗圖推薦
  *   GET  /api/review/memes         梗圖庫 index
- *   GET  /api/review/corrections   字幕修正清單
- *   POST /api/review/submit        送出：儲存 + 寫入勾選的修正 + 可選 rerun
+ *   POST /api/review/submit        送出：儲存 + 可選 rerun
  *   GET  /media/*                  本地媒體檔案串流（支援 Range seek）
  */
 
@@ -125,12 +124,6 @@ export default function reviewApiPlugin() {
             return json(res, data)
           }
 
-          // 字幕修正清單
-          if (route === 'corrections' && req.method === 'GET') {
-            const data = JSON.parse(await fs.readFile(path.join(ROOT, 'assets/字幕修正清單.json'), 'utf8'))
-            return json(res, data)
-          }
-
           // 儲存（不觸發 rerun）
           if (route === 'save' && req.method === 'POST') {
             const body = await readBody(req)
@@ -157,20 +150,7 @@ export default function reviewApiPlugin() {
             review.updatedAt = new Date().toISOString()
             await fs.writeFile(abs, JSON.stringify(review, null, 2), 'utf8')
 
-            // 2) 寫入使用者勾選的新修正（不含未勾選）
-            if (body.newCorrections?.length) {
-              const corrPath = path.join(ROOT, 'assets/字幕修正清單.json')
-              const corrData = JSON.parse(await fs.readFile(corrPath, 'utf8'))
-              for (const c of body.newCorrections) {
-                const exists = corrData.corrections.some(
-                  e => e.wrong === c.wrong && e.right === c.right
-                )
-                if (!exists) corrData.corrections.push({ wrong: c.wrong, right: c.right })
-              }
-              await fs.writeFile(corrPath, JSON.stringify(corrData, null, 2), 'utf8')
-            }
-
-            // 3) 觸發 rerun（非同步，不等結果）
+            // 2) 觸發 rerun（非同步，不等結果）
             let rerunStarted = false
             if (body.triggerRerun) {
               rerunStarted = true

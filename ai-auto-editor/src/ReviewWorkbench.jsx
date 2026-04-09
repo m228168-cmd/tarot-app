@@ -37,10 +37,6 @@ export default function ReviewWorkbench() {
   const [segments, setSegments] = useState([])
   const [memeSelections, setMemeSelections] = useState({}) // segId → memeId
   const [memes, setMemes] = useState([])
-  const [corrections, setCorrections] = useState([])
-  const [typoCandidates, setTypoCandidates] = useState([]) // { wrong, right, checked, source }
-  const [newWrong, setNewWrong] = useState('')
-  const [newRight, setNewRight] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [toast, setToast] = useState('')
   const [memePickerOpen, setMemePickerOpen] = useState(null) // segId or null
@@ -63,7 +59,6 @@ export default function ReviewWorkbench() {
   useEffect(() => {
     fetch('/api/review/list').then(r => r.json()).then(d => setReviewFiles(d.files || []))
     fetch('/api/review/memes').then(r => r.json()).then(d => setMemes(d.memes || []))
-    fetch('/api/review/corrections').then(r => r.json()).then(d => setCorrections(d.corrections || []))
   }, [])
 
   // ── 載入選定的 review ────────────────────────────────────
@@ -77,43 +72,8 @@ export default function ReviewWorkbench() {
         setSegments(data.segments?.map(s => ({ ...s })) || [])
         setMemeSelections(data.memeSelections || {})
         setPreviewVideoPath(data?.output?.videoPath || '')
-        setTypoCandidates([])
       })
   }, [selectedPath])
-
-  // ── 偵測錯別字候選 ──────────────────────────────────────
-  useEffect(() => {
-    if (!segments.length || !corrections.length) return
-    const candidates = []
-    const seen = new Set()
-    for (const seg of segments) {
-      const text = seg.text || ''
-      for (const c of corrections) {
-        if (text.includes(c.wrong) && !seen.has(c.wrong)) {
-          seen.add(c.wrong)
-          candidates.push({ wrong: c.wrong, right: c.right, checked: false, source: 'known' })
-        }
-      }
-    }
-    // 比較 originalText vs text 找出使用者可能的新修正
-    for (const seg of segments) {
-      if (seg.originalText && seg.originalText !== seg.text) {
-        const key = `${seg.originalText}→${seg.text}`
-        if (!seen.has(key) && seg.originalText.length <= 20) {
-          seen.add(key)
-          candidates.push({
-            wrong: seg.originalText, right: seg.text,
-            checked: false, source: 'diff',
-          })
-        }
-      }
-    }
-    setTypoCandidates(prev => {
-      // 保留手動新增的
-      const manual = prev.filter(c => c.source === 'manual')
-      return [...candidates, ...manual]
-    })
-  }, [segments, corrections])
 
   // ── 段落文字編輯 ─────────────────────────────────────────
   const updateSegmentText = useCallback((id, text) => {
@@ -179,23 +139,6 @@ export default function ReviewWorkbench() {
     })
     setMemePickerOpen(null)
   }, [])
-
-  // ── 新增手動錯別字候選 ──────────────────────────────────
-  const addManualCandidate = () => {
-    if (!newWrong.trim() || !newRight.trim()) return
-    setTypoCandidates(prev => [
-      ...prev,
-      { wrong: newWrong.trim(), right: newRight.trim(), checked: true, source: 'manual' },
-    ])
-    setNewWrong('')
-    setNewRight('')
-  }
-
-  const toggleCandidate = (idx) => {
-    setTypoCandidates(prev =>
-      prev.map((c, i) => i === idx ? { ...c, checked: !c.checked } : c)
-    )
-  }
 
   // ── 跳到音訊位置 ────────────────────────────────────────
   const seekTo = (sec) => {
@@ -269,10 +212,6 @@ export default function ReviewWorkbench() {
   const handleSubmit = async () => {
     setSubmitting(true)
     try {
-      const checkedCorrections = typoCandidates
-        .filter(c => c.checked)
-        .map(c => ({ wrong: c.wrong, right: c.right }))
-
       const resp = await fetch('/api/review/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -281,7 +220,6 @@ export default function ReviewWorkbench() {
           title,
           segments,
           memeSelections,
-          newCorrections: checkedCorrections,
           triggerRerun,
         }),
       })
@@ -530,56 +468,6 @@ export default function ReviewWorkbench() {
                   )}
                 </div>
               ))}
-            </div>
-          </section>
-
-          {/* 錯別字候選 */}
-          <section className="wb-card">
-            <label className="wb-label">
-              錯別字候選
-              <span className="wb-hint">（勾選的項目送出時才會寫入修正清單）</span>
-            </label>
-
-            {typoCandidates.length === 0 && (
-              <p className="wb-empty">未偵測到錯別字候選</p>
-            )}
-
-            <div className="wb-typo-list">
-              {typoCandidates.map((c, i) => (
-                <label key={i} className="wb-typo-item">
-                  <input
-                    type="checkbox"
-                    checked={c.checked}
-                    onChange={() => toggleCandidate(i)}
-                  />
-                  <span className="wb-typo-wrong">{c.wrong}</span>
-                  <span className="wb-typo-arrow">→</span>
-                  <span className="wb-typo-right">{c.right}</span>
-                  <span className="wb-typo-source">
-                    {c.source === 'known' ? '已知' : c.source === 'diff' ? '差異' : '手動'}
-                  </span>
-                </label>
-              ))}
-            </div>
-
-            {/* 手動新增 */}
-            <div className="wb-typo-add">
-              <input
-                className="wb-input wb-input-sm"
-                placeholder="錯誤詞"
-                value={newWrong}
-                onChange={e => setNewWrong(e.target.value)}
-              />
-              <span className="wb-typo-arrow">→</span>
-              <input
-                className="wb-input wb-input-sm"
-                placeholder="正確詞"
-                value={newRight}
-                onChange={e => setNewRight(e.target.value)}
-              />
-              <button type="button" className="wb-btn-sm" onClick={addManualCandidate}>
-                新增
-              </button>
             </div>
           </section>
 
