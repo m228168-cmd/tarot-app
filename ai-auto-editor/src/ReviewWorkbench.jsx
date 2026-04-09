@@ -7,6 +7,10 @@ function fmt(sec) {
   return `${m}:${s}`
 }
 
+function memeThumbSrc(file) {
+  return file ? `/media/assets/memes/${encodeURIComponent(file)}` : ''
+}
+
 // ── 梗圖 Mood Emoji 對照（無圖片時使用） ──────────────────
 const MEME_EMOJI = {
   'surprised-pikachu': '⚡',
@@ -397,11 +401,16 @@ export default function ReviewWorkbench() {
                             <button
                               key={m.id}
                               type="button"
-                              className={`wb-meme-opt ${memeSelections[activeSegment.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
+                              className={`wb-meme-opt wb-meme-thumb-opt ${memeSelections[activeSegment.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
                               onClick={() => selectMeme(activeSegment.id, m.id)}
                             >
-                              <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
-                              <span className="wb-meme-label">{m.label}</span>
+                              <span className="wb-meme-thumb-wrap">
+                                <img className="wb-meme-thumb" src={memeThumbSrc(m.file)} alt={m.label} loading="lazy" />
+                              </span>
+                              <span className="wb-meme-meta">
+                                <span className="wb-meme-label">{m.label}</span>
+                                <span className="wb-meme-keywords">{(m.triggers || []).slice(0, 3).join('・')}</span>
+                              </span>
                             </button>
                           ))}
                         </div>
@@ -501,11 +510,16 @@ export default function ReviewWorkbench() {
                         <button
                           key={m.id}
                           type="button"
-                          className={`wb-meme-opt ${memeSelections[seg.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
+                          className={`wb-meme-opt wb-meme-thumb-opt ${memeSelections[seg.id] === m.id ? 'selected' : ''} ${(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}`}
                           onClick={() => selectMeme(seg.id, m.id)}
                         >
-                          <span className="wb-meme-emoji">{MEME_EMOJI[m.id] || '🖼'}</span>
-                          <span className="wb-meme-label">{m.label}</span>
+                          <span className="wb-meme-thumb-wrap">
+                            <img className="wb-meme-thumb" src={memeThumbSrc(m.file)} alt={m.label} loading="lazy" />
+                          </span>
+                          <span className="wb-meme-meta">
+                            <span className="wb-meme-label">{m.label}</span>
+                            <span className="wb-meme-keywords">{(m.triggers || []).slice(0, 3).join('・')}</span>
+                          </span>
                           <span className="wb-meme-tier">{(m.safetyTier || 'legacy') === 'safe' ? 'safe' : 'legacy'}</span>
                           {memeSelections[seg.id] === m.id && review?.memeSelections?.[seg.id] === m.id && (
                             <span className="wb-meme-tier wb-meme-tier-auto">自動</span>
